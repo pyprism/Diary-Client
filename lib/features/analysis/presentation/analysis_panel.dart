@@ -131,7 +131,7 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                                 child: analysisStream.when(
                                   loading: () =>
                                       const _AnalysisTitle(status: null),
-                                  error: (_, __) =>
+                                  error: (error, stackTrace) =>
                                       const _AnalysisTitle(status: null),
                                   data: (a) => _AnalysisTitle(
                                     status: a == null ? null : _statusLabel(a),
@@ -155,7 +155,8 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                             alignment: Alignment.centerLeft,
                             child: analysisStream.when(
                               loading: () => const SizedBox.shrink(),
-                              error: (_, __) => const SizedBox.shrink(),
+                              error: (error, stackTrace) =>
+                                  const SizedBox.shrink(),
                               data: (a) => _AnalysisAction(
                                 analysis: a,
                                 compact: true,
@@ -173,7 +174,7 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                           Expanded(
                             child: analysisStream.when(
                               loading: () => const _AnalysisTitle(status: null),
-                              error: (_, __) =>
+                              error: (error, stackTrace) =>
                                   const _AnalysisTitle(status: null),
                               data: (a) => _AnalysisTitle(
                                 status: a == null ? null : _statusLabel(a),
@@ -182,7 +183,8 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                           ),
                           analysisStream.when(
                             loading: () => const SizedBox.shrink(),
-                            error: (_, __) => const SizedBox.shrink(),
+                            error: (error, stackTrace) =>
+                                const SizedBox.shrink(),
                             data: (a) => _AnalysisAction(
                               analysis: a,
                               compact: false,

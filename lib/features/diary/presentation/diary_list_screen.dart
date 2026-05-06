@@ -143,7 +143,7 @@ class _ListView extends StatelessWidget {
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 96),
         itemCount: entries.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemBuilder: (context, index) => _DiaryCard(entry: entries[index]),
       ),
     );

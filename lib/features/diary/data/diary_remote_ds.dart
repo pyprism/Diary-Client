@@ -22,10 +22,10 @@ class DiaryRemoteDataSource {
     final params = <String, dynamic>{
       'page': page,
       'ordering': ordering,
-      if (search != null) 'search': search,
-      if (dateFrom != null) 'date_from': dateFrom,
-      if (dateTo != null) 'date_to': dateTo,
-      if (postType != null) 'post_type': postType,
+      'search': ?search,
+      'date_from': ?dateFrom,
+      'date_to': ?dateTo,
+      'post_type': ?postType,
       if (tags != null && tags.isNotEmpty) 'tags': tags,
     };
     final res = await _client.dio.get(_base, queryParameters: params);

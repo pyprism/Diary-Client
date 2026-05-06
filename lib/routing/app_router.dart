@@ -42,11 +42,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Auth routes
       GoRoute(
         path: '/login',
-        builder: (_, __) => const LoginScreen(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
-        builder: (_, __) => const RegisterScreen(),
+        builder: (context, state) => const RegisterScreen(),
       ),
 
       // Public share (no auth)
@@ -66,15 +66,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (_, __) => const HomeScreen(),
+            builder: (context, state) => const HomeScreen(),
           ),
           GoRoute(
             path: '/diary',
-            builder: (_, __) => const DiaryListScreen(),
+            builder: (context, state) => const DiaryListScreen(),
             routes: [
               GoRoute(
                 path: 'new',
-                builder: (_, __) => const DiaryEditorScreen(),
+                builder: (context, state) => const DiaryEditorScreen(),
               ),
               GoRoute(
                 path: ':id',
@@ -102,7 +102,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/tags',
-            builder: (_, __) => const TagsScreen(),
+            builder: (context, state) => const TagsScreen(),
             routes: [
               GoRoute(
                 path: ':id/entries',
@@ -118,7 +118,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/shares',
-            builder: (_, __) => const AllShareLinksScreen(),
+            builder: (context, state) => const AllShareLinksScreen(),
           ),
         ],
       ),
@@ -133,7 +133,7 @@ class _GoRouterRefreshNotifier extends ChangeNotifier {
   _GoRouterRefreshNotifier(Ref ref) {
     ref.listen<AsyncValue<bool>>(
       authNotifierProvider,
-      (_, __) => notifyListeners(),
+      (previous, next) => notifyListeners(),
     );
   }
 }

@@ -192,7 +192,8 @@ class TagEntriesScreen extends ConsumerWidget {
                   child: ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
                     itemCount: list.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 1),
                     itemBuilder: (_, index) {
                       final entry = list[index];
                       return ListTile(

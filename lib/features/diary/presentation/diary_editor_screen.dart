@@ -563,7 +563,7 @@ class _DiaryImageEmbedBuilder extends quill.EmbedBuilder {
           bytes,
           fit: BoxFit.contain,
           width: double.infinity,
-          errorBuilder: (_, __, ___) => _brokenImage(context),
+          errorBuilder: (context, error, stackTrace) => _brokenImage(context),
         );
       }
     }
@@ -581,10 +581,11 @@ class _DiaryImageEmbedBuilder extends quill.EmbedBuilder {
                 if (progress == null) return child;
                 return _imagePlaceholder(context);
               },
-              errorBuilder: (_, __, ___) => _brokenImage(context),
+              errorBuilder: (context, error, stackTrace) =>
+                  _brokenImage(context),
             ),
             loading: () => _imagePlaceholder(context),
-            error: (_, __) => _brokenImage(context),
+            error: (error, stackTrace) => _brokenImage(context),
           );
         },
       );
@@ -703,7 +704,7 @@ class _MetadataPanel extends StatelessWidget {
             const SizedBox(height: 8),
             tags.when(
               loading: () => const LinearProgressIndicator(),
-              error: (_, __) => Text(
+              error: (error, stackTrace) => Text(
                 'Unable to load tags',
                 style: TextStyle(color: cs.error),
               ),

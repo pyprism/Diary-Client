@@ -260,10 +260,11 @@ class _ImageBlock extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            errorBuilder: (_, __, ___) => _brokenImage(context),
+            errorBuilder: (context, error, stackTrace) =>
+                _brokenImage(context),
           ),
           loading: () => _loadingImage(context),
-          error: (_, __) => _brokenImage(context),
+          error: (error, stackTrace) => _brokenImage(context),
         );
       },
     );

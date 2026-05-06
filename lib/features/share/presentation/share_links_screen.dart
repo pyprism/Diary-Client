@@ -64,7 +64,8 @@ class AllShareLinksScreen extends ConsumerWidget {
                     child: ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
                       itemCount: list.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
                       itemBuilder: (_, index) => _ShareLinkTile(
                         link: list[index],
                         showDiaryTitle: true,
