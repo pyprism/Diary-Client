@@ -8,13 +8,6 @@ ANSIBLE_CONFIG_FILE="deploy/ansible/ansible.cfg"
 COLLECTION_REQUIREMENTS_FILE="deploy/ansible/collections/requirements.yml"
 COLLECTIONS_PATH="deploy/ansible/collections"
 
-# Configuration
-# The DOMAIN_NAME environment variable is passed to Flutter during build time
-# via --dart-define, which sets the default API domain for the application.
-# For local development, remove the --dart-define flag and the app will use
-# the default local domain (localhost:8000).
-
-
 if [ ! -f "$DEPLOY_CONFIG_FILE" ]; then
   echo "Error: deployment config file '$DEPLOY_CONFIG_FILE' was not found."
   exit 1
