@@ -36,17 +36,16 @@ class HomeScreen extends ConsumerWidget {
                   Text(
                     'Today',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     today,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withValues(alpha: 0.6),
-                        ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
                   const SizedBox(height: 24),
 
@@ -58,8 +57,8 @@ class HomeScreen extends ConsumerWidget {
                   Text(
                     'On This Day',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 12),
 
@@ -79,9 +78,7 @@ class HomeScreen extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Text(
                                 'Nearest memories:',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
+                                style: Theme.of(context).textTheme.bodyMedium
                                     ?.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -156,8 +153,11 @@ class _ActionCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           child: Column(
             children: [
-              Icon(icon,
-                  size: 32, color: Theme.of(context).colorScheme.primary),
+              Icon(
+                icon,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(height: 8),
               Text(label, style: Theme.of(context).textTheme.labelLarge),
             ],
@@ -191,16 +191,15 @@ class _MemoryCard extends StatelessWidget {
               Text(
                 du.DateUtils.toDisplayFormat(item.date),
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 item.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -224,8 +223,9 @@ class _NoMemories extends StatelessWidget {
           Icon(
             Icons.history,
             size: 48,
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.3),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 12),
           Text(
@@ -236,11 +236,10 @@ class _NoMemories extends StatelessWidget {
           Text(
             'Start writing diary entries and they will appear here as memories.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.5),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
             textAlign: TextAlign.center,
           ),
         ],

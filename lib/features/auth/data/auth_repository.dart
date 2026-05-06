@@ -20,14 +20,18 @@ class AuthRepository {
       throw const AppException('Server is not configured. Set a domain first.');
     }
     try {
-      final res = await _client.dio.post(_config.endpoint('auth/login'), data: {
-        'email': email,
-        'password': password,
-      });
+      final res = await _client.dio.post(
+        _config.endpoint('auth/login'),
+        data: {'email': email, 'password': password},
+      );
       await _storage.write(
-          key: AppConstants.keyAccessToken, value: res.data['access']);
+        key: AppConstants.keyAccessToken,
+        value: res.data['access'],
+      );
       await _storage.write(
-          key: AppConstants.keyRefreshToken, value: res.data['refresh']);
+        key: AppConstants.keyRefreshToken,
+        value: res.data['refresh'],
+      );
     } on DioException catch (e) {
       throw _asAppException(e, const AuthException('Login failed'));
     }
@@ -38,10 +42,10 @@ class AuthRepository {
       throw const AppException('Server is not configured. Set a domain first.');
     }
     try {
-      await _client.dio.post(_config.endpoint('auth/register'), data: {
-        'email': email,
-        'password': password,
-      });
+      await _client.dio.post(
+        _config.endpoint('auth/register'),
+        data: {'email': email, 'password': password},
+      );
     } on DioException catch (e) {
       throw _asAppException(e, const AppException('Registration failed'));
     }
@@ -59,8 +63,10 @@ class AuthRepository {
 
     final detail = e.response?.data;
     if (detail is Map && detail['detail'] != null) {
-      return AppException(detail['detail'].toString(),
-          statusCode: e.response?.statusCode);
+      return AppException(
+        detail['detail'].toString(),
+        statusCode: e.response?.statusCode,
+      );
     }
 
     return fallback;

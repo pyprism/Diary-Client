@@ -45,8 +45,9 @@ class PublicShareScreen extends ConsumerWidget {
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
-              final maxWidth =
-                  constraints.maxWidth > 800 ? 800.0 : double.infinity;
+              final maxWidth = constraints.maxWidth > 800
+                  ? 800.0
+                  : double.infinity;
               return Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: maxWidth),
@@ -55,17 +56,15 @@ class PublicShareScreen extends ConsumerWidget {
                     children: [
                       Text(
                         data.diaryTitle,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
+                        style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         du.DateUtils.toDisplayFormat(data.diaryDate),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Divider(),
@@ -79,18 +78,18 @@ class PublicShareScreen extends ConsumerWidget {
                         BlockRenderer(
                           content: data.content is Map<String, dynamic>
                               ? DiaryContent.fromJson(
-                                  data.content as Map<String, dynamic>)
+                                  data.content as Map<String, dynamic>,
+                                )
                               : DiaryContent.empty(),
                         ),
                       const SizedBox(height: 32),
                       Text(
                         'Shared via Diary App',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withValues(alpha: 0.4),
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.4),
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     ],

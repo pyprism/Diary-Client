@@ -16,12 +16,12 @@ class HomepageData {
   });
 
   factory HomepageData.fromJson(Map<String, dynamic> json) => HomepageData(
-        isExactDate: json['is_exact_date'] as bool? ?? false,
-        matchedDate: json['matched_date'] as Map<String, dynamic>?,
-        entries: (json['entries'] as List? ?? [])
-            .map((e) => DiaryListItem.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    isExactDate: json['is_exact_date'] as bool? ?? false,
+    matchedDate: json['matched_date'] as Map<String, dynamic>?,
+    entries: (json['entries'] as List? ?? [])
+        .map((e) => DiaryListItem.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 }
 
 final homepageProvider = FutureProvider<HomepageData?>((ref) async {
@@ -83,18 +83,27 @@ Future<HomepageData> _localHomepage(AppDatabase db) async {
     );
   }
 
-  final distinctDays = pastRows
-      .map((row) => du.DateUtils.fromApiFormat(row.date)!)
-      .map((date) => (month: date.month, day: date.day))
-      .toSet()
-      .toList()
-    ..sort((a, b) {
-      final aDistance =
-          _calendarDistance(today.month, today.day, a.month, a.day);
-      final bDistance =
-          _calendarDistance(today.month, today.day, b.month, b.day);
-      return aDistance.compareTo(bDistance);
-    });
+  final distinctDays =
+      pastRows
+          .map((row) => du.DateUtils.fromApiFormat(row.date)!)
+          .map((date) => (month: date.month, day: date.day))
+          .toSet()
+          .toList()
+        ..sort((a, b) {
+          final aDistance = _calendarDistance(
+            today.month,
+            today.day,
+            a.month,
+            a.day,
+          );
+          final bDistance = _calendarDistance(
+            today.month,
+            today.day,
+            b.month,
+            b.day,
+          );
+          return aDistance.compareTo(bDistance);
+        });
 
   final matched = distinctDays.first;
   final nearest = pastRows.where((row) {
@@ -110,12 +119,12 @@ Future<HomepageData> _localHomepage(AppDatabase db) async {
 }
 
 DiaryListItem _rowToListItem(DiaryEntryData row) => DiaryListItem(
-      localId: row.id,
-      remoteId: row.remoteId,
-      title: row.title,
-      date: row.date,
-      postType: PostTypeExt.fromString(row.postType),
-    );
+  localId: row.id,
+  remoteId: row.remoteId,
+  title: row.title,
+  date: row.date,
+  postType: PostTypeExt.fromString(row.postType),
+);
 
 int _calendarDistance(int fromMonth, int fromDay, int toMonth, int toDay) {
   final base = DateTime(2000, fromMonth, fromDay);

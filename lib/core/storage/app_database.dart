@@ -5,115 +5,121 @@ import 'tables/tables.dart';
 part 'app_database.g.dart';
 
 @DriftDatabase(
-    tables: [DiaryEntries, DiaryTags, Tags, DiaryAnalyses, SyncQueue])
+  tables: [DiaryEntries, DiaryTags, Tags, DiaryAnalyses, SyncQueue],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
-      : super(
-          driftDatabase(
-            name: 'diary_app.db',
-            web: DriftWebOptions(
-              sqlite3Wasm: Uri.parse('sqlite3.wasm'),
-              driftWorker: Uri.parse('drift_worker.js'),
-            ),
+    : super(
+        driftDatabase(
+          name: 'diary_app.db',
+          web: DriftWebOptions(
+            sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+            driftWorker: Uri.parse('drift_worker.js'),
           ),
-        );
+        ),
+      );
 
   @override
   int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) async {
-          await m.createAll();
-        },
-        onUpgrade: (m, from, to) async {
-          if (from < 2) {
-            await customStatement(
-              'CREATE UNIQUE INDEX IF NOT EXISTS diary_entries_remote_id_unique '
-              'ON diary_entries(remote_id) WHERE remote_id IS NOT NULL',
-            );
-            await customStatement(
-              'CREATE UNIQUE INDEX IF NOT EXISTS tags_remote_id_unique '
-              'ON tags(remote_id) WHERE remote_id IS NOT NULL',
-            );
-            await customStatement(
-              'CREATE UNIQUE INDEX IF NOT EXISTS tags_name_unique ON tags(name)',
-            );
-            await customStatement(
-              'CREATE UNIQUE INDEX IF NOT EXISTS diary_analyses_diary_local_id_unique '
-              'ON diary_analyses(diary_local_id)',
-            );
-          }
-        },
-        beforeOpen: (_) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+    onCreate: (m) async {
+      await m.createAll();
+    },
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await customStatement(
+          'CREATE UNIQUE INDEX IF NOT EXISTS diary_entries_remote_id_unique '
+          'ON diary_entries(remote_id) WHERE remote_id IS NOT NULL',
+        );
+        await customStatement(
+          'CREATE UNIQUE INDEX IF NOT EXISTS tags_remote_id_unique '
+          'ON tags(remote_id) WHERE remote_id IS NOT NULL',
+        );
+        await customStatement(
+          'CREATE UNIQUE INDEX IF NOT EXISTS tags_name_unique ON tags(name)',
+        );
+        await customStatement(
+          'CREATE UNIQUE INDEX IF NOT EXISTS diary_analyses_diary_local_id_unique '
+          'ON diary_analyses(diary_local_id)',
+        );
+      }
+    },
+    beforeOpen: (_) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
 
   // ─── Diary ───────────────────────────────────────────────────
 
-  Stream<List<DiaryEntryData>> watchAllDiaries() =>
-      (select(diaryEntries)..orderBy([(t) => OrderingTerm.desc(t.date)]))
-          .watch();
+  Stream<List<DiaryEntryData>> watchAllDiaries() => (select(
+    diaryEntries,
+  )..orderBy([(t) => OrderingTerm.desc(t.date)])).watch();
 
   Future<List<DiaryEntryData>> getAllDiaries() =>
       (select(diaryEntries)..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
 
-  Future<DiaryEntryData?> getDiaryById(int localId) =>
-      (select(diaryEntries)..where((t) => t.id.equals(localId)))
-          .getSingleOrNull();
+  Future<DiaryEntryData?> getDiaryById(int localId) => (select(
+    diaryEntries,
+  )..where((t) => t.id.equals(localId))).getSingleOrNull();
 
-  Future<DiaryEntryData?> getDiaryByRemoteId(int remoteId) =>
-      (select(diaryEntries)..where((t) => t.remoteId.equals(remoteId)))
-          .getSingleOrNull();
+  Future<DiaryEntryData?> getDiaryByRemoteId(int remoteId) => (select(
+    diaryEntries,
+  )..where((t) => t.remoteId.equals(remoteId))).getSingleOrNull();
 
-  Stream<DiaryEntryData?> watchDiaryById(int localId) =>
-      (select(diaryEntries)..where((t) => t.id.equals(localId)))
-          .watchSingleOrNull();
+  Stream<DiaryEntryData?> watchDiaryById(int localId) => (select(
+    diaryEntries,
+  )..where((t) => t.id.equals(localId))).watchSingleOrNull();
 
   Future<int> insertDiary(DiaryEntriesCompanion entry) =>
       into(diaryEntries).insert(entry);
 
-  Future<void> updateDiary(DiaryEntriesCompanion entry) =>
-      (update(diaryEntries)..where((t) => t.id.equals(entry.id.value)))
-          .write(entry);
+  Future<void> updateDiary(DiaryEntriesCompanion entry) => (update(
+    diaryEntries,
+  )..where((t) => t.id.equals(entry.id.value))).write(entry);
 
   Future<void> deleteDiary(int localId) =>
       (delete(diaryEntries)..where((t) => t.id.equals(localId))).go();
 
-  Future<List<DiaryEntryData>> getPendingDiaries() =>
-      (select(diaryEntries)..where((t) => t.syncStatus.equals('pending')))
-          .get();
+  Future<List<DiaryEntryData>> getPendingDiaries() => (select(
+    diaryEntries,
+  )..where((t) => t.syncStatus.equals('pending'))).get();
 
   // ─── Tags for Diary ─────────────────────────────────────────
 
   Future<List<TagData>> getTagsForDiary(int diaryLocalId) async {
     final query = select(diaryTags).join([
       innerJoin(tags, tags.id.equalsExp(diaryTags.tagLocalId)),
-    ])
-      ..where(diaryTags.diaryLocalId.equals(diaryLocalId));
+    ])..where(diaryTags.diaryLocalId.equals(diaryLocalId));
     final rows = await query.get();
     return rows.map((r) => r.readTable(tags)).toList();
   }
 
   Future<void> setTagsForDiary(int diaryLocalId, List<int> tagLocalIds) async {
-    await (delete(diaryTags)..where((t) => t.diaryLocalId.equals(diaryLocalId)))
-        .go();
+    await (delete(
+      diaryTags,
+    )..where((t) => t.diaryLocalId.equals(diaryLocalId))).go();
     for (final tagId in tagLocalIds) {
       await into(diaryTags).insertOnConflictUpdate(
         DiaryTagsCompanion.insert(
-            diaryLocalId: diaryLocalId, tagLocalId: tagId),
+          diaryLocalId: diaryLocalId,
+          tagLocalId: tagId,
+        ),
       );
     }
   }
 
   Future<List<DiaryEntryData>> getDiariesForTag(int tagLocalId) async {
-    final query = select(diaryTags).join([
-      innerJoin(
-          diaryEntries, diaryEntries.id.equalsExp(diaryTags.diaryLocalId)),
-    ])
-      ..where(diaryTags.tagLocalId.equals(tagLocalId))
-      ..orderBy([OrderingTerm.desc(diaryEntries.date)]);
+    final query =
+        select(diaryTags).join([
+            innerJoin(
+              diaryEntries,
+              diaryEntries.id.equalsExp(diaryTags.diaryLocalId),
+            ),
+          ])
+          ..where(diaryTags.tagLocalId.equals(tagLocalId))
+          ..orderBy([OrderingTerm.desc(diaryEntries.date)]);
     final rows = await query.get();
     return rows.map((r) => r.readTable(diaryEntries)).toList();
   }
@@ -129,9 +135,9 @@ class AppDatabase extends _$AppDatabase {
   Future<TagData?> getTagById(int localId) =>
       (select(tags)..where((t) => t.id.equals(localId))).getSingleOrNull();
 
-  Future<TagData?> getTagByRemoteId(int remoteId) =>
-      (select(tags)..where((t) => t.remoteId.equals(remoteId)))
-          .getSingleOrNull();
+  Future<TagData?> getTagByRemoteId(int remoteId) => (select(
+    tags,
+  )..where((t) => t.remoteId.equals(remoteId))).getSingleOrNull();
 
   Future<TagData?> getTagByName(String name) =>
       (select(tags)..where((t) => t.name.equals(name))).getSingleOrNull();
@@ -169,16 +175,16 @@ class AppDatabase extends _$AppDatabase {
       return;
     }
     await transaction(() async {
-      await (delete(diaryAnalyses)
-            ..where((t) => t.diaryLocalId.equals(entry.diaryLocalId.value)))
-          .go();
+      await (delete(
+        diaryAnalyses,
+      )..where((t) => t.diaryLocalId.equals(entry.diaryLocalId.value))).go();
       await into(diaryAnalyses).insert(entry);
     });
   }
 
-  Future<void> deleteAnalysis(int diaryLocalId) =>
-      (delete(diaryAnalyses)..where((t) => t.diaryLocalId.equals(diaryLocalId)))
-          .go();
+  Future<void> deleteAnalysis(int diaryLocalId) => (delete(
+    diaryAnalyses,
+  )..where((t) => t.diaryLocalId.equals(diaryLocalId))).go();
 
   // ─── Sync Queue ─────────────────────────────────────────────
 
@@ -204,5 +210,7 @@ class AppDatabase extends _$AppDatabase {
       (delete(syncQueue)..where((t) => t.id.equals(id))).go();
 
   Future<void> incrementQueuedSyncRetry(int id) => customStatement(
-      'UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?', [id]);
+    'UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?',
+    [id],
+  );
 }

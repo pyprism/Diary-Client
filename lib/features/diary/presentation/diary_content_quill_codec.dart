@@ -26,8 +26,9 @@ class DiaryContentQuillCodec {
           delta.insert('\n', {'blockquote': true});
           break;
         case 'bullet_list':
-          final items =
-              (block.data['items'] as List? ?? []).map((e) => e.toString());
+          final items = (block.data['items'] as List? ?? []).map(
+            (e) => e.toString(),
+          );
           for (final item in items) {
             delta.insert(item);
             delta.insert('\n', {'list': 'bullet'});
@@ -37,8 +38,9 @@ class DiaryContentQuillCodec {
           final items = (block.data['items'] as List? ?? []).cast<Map>();
           for (final item in items) {
             delta.insert((item['text'] ?? '').toString());
-            delta.insert('\n',
-                {'list': item['checked'] == true ? 'checked' : 'unchecked'});
+            delta.insert('\n', {
+              'list': item['checked'] == true ? 'checked' : 'unchecked',
+            });
           }
           break;
         case 'image':
@@ -88,19 +90,27 @@ class DiaryContentQuillCodec {
         }
       } else if (data is Map && data['image'] != null) {
         if (current.isNotEmpty) {
-          lines.add(_QuillLine(
-              text: current.toString(), attrs: const <String, dynamic>{}));
+          lines.add(
+            _QuillLine(
+              text: current.toString(),
+              attrs: const <String, dynamic>{},
+            ),
+          );
           current.clear();
         }
-        lines.add(_QuillLine(
+        lines.add(
+          _QuillLine(
             imageUrl: data['image'].toString(),
-            attrs: const <String, dynamic>{}));
+            attrs: const <String, dynamic>{},
+          ),
+        );
       }
     }
 
     if (current.isNotEmpty) {
-      lines.add(_QuillLine(
-          text: current.toString(), attrs: const <String, dynamic>{}));
+      lines.add(
+        _QuillLine(text: current.toString(), attrs: const <String, dynamic>{}),
+      );
     }
 
     final blocks = <ContentBlock>[];
@@ -167,7 +177,8 @@ class DiaryContentQuillCodec {
       if (header is int) {
         flushParagraph();
         blocks.add(
-            ContentBlock.heading(level: header.clamp(1, 3), text: text.trim()));
+          ContentBlock.heading(level: header.clamp(1, 3), text: text.trim()),
+        );
         continue;
       }
 

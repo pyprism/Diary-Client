@@ -17,8 +17,10 @@ final shareRepositoryProvider = Provider<ShareRepository>((ref) {
   );
 });
 
-final shareLinksProvider =
-    FutureProvider.family<List<ShareLink>, int>((ref, diaryRemoteId) async {
+final shareLinksProvider = FutureProvider.family<List<ShareLink>, int>((
+  ref,
+  diaryRemoteId,
+) async {
   return ref.watch(shareRepositoryProvider).listLinks(diaryRemoteId);
 });
 
@@ -56,8 +58,9 @@ class AllShareLinksScreen extends ConsumerWidget {
 
             return LayoutBuilder(
               builder: (context, constraints) {
-                final maxWidth =
-                    constraints.maxWidth > 860 ? 860.0 : double.infinity;
+                final maxWidth = constraints.maxWidth > 860
+                    ? 860.0
+                    : double.infinity;
                 return Center(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: maxWidth),
@@ -70,8 +73,10 @@ class AllShareLinksScreen extends ConsumerWidget {
                         link: list[index],
                         showDiaryTitle: true,
                         onDelete: () async {
-                          final confirmed =
-                              await _confirmDelete(context, list[index]);
+                          final confirmed = await _confirmDelete(
+                            context,
+                            list[index],
+                          );
                           if (!confirmed) return;
                           try {
                             await ref
@@ -179,8 +184,10 @@ class _ShareLinksScreenState extends ConsumerState<ShareLinksScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                Text('Share Links',
-                    style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                  'Share Links',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 const Spacer(),
                 if (widget.diaryRemoteId != null)
                   FilledButton.icon(
@@ -198,19 +205,16 @@ class _ShareLinksScreenState extends ConsumerState<ShareLinksScreen> {
               ),
             )
           else if (_loading)
-            const Expanded(
-              child: Center(child: CircularProgressIndicator()),
-            )
+            const Expanded(child: Center(child: CircularProgressIndicator()))
           else if (_links.isEmpty)
             Expanded(
               child: Center(
                 child: Text(
                   'No share links yet. Tap + to create one.',
                   style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -226,10 +230,9 @@ class _ShareLinksScreenState extends ConsumerState<ShareLinksScreen> {
                   onDelete: () async {
                     final confirmed = await _confirmDelete(_links[i]);
                     if (!confirmed) return;
-                    await ref.read(shareRepositoryProvider).deleteLink(
-                          widget.diaryRemoteId!,
-                          _links[i].token,
-                        );
+                    await ref
+                        .read(shareRepositoryProvider)
+                        .deleteLink(widget.diaryRemoteId!, _links[i].token);
                     ref.invalidate(allShareLinksProvider);
                     _load();
                   },
@@ -355,8 +358,9 @@ class _ShareLinkTileState extends State<_ShareLinkTile> {
       child: ListTile(
         leading: Icon(
           isExpired ? Icons.link_off : Icons.link,
-          color:
-              isExpired ? Colors.grey : Theme.of(context).colorScheme.primary,
+          color: isExpired
+              ? Colors.grey
+              : Theme.of(context).colorScheme.primary,
         ),
         title: Text(
           widget.showDiaryTitle
@@ -376,9 +380,9 @@ class _ShareLinkTileState extends State<_ShareLinkTile> {
               icon: const Icon(Icons.copy, size: 20),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: widget.link.publicUrl));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Link copied!')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Link copied!')));
               },
             ),
             IconButton(
@@ -386,14 +390,17 @@ class _ShareLinkTileState extends State<_ShareLinkTile> {
               onPressed: isExpired
                   ? null
                   : () => launchUrl(
-                        Uri.parse(widget.link.publicUrl),
-                        mode: LaunchMode.externalApplication,
-                      ),
+                      Uri.parse(widget.link.publicUrl),
+                      mode: LaunchMode.externalApplication,
+                    ),
             ),
             if (widget.onDelete != null)
               IconButton(
-                icon: const Icon(Icons.delete_outline,
-                    size: 20, color: Colors.red),
+                icon: const Icon(
+                  Icons.delete_outline,
+                  size: 20,
+                  color: Colors.red,
+                ),
                 onPressed: widget.onDelete,
               ),
           ],
@@ -440,7 +447,9 @@ class _CreateShareSheetState extends ConsumerState<_CreateShareSheet> {
           throw Exception(error);
         }
       }
-      final link = await ref.read(shareRepositoryProvider).createLink(
+      final link = await ref
+          .read(shareRepositoryProvider)
+          .createLink(
             diaryRemoteId: widget.diaryRemoteId,
             shareType: _shareType,
             excerpt: excerpt,
@@ -466,8 +475,9 @@ class _CreateShareSheetState extends ConsumerState<_CreateShareSheet> {
 
   Future<String?> _validateExcerpt(String excerpt) async {
     if (excerpt.isEmpty) return 'Excerpt text is required.';
-    final entry =
-        await ref.read(diaryRepositoryProvider).getById(widget.diaryLocalId);
+    final entry = await ref
+        .read(diaryRepositoryProvider)
+        .getById(widget.diaryLocalId);
     final plainText = entry?.content.plainText ?? '';
     if (!plainText.contains(excerpt)) {
       return 'Excerpt must be copied from the diary content.';
@@ -493,8 +503,10 @@ class _CreateShareSheetState extends ConsumerState<_CreateShareSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Create Share Link',
-              style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            'Create Share Link',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
           const SizedBox(height: 16),
           SegmentedButton<String>(
             segments: const [

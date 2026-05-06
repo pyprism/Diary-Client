@@ -19,7 +19,9 @@ class AnalysisRepository {
       _config.endpoint('diaries/$diaryRemoteId/analyze');
 
   Future<DiaryAnalysis?> getAnalysis(
-      int diaryLocalId, int diaryRemoteId) async {
+    int diaryLocalId,
+    int diaryRemoteId,
+  ) async {
     final local = await _db.getAnalysisByDiaryLocalId(diaryLocalId);
     if (local != null && _fromLocal(local).isDone) {
       return _fromLocal(local);
@@ -35,13 +37,14 @@ class AnalysisRepository {
     }
   }
 
-  Stream<DiaryAnalysis?> watchAnalysis(int diaryLocalId) =>
-      _db.watchAnalysisByDiaryLocalId(diaryLocalId).map(
-            (e) => e != null ? _fromLocal(e) : null,
-          );
+  Stream<DiaryAnalysis?> watchAnalysis(int diaryLocalId) => _db
+      .watchAnalysisByDiaryLocalId(diaryLocalId)
+      .map((e) => e != null ? _fromLocal(e) : null);
 
   Future<DiaryAnalysis> triggerAnalysis(
-      int diaryLocalId, int diaryRemoteId) async {
+    int diaryLocalId,
+    int diaryRemoteId,
+  ) async {
     final res = await _client.dio.post(_url(diaryRemoteId), data: const {});
     final analysis = _analysisFromResponse(res);
     await _saveLocallyBestEffort(diaryLocalId, analysis);
@@ -78,7 +81,9 @@ class AnalysisRepository {
   }
 
   Future<void> _saveLocallyBestEffort(
-      int diaryLocalId, DiaryAnalysis analysis) async {
+    int diaryLocalId,
+    DiaryAnalysis analysis,
+  ) async {
     try {
       await _saveLocally(diaryLocalId, analysis);
     } catch (_) {
@@ -88,31 +93,33 @@ class AnalysisRepository {
   }
 
   Future<void> _saveLocally(int diaryLocalId, DiaryAnalysis analysis) async {
-    await _db.upsertAnalysis(DiaryAnalysesCompanion(
-      diaryLocalId: drift.Value(diaryLocalId),
-      status: drift.Value(analysis.status),
-      mood: drift.Value(analysis.mood),
-      summary: drift.Value(analysis.summary),
-      banglaContentJson: drift.Value(
-        analysis.banglaContent == null
-            ? null
-            : jsonEncode(analysis.banglaContent),
+    await _db.upsertAnalysis(
+      DiaryAnalysesCompanion(
+        diaryLocalId: drift.Value(diaryLocalId),
+        status: drift.Value(analysis.status),
+        mood: drift.Value(analysis.mood),
+        summary: drift.Value(analysis.summary),
+        banglaContentJson: drift.Value(
+          analysis.banglaContent == null
+              ? null
+              : jsonEncode(analysis.banglaContent),
+        ),
+        taskId: drift.Value(analysis.taskId),
+        error: drift.Value(analysis.error),
+        updatedAt: drift.Value(DateTime.now()),
       ),
-      taskId: drift.Value(analysis.taskId),
-      error: drift.Value(analysis.error),
-      updatedAt: drift.Value(DateTime.now()),
-    ));
+    );
   }
 
   DiaryAnalysis _fromLocal(DiaryAnalysisData d) => DiaryAnalysis(
-        status: d.status,
-        mood: d.mood,
-        summary: d.summary,
-        banglaContent: _decodeBanglaContent(d.banglaContentJson),
-        taskId: d.taskId,
-        error: d.error,
-        updatedAt: d.updatedAt,
-      );
+    status: d.status,
+    mood: d.mood,
+    summary: d.summary,
+    banglaContent: _decodeBanglaContent(d.banglaContentJson),
+    taskId: d.taskId,
+    error: d.error,
+    updatedAt: d.updatedAt,
+  );
 
   Map<String, dynamic>? _decodeBanglaContent(String? jsonString) {
     if (jsonString == null || jsonString.isEmpty) return null;

@@ -23,6 +23,6 @@ class AppConstants {
     '1 Hour',
     '24 Hours',
     '1 Week',
-    '30 Days'
+    '30 Days',
   ];
 }

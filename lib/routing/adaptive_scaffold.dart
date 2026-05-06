@@ -13,25 +13,29 @@ class AppAdaptiveScaffold extends StatelessWidget {
 
   static const _navItems = [
     _NavItem(
-        label: 'Home',
-        icon: Icons.home_outlined,
-        activeIcon: Icons.home,
-        path: '/home'),
+      label: 'Home',
+      icon: Icons.home_outlined,
+      activeIcon: Icons.home,
+      path: '/home',
+    ),
     _NavItem(
-        label: 'Diary',
-        icon: Icons.book_outlined,
-        activeIcon: Icons.book,
-        path: '/diary'),
+      label: 'Diary',
+      icon: Icons.book_outlined,
+      activeIcon: Icons.book,
+      path: '/diary',
+    ),
     _NavItem(
-        label: 'Tags',
-        icon: Icons.label_outline,
-        activeIcon: Icons.label,
-        path: '/tags'),
+      label: 'Tags',
+      icon: Icons.label_outline,
+      activeIcon: Icons.label,
+      path: '/tags',
+    ),
     _NavItem(
-        label: 'Shares',
-        icon: Icons.ios_share_outlined,
-        activeIcon: Icons.ios_share,
-        path: '/shares'),
+      label: 'Shares',
+      icon: Icons.ios_share_outlined,
+      activeIcon: Icons.ios_share,
+      path: '/shares',
+    ),
   ];
 
   int _selectedIndex() {
@@ -115,11 +119,13 @@ class _NarrowLayout extends StatelessWidget {
         selectedIndex: selectedIndex,
         onDestinationSelected: onTap,
         destinations: navItems
-            .map((item) => NavigationDestination(
-                  icon: Icon(item.icon),
-                  selectedIcon: Icon(item.activeIcon),
-                  label: item.label,
-                ))
+            .map(
+              (item) => NavigationDestination(
+                icon: Icon(item.icon),
+                selectedIcon: Icon(item.activeIcon),
+                label: item.label,
+              ),
+            )
             .toList(),
       ),
     );
@@ -150,11 +156,13 @@ class _MediumLayout extends StatelessWidget {
             onDestinationSelected: onTap,
             labelType: NavigationRailLabelType.all,
             destinations: navItems
-                .map((item) => NavigationRailDestination(
-                      icon: Icon(item.icon),
-                      selectedIcon: Icon(item.activeIcon),
-                      label: Text(item.label),
-                    ))
+                .map(
+                  (item) => NavigationRailDestination(
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.activeIcon),
+                    label: Text(item.label),
+                  ),
+                )
                 .toList(),
           ),
           const VerticalDivider(thickness: 1, width: 1),
@@ -196,16 +204,18 @@ class _WideLayout extends StatelessWidget {
                   child: Text(
                     'Diary',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: cs.primary,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: cs.primary,
+                    ),
                   ),
                 ),
-                ...navItems.map((item) => NavigationDrawerDestination(
-                      icon: Icon(item.icon),
-                      selectedIcon: Icon(item.activeIcon),
-                      label: Text(item.label),
-                    )),
+                ...navItems.map(
+                  (item) => NavigationDrawerDestination(
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.activeIcon),
+                    label: Text(item.label),
+                  ),
+                ),
               ],
             ),
           ),

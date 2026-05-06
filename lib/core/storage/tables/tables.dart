@@ -14,8 +14,8 @@ class DiaryEntries extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {remoteId},
-      ];
+    {remoteId},
+  ];
 }
 
 @DataClassName('DiaryTagData')
@@ -38,9 +38,9 @@ class Tags extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {remoteId},
-        {name},
-      ];
+    {remoteId},
+    {name},
+  ];
 }
 
 @DataClassName('DiaryAnalysisData')
@@ -58,8 +58,8 @@ class DiaryAnalyses extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {diaryLocalId},
-      ];
+    {diaryLocalId},
+  ];
 }
 
 @DataClassName('SyncQueueData')

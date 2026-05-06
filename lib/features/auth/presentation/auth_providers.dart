@@ -48,5 +48,6 @@ class AuthNotifier extends AsyncNotifier<bool> {
   }
 }
 
-final authNotifierProvider =
-    AsyncNotifierProvider<AuthNotifier, bool>(AuthNotifier.new);
+final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, bool>(
+  AuthNotifier.new,
+);

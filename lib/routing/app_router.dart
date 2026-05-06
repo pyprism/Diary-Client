@@ -29,7 +29,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (authAsync.isLoading || !authAsync.hasValue) return null;
 
       final isLoggedIn = authAsync.value == true;
-      final isAuthRoute = state.matchedLocation == '/login' ||
+      final isAuthRoute =
+          state.matchedLocation == '/login' ||
           state.matchedLocation == '/register';
       final isPublicShare = state.matchedLocation.startsWith('/share/');
 
@@ -40,10 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       // Auth routes
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(
         path: '/register',
         builder: (context, state) => const RegisterScreen(),
@@ -59,10 +57,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Shell with navigation
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => AppAdaptiveScaffold(
-          location: state.matchedLocation,
-          child: child,
-        ),
+        builder: (context, state, child) =>
+            AppAdaptiveScaffold(location: state.matchedLocation, child: child),
         routes: [
           GoRoute(
             path: '/home',
@@ -79,8 +75,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: ':id',
                 builder: (_, state) {
-                  final localId =
-                      int.tryParse(state.pathParameters['id'] ?? '');
+                  final localId = int.tryParse(
+                    state.pathParameters['id'] ?? '',
+                  );
                   return localId == null
                       ? const _NotFoundScreen()
                       : DiaryDetailScreen(localId: localId);
@@ -89,8 +86,9 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'edit',
                     builder: (_, state) {
-                      final localId =
-                          int.tryParse(state.pathParameters['id'] ?? '');
+                      final localId = int.tryParse(
+                        state.pathParameters['id'] ?? '',
+                      );
                       return localId == null
                           ? const _NotFoundScreen()
                           : DiaryEditorScreen(localId: localId);
@@ -107,8 +105,9 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: ':id/entries',
                 builder: (_, state) {
-                  final localId =
-                      int.tryParse(state.pathParameters['id'] ?? '');
+                  final localId = int.tryParse(
+                    state.pathParameters['id'] ?? '',
+                  );
                   return localId == null
                       ? const _NotFoundScreen()
                       : TagEntriesScreen(tagLocalId: localId);

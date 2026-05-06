@@ -18,8 +18,9 @@ class BlockRenderer extends StatelessWidget {
         child: Text(
           'No content',
           style: TextStyle(
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.4),
           ),
         ),
       );
@@ -101,22 +102,26 @@ class _BulletList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items
-            .map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8, right: 8),
-                        child: Icon(Icons.circle, size: 6),
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8, right: 8),
+                      child: Icon(Icons.circle, size: 6),
+                    ),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      Expanded(
-                        child: Text(item,
-                            style: Theme.of(context).textTheme.bodyLarge),
-                      ),
-                    ],
-                  ),
-                ))
+                    ),
+                  ],
+                ),
+              ),
+            )
             .toList(),
       ),
     );
@@ -138,34 +143,33 @@ class _Checklist extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items
-            .map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Row(
-                    children: [
-                      Icon(
-                        (item['checked'] as bool? ?? false)
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank,
-                        size: 20,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          item['text'] as String? ?? '',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(
-                                decoration: (item['checked'] as bool? ?? false)
-                                    ? TextDecoration.lineThrough
-                                    : null,
-                              ),
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  children: [
+                    Icon(
+                      (item['checked'] as bool? ?? false)
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        item['text'] as String? ?? '',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          decoration: (item['checked'] as bool? ?? false)
+                              ? TextDecoration.lineThrough
+                              : null,
                         ),
                       ),
-                    ],
-                  ),
-                ))
+                    ),
+                  ],
+                ),
+              ),
+            )
             .toList(),
       ),
     );
@@ -197,9 +201,9 @@ class _Quote extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontStyle: FontStyle.italic,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontStyle: FontStyle.italic),
       ),
     );
   }
@@ -260,8 +264,7 @@ class _ImageBlock extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            errorBuilder: (context, error, stackTrace) =>
-                _brokenImage(context),
+            errorBuilder: (context, error, stackTrace) => _brokenImage(context),
           ),
           loading: () => _loadingImage(context),
           error: (error, stackTrace) => _brokenImage(context),

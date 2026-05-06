@@ -203,30 +203,35 @@ class _DiaryCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       du.DateUtils.toShortFormat(entry.date),
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: cs.primary,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium?.copyWith(color: cs.primary),
                     ),
                   ),
                   if (entry.syncStatus == 'pending')
                     Tooltip(
                       message: 'Pending sync',
-                      child: Icon(Icons.cloud_upload_outlined,
-                          size: 16, color: cs.outline),
+                      child: Icon(
+                        Icons.cloud_upload_outlined,
+                        size: 16,
+                        color: cs.outline,
+                      ),
                     ),
                   const SizedBox(width: 4),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: cs.secondary.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       entry.postType.value,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: cs.secondary,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall?.copyWith(color: cs.secondary),
                     ),
                   ),
                 ],
@@ -234,9 +239,9 @@ class _DiaryCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 entry.title,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -246,13 +251,15 @@ class _DiaryCard extends StatelessWidget {
                   spacing: 4,
                   children: entry.tags
                       .take(3)
-                      .map((t) => Chip(
-                            label: Text(t.name),
-                            labelStyle: const TextStyle(fontSize: 11),
-                            padding: EdgeInsets.zero,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                          ))
+                      .map(
+                        (t) => Chip(
+                          label: Text(t.name),
+                          labelStyle: const TextStyle(fontSize: 11),
+                          padding: EdgeInsets.zero,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      )
                       .toList(),
                 ),
               ],
@@ -289,11 +296,10 @@ class _EmptyState extends StatelessWidget {
             Text(
               'Tap + to write your first entry',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.5),
-                  ),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
             ),
           ],
         ],

@@ -20,7 +20,9 @@ final tagsProvider = StreamProvider<List<Tag>>((ref) {
   return ref.watch(tagRepositoryProvider).watchAll();
 });
 
-final tagEntriesProvider =
-    FutureProvider.family<List<TagEntrySummary>, int>((ref, tagLocalId) {
+final tagEntriesProvider = FutureProvider.family<List<TagEntrySummary>, int>((
+  ref,
+  tagLocalId,
+) {
   return ref.watch(tagRepositoryProvider).listEntriesForTag(tagLocalId);
 });

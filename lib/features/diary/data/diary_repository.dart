@@ -132,7 +132,9 @@ class DiaryRepository {
 
           if (existing == null) {
             await _local.insert(
-                full.copyWith(syncStatus: 'synced'), tagLocalIds);
+              full.copyWith(syncStatus: 'synced'),
+              tagLocalIds,
+            );
           } else if (existing.syncStatus != 'pending') {
             await _local.update(
               full.copyWith(
@@ -310,8 +312,10 @@ class DiaryRepository {
   }
 
   Future<void> _syncQueuedDeletes() async {
-    final queued =
-        await _db.getQueuedSync(entityType: 'diary', operation: 'delete');
+    final queued = await _db.getQueuedSync(
+      entityType: 'diary',
+      operation: 'delete',
+    );
     for (final item in queued) {
       final payload = _decodeQueuePayload(item.payloadJson);
       final remoteId = payload['remoteId'] as int? ?? item.entityLocalId;

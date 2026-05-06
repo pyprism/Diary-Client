@@ -17,9 +17,8 @@ class DiaryDetailScreen extends ConsumerWidget {
     final entryAsync = ref.watch(diaryDetailStreamProvider(localId));
 
     return entryAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
         appBar: AppBar(),
         body: Center(child: Text('Error: $e')),
@@ -55,13 +54,13 @@ class _DetailView extends ConsumerWidget {
             onPressed: localId == null
                 ? null
                 : () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (_) => ShareLinksScreen(
-                        diaryLocalId: localId,
-                        diaryRemoteId: entry.remoteId,
-                      ),
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (_) => ShareLinksScreen(
+                      diaryLocalId: localId,
+                      diaryRemoteId: entry.remoteId,
                     ),
+                  ),
           ),
           IconButton(
             icon: const Icon(Icons.edit_outlined),
@@ -89,15 +88,18 @@ class _DetailView extends ConsumerWidget {
                   builder: (ctx) => AlertDialog(
                     title: const Text('Delete Entry'),
                     content: const Text(
-                        'Are you sure you want to delete this diary entry?'),
+                      'Are you sure you want to delete this diary entry?',
+                    ),
                     actions: [
                       TextButton(
-                          onPressed: () => Navigator.pop(ctx, false),
-                          child: const Text('Cancel')),
+                        onPressed: () => Navigator.pop(ctx, false),
+                        child: const Text('Cancel'),
+                      ),
                       FilledButton(
                         onPressed: () => Navigator.pop(ctx, true),
-                        style:
-                            FilledButton.styleFrom(backgroundColor: Colors.red),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
                         child: const Text('Delete'),
                       ),
                     ],
@@ -114,8 +116,9 @@ class _DetailView extends ConsumerWidget {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final maxWidth =
-              constraints.maxWidth > 800 ? 800.0 : constraints.maxWidth;
+          final maxWidth = constraints.maxWidth > 800
+              ? 800.0
+              : constraints.maxWidth;
           return CustomScrollView(
             slivers: [
               SliverPadding(
@@ -126,8 +129,10 @@ class _DetailView extends ConsumerWidget {
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxWidth),
                       child: SelectionArea(
-                        child:
-                            _DiaryDetailContent(entry: entry, colorScheme: cs),
+                        child: _DiaryDetailContent(
+                          entry: entry,
+                          colorScheme: cs,
+                        ),
                       ),
                     ),
                   ),
@@ -145,10 +150,7 @@ class _DiaryDetailContent extends StatelessWidget {
   final DiaryEntry entry;
   final ColorScheme colorScheme;
 
-  const _DiaryDetailContent({
-    required this.entry,
-    required this.colorScheme,
-  });
+  const _DiaryDetailContent({required this.entry, required this.colorScheme});
 
   @override
   Widget build(BuildContext context) {
@@ -160,9 +162,9 @@ class _DiaryDetailContent extends StatelessWidget {
         // Title
         Text(
           entry.title,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
 
@@ -175,14 +177,17 @@ class _DiaryDetailContent extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.calendar_today_outlined,
-                    size: 16, color: cs.primary),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 16,
+                  color: cs.primary,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   du.DateUtils.toDisplayFormat(entry.date),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: cs.primary,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: cs.primary),
                 ),
               ],
             ),
@@ -194,10 +199,9 @@ class _DiaryDetailContent extends StatelessWidget {
               ),
               child: Text(
                 entry.postType.value,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall
-                    ?.copyWith(color: cs.secondary),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: cs.secondary),
               ),
             ),
           ],

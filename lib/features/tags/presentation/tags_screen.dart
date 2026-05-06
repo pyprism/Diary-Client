@@ -19,20 +19,23 @@ class TagsScreen extends ConsumerWidget {
           if (list.isEmpty) {
             return const Center(child: Text('No tags yet. Add one below.'));
           }
-          return LayoutBuilder(builder: (context, constraints) {
-            final maxWidth =
-                constraints.maxWidth > 600 ? 600.0 : double.infinity;
-            return Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: maxWidth),
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: list.length,
-                  itemBuilder: (_, i) => _TagTile(tag: list[i]),
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final maxWidth = constraints.maxWidth > 600
+                  ? 600.0
+                  : double.infinity;
+              return Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: maxWidth),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: list.length,
+                    itemBuilder: (_, i) => _TagTile(tag: list[i]),
+                  ),
                 ),
-              ),
-            );
-          });
+              );
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -58,7 +61,9 @@ class TagsScreen extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final name = ctrl.text.trim();
@@ -104,12 +109,14 @@ class _TagTile extends ConsumerWidget {
                   content: Text('Delete "${tag.name}"?'),
                   actions: [
                     TextButton(
-                        onPressed: () => Navigator.pop(ctx, false),
-                        child: const Text('Cancel')),
+                      onPressed: () => Navigator.pop(ctx, false),
+                      child: const Text('Cancel'),
+                    ),
                     FilledButton(
                       onPressed: () => Navigator.pop(ctx, true),
-                      style:
-                          FilledButton.styleFrom(backgroundColor: Colors.red),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
                       child: const Text('Delete'),
                     ),
                   ],
@@ -138,7 +145,9 @@ class _TagTile extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
           FilledButton(
             onPressed: () async {
               final name = ctrl.text.trim();
@@ -165,7 +174,9 @@ class TagEntriesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final entries = ref.watch(tagEntriesProvider(tagLocalId));
-    final tagName = ref.watch(tagsProvider).maybeWhen(
+    final tagName = ref
+        .watch(tagsProvider)
+        .maybeWhen(
           data: (tags) => _tagName(tags, tagLocalId),
           orElse: () => null,
         );
@@ -184,8 +195,9 @@ class TagEntriesScreen extends ConsumerWidget {
 
           return LayoutBuilder(
             builder: (context, constraints) {
-              final maxWidth =
-                  constraints.maxWidth > 720 ? 720.0 : double.infinity;
+              final maxWidth = constraints.maxWidth > 720
+                  ? 720.0
+                  : double.infinity;
               return Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: maxWidth),

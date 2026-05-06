@@ -5,10 +5,8 @@ class Tag {
 
   const Tag({this.localId, this.remoteId, required this.name});
 
-  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-        remoteId: json['id'] as int?,
-        name: json['name'] as String,
-      );
+  factory Tag.fromJson(Map<String, dynamic> json) =>
+      Tag(remoteId: json['id'] as int?, name: json['name'] as String);
 }
 
 class TagEntrySummary {
@@ -16,11 +14,7 @@ class TagEntrySummary {
   final int? remoteId;
   final String title;
 
-  const TagEntrySummary({
-    this.localId,
-    this.remoteId,
-    required this.title,
-  });
+  const TagEntrySummary({this.localId, this.remoteId, required this.title});
 
   factory TagEntrySummary.fromJson(Map<String, dynamic> json) =>
       TagEntrySummary(
@@ -28,11 +22,7 @@ class TagEntrySummary {
         title: json['title'] as String? ?? 'Untitled entry',
       );
 
-  TagEntrySummary copyWith({
-    int? localId,
-    int? remoteId,
-    String? title,
-  }) =>
+  TagEntrySummary copyWith({int? localId, int? remoteId, String? title}) =>
       TagEntrySummary(
         localId: localId ?? this.localId,
         remoteId: remoteId ?? this.remoteId,

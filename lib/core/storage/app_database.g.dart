@@ -12,134 +12,188 @@ class $DiaryEntriesTable extends DiaryEntries
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _remoteIdMeta =
-      const VerificationMeta('remoteId');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _remoteIdMeta = const VerificationMeta(
+    'remoteId',
+  );
   @override
   late final GeneratedColumn<int> remoteId = GeneratedColumn<int>(
-      'remote_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+    'remote_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+    'title',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
   late final GeneratedColumn<String> date = GeneratedColumn<String>(
-      'date', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _postTypeMeta =
-      const VerificationMeta('postType');
+    'date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _postTypeMeta = const VerificationMeta(
+    'postType',
+  );
   @override
   late final GeneratedColumn<String> postType = GeneratedColumn<String>(
-      'post_type', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('LONG'));
-  static const VerificationMeta _contentJsonMeta =
-      const VerificationMeta('contentJson');
+    'post_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('LONG'),
+  );
+  static const VerificationMeta _contentJsonMeta = const VerificationMeta(
+    'contentJson',
+  );
   @override
   late final GeneratedColumn<String> contentJson = GeneratedColumn<String>(
-      'content_json', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _syncStatusMeta =
-      const VerificationMeta('syncStatus');
+    'content_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncStatusMeta = const VerificationMeta(
+    'syncStatus',
+  );
   @override
   late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
-      'sync_status', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('synced'));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'sync_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('synced'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        remoteId,
-        title,
-        date,
-        postType,
-        contentJson,
-        syncStatus,
-        createdAt,
-        updatedAt
-      ];
+    id,
+    remoteId,
+    title,
+    date,
+    postType,
+    contentJson,
+    syncStatus,
+    createdAt,
+    updatedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'diary_entries';
   @override
-  VerificationContext validateIntegrity(Insertable<DiaryEntryData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DiaryEntryData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('remote_id')) {
-      context.handle(_remoteIdMeta,
-          remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta));
+      context.handle(
+        _remoteIdMeta,
+        remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta),
+      );
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+        _dateMeta,
+        date.isAcceptableOrUnknown(data['date']!, _dateMeta),
+      );
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
     if (data.containsKey('post_type')) {
-      context.handle(_postTypeMeta,
-          postType.isAcceptableOrUnknown(data['post_type']!, _postTypeMeta));
+      context.handle(
+        _postTypeMeta,
+        postType.isAcceptableOrUnknown(data['post_type']!, _postTypeMeta),
+      );
     }
     if (data.containsKey('content_json')) {
       context.handle(
+        _contentJsonMeta,
+        contentJson.isAcceptableOrUnknown(
+          data['content_json']!,
           _contentJsonMeta,
-          contentJson.isAcceptableOrUnknown(
-              data['content_json']!, _contentJsonMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_contentJsonMeta);
     }
     if (data.containsKey('sync_status')) {
       context.handle(
-          _syncStatusMeta,
-          syncStatus.isAcceptableOrUnknown(
-              data['sync_status']!, _syncStatusMeta));
+        _syncStatusMeta,
+        syncStatus.isAcceptableOrUnknown(data['sync_status']!, _syncStatusMeta),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     }
     return context;
   }
@@ -148,30 +202,48 @@ class $DiaryEntriesTable extends DiaryEntries
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {remoteId},
-      ];
+    {remoteId},
+  ];
   @override
   DiaryEntryData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DiaryEntryData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      remoteId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}remote_id']),
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      date: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}date'])!,
-      postType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}post_type'])!,
-      contentJson: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}content_json'])!,
-      syncStatus: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}sync_status'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      remoteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}remote_id'],
+      ),
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      date: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}date'],
+      )!,
+      postType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}post_type'],
+      )!,
+      contentJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}content_json'],
+      )!,
+      syncStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
     );
   }
 
@@ -191,16 +263,17 @@ class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
   final String syncStatus;
   final DateTime createdAt;
   final DateTime updatedAt;
-  const DiaryEntryData(
-      {required this.id,
-      this.remoteId,
-      required this.title,
-      required this.date,
-      required this.postType,
-      required this.contentJson,
-      required this.syncStatus,
-      required this.createdAt,
-      required this.updatedAt});
+  const DiaryEntryData({
+    required this.id,
+    this.remoteId,
+    required this.title,
+    required this.date,
+    required this.postType,
+    required this.contentJson,
+    required this.syncStatus,
+    required this.createdAt,
+    required this.updatedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -234,8 +307,10 @@ class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
     );
   }
 
-  factory DiaryEntryData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DiaryEntryData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DiaryEntryData(
       id: serializer.fromJson<int>(json['id']),
@@ -265,27 +340,27 @@ class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
     };
   }
 
-  DiaryEntryData copyWith(
-          {int? id,
-          Value<int?> remoteId = const Value.absent(),
-          String? title,
-          String? date,
-          String? postType,
-          String? contentJson,
-          String? syncStatus,
-          DateTime? createdAt,
-          DateTime? updatedAt}) =>
-      DiaryEntryData(
-        id: id ?? this.id,
-        remoteId: remoteId.present ? remoteId.value : this.remoteId,
-        title: title ?? this.title,
-        date: date ?? this.date,
-        postType: postType ?? this.postType,
-        contentJson: contentJson ?? this.contentJson,
-        syncStatus: syncStatus ?? this.syncStatus,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  DiaryEntryData copyWith({
+    int? id,
+    Value<int?> remoteId = const Value.absent(),
+    String? title,
+    String? date,
+    String? postType,
+    String? contentJson,
+    String? syncStatus,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DiaryEntryData(
+    id: id ?? this.id,
+    remoteId: remoteId.present ? remoteId.value : this.remoteId,
+    title: title ?? this.title,
+    date: date ?? this.date,
+    postType: postType ?? this.postType,
+    contentJson: contentJson ?? this.contentJson,
+    syncStatus: syncStatus ?? this.syncStatus,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
   DiaryEntryData copyWithCompanion(DiaryEntriesCompanion data) {
     return DiaryEntryData(
       id: data.id.present ? data.id.value : this.id,
@@ -293,10 +368,12 @@ class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
       title: data.title.present ? data.title.value : this.title,
       date: data.date.present ? data.date.value : this.date,
       postType: data.postType.present ? data.postType.value : this.postType,
-      contentJson:
-          data.contentJson.present ? data.contentJson.value : this.contentJson,
-      syncStatus:
-          data.syncStatus.present ? data.syncStatus.value : this.syncStatus,
+      contentJson: data.contentJson.present
+          ? data.contentJson.value
+          : this.contentJson,
+      syncStatus: data.syncStatus.present
+          ? data.syncStatus.value
+          : this.syncStatus,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -319,8 +396,17 @@ class DiaryEntryData extends DataClass implements Insertable<DiaryEntryData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, remoteId, title, date, postType,
-      contentJson, syncStatus, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+    id,
+    remoteId,
+    title,
+    date,
+    postType,
+    contentJson,
+    syncStatus,
+    createdAt,
+    updatedAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -367,9 +453,9 @@ class DiaryEntriesCompanion extends UpdateCompanion<DiaryEntryData> {
     this.syncStatus = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-  })  : title = Value(title),
-        date = Value(date),
-        contentJson = Value(contentJson);
+  }) : title = Value(title),
+       date = Value(date),
+       contentJson = Value(contentJson);
   static Insertable<DiaryEntryData> custom({
     Expression<int>? id,
     Expression<int>? remoteId,
@@ -394,16 +480,17 @@ class DiaryEntriesCompanion extends UpdateCompanion<DiaryEntryData> {
     });
   }
 
-  DiaryEntriesCompanion copyWith(
-      {Value<int>? id,
-      Value<int?>? remoteId,
-      Value<String>? title,
-      Value<String>? date,
-      Value<String>? postType,
-      Value<String>? contentJson,
-      Value<String>? syncStatus,
-      Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt}) {
+  DiaryEntriesCompanion copyWith({
+    Value<int>? id,
+    Value<int?>? remoteId,
+    Value<String>? title,
+    Value<String>? date,
+    Value<String>? postType,
+    Value<String>? contentJson,
+    Value<String>? syncStatus,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+  }) {
     return DiaryEntriesCompanion(
       id: id ?? this.id,
       remoteId: remoteId ?? this.remoteId,
@@ -475,33 +562,49 @@ class $TagsTable extends Tags with TableInfo<$TagsTable, TagData> {
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _remoteIdMeta =
-      const VerificationMeta('remoteId');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _remoteIdMeta = const VerificationMeta(
+    'remoteId',
+  );
   @override
   late final GeneratedColumn<int> remoteId = GeneratedColumn<int>(
-      'remote_id', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+    'remote_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 50),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _syncStatusMeta =
-      const VerificationMeta('syncStatus');
+    'name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 50),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _syncStatusMeta = const VerificationMeta(
+    'syncStatus',
+  );
   @override
   late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
-      'sync_status', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('synced'));
+    'sync_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('synced'),
+  );
   @override
   List<GeneratedColumn> get $columns => [id, remoteId, name, syncStatus];
   @override
@@ -510,28 +613,34 @@ class $TagsTable extends Tags with TableInfo<$TagsTable, TagData> {
   String get actualTableName => $name;
   static const String $name = 'tags';
   @override
-  VerificationContext validateIntegrity(Insertable<TagData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<TagData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('remote_id')) {
-      context.handle(_remoteIdMeta,
-          remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta));
+      context.handle(
+        _remoteIdMeta,
+        remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta),
+      );
     }
     if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('sync_status')) {
       context.handle(
-          _syncStatusMeta,
-          syncStatus.isAcceptableOrUnknown(
-              data['sync_status']!, _syncStatusMeta));
+        _syncStatusMeta,
+        syncStatus.isAcceptableOrUnknown(data['sync_status']!, _syncStatusMeta),
+      );
     }
     return context;
   }
@@ -540,21 +649,29 @@ class $TagsTable extends Tags with TableInfo<$TagsTable, TagData> {
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {remoteId},
-        {name},
-      ];
+    {remoteId},
+    {name},
+  ];
   @override
   TagData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TagData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      remoteId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}remote_id']),
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      syncStatus: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}sync_status'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      remoteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}remote_id'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      syncStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_status'],
+      )!,
     );
   }
 
@@ -569,11 +686,12 @@ class TagData extends DataClass implements Insertable<TagData> {
   final int? remoteId;
   final String name;
   final String syncStatus;
-  const TagData(
-      {required this.id,
-      this.remoteId,
-      required this.name,
-      required this.syncStatus});
+  const TagData({
+    required this.id,
+    this.remoteId,
+    required this.name,
+    required this.syncStatus,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -597,8 +715,10 @@ class TagData extends DataClass implements Insertable<TagData> {
     );
   }
 
-  factory TagData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory TagData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TagData(
       id: serializer.fromJson<int>(json['id']),
@@ -618,24 +738,25 @@ class TagData extends DataClass implements Insertable<TagData> {
     };
   }
 
-  TagData copyWith(
-          {int? id,
-          Value<int?> remoteId = const Value.absent(),
-          String? name,
-          String? syncStatus}) =>
-      TagData(
-        id: id ?? this.id,
-        remoteId: remoteId.present ? remoteId.value : this.remoteId,
-        name: name ?? this.name,
-        syncStatus: syncStatus ?? this.syncStatus,
-      );
+  TagData copyWith({
+    int? id,
+    Value<int?> remoteId = const Value.absent(),
+    String? name,
+    String? syncStatus,
+  }) => TagData(
+    id: id ?? this.id,
+    remoteId: remoteId.present ? remoteId.value : this.remoteId,
+    name: name ?? this.name,
+    syncStatus: syncStatus ?? this.syncStatus,
+  );
   TagData copyWithCompanion(TagsCompanion data) {
     return TagData(
       id: data.id.present ? data.id.value : this.id,
       remoteId: data.remoteId.present ? data.remoteId.value : this.remoteId,
       name: data.name.present ? data.name.value : this.name,
-      syncStatus:
-          data.syncStatus.present ? data.syncStatus.value : this.syncStatus,
+      syncStatus: data.syncStatus.present
+          ? data.syncStatus.value
+          : this.syncStatus,
     );
   }
 
@@ -693,11 +814,12 @@ class TagsCompanion extends UpdateCompanion<TagData> {
     });
   }
 
-  TagsCompanion copyWith(
-      {Value<int>? id,
-      Value<int?>? remoteId,
-      Value<String>? name,
-      Value<String>? syncStatus}) {
+  TagsCompanion copyWith({
+    Value<int>? id,
+    Value<int?>? remoteId,
+    Value<String>? name,
+    Value<String>? syncStatus,
+  }) {
     return TagsCompanion(
       id: id ?? this.id,
       remoteId: remoteId ?? this.remoteId,
@@ -742,24 +864,34 @@ class $DiaryTagsTable extends DiaryTags
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DiaryTagsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _diaryLocalIdMeta =
-      const VerificationMeta('diaryLocalId');
+  static const VerificationMeta _diaryLocalIdMeta = const VerificationMeta(
+    'diaryLocalId',
+  );
   @override
   late final GeneratedColumn<int> diaryLocalId = GeneratedColumn<int>(
-      'diary_local_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES diary_entries (id) ON DELETE CASCADE'));
-  static const VerificationMeta _tagLocalIdMeta =
-      const VerificationMeta('tagLocalId');
+    'diary_local_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES diary_entries (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _tagLocalIdMeta = const VerificationMeta(
+    'tagLocalId',
+  );
   @override
   late final GeneratedColumn<int> tagLocalId = GeneratedColumn<int>(
-      'tag_local_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES tags (id) ON DELETE CASCADE'));
+    'tag_local_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES tags (id) ON DELETE CASCADE',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [diaryLocalId, tagLocalId];
   @override
@@ -768,23 +900,31 @@ class $DiaryTagsTable extends DiaryTags
   String get actualTableName => $name;
   static const String $name = 'diary_tags';
   @override
-  VerificationContext validateIntegrity(Insertable<DiaryTagData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DiaryTagData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('diary_local_id')) {
       context.handle(
+        _diaryLocalIdMeta,
+        diaryLocalId.isAcceptableOrUnknown(
+          data['diary_local_id']!,
           _diaryLocalIdMeta,
-          diaryLocalId.isAcceptableOrUnknown(
-              data['diary_local_id']!, _diaryLocalIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_diaryLocalIdMeta);
     }
     if (data.containsKey('tag_local_id')) {
       context.handle(
+        _tagLocalIdMeta,
+        tagLocalId.isAcceptableOrUnknown(
+          data['tag_local_id']!,
           _tagLocalIdMeta,
-          tagLocalId.isAcceptableOrUnknown(
-              data['tag_local_id']!, _tagLocalIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_tagLocalIdMeta);
     }
@@ -797,10 +937,14 @@ class $DiaryTagsTable extends DiaryTags
   DiaryTagData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DiaryTagData(
-      diaryLocalId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}diary_local_id'])!,
-      tagLocalId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tag_local_id'])!,
+      diaryLocalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}diary_local_id'],
+      )!,
+      tagLocalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tag_local_id'],
+      )!,
     );
   }
 
@@ -829,8 +973,10 @@ class DiaryTagData extends DataClass implements Insertable<DiaryTagData> {
     );
   }
 
-  factory DiaryTagData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DiaryTagData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DiaryTagData(
       diaryLocalId: serializer.fromJson<int>(json['diaryLocalId']),
@@ -847,16 +993,17 @@ class DiaryTagData extends DataClass implements Insertable<DiaryTagData> {
   }
 
   DiaryTagData copyWith({int? diaryLocalId, int? tagLocalId}) => DiaryTagData(
-        diaryLocalId: diaryLocalId ?? this.diaryLocalId,
-        tagLocalId: tagLocalId ?? this.tagLocalId,
-      );
+    diaryLocalId: diaryLocalId ?? this.diaryLocalId,
+    tagLocalId: tagLocalId ?? this.tagLocalId,
+  );
   DiaryTagData copyWithCompanion(DiaryTagsCompanion data) {
     return DiaryTagData(
       diaryLocalId: data.diaryLocalId.present
           ? data.diaryLocalId.value
           : this.diaryLocalId,
-      tagLocalId:
-          data.tagLocalId.present ? data.tagLocalId.value : this.tagLocalId,
+      tagLocalId: data.tagLocalId.present
+          ? data.tagLocalId.value
+          : this.tagLocalId,
     );
   }
 
@@ -892,8 +1039,8 @@ class DiaryTagsCompanion extends UpdateCompanion<DiaryTagData> {
     required int diaryLocalId,
     required int tagLocalId,
     this.rowid = const Value.absent(),
-  })  : diaryLocalId = Value(diaryLocalId),
-        tagLocalId = Value(tagLocalId);
+  }) : diaryLocalId = Value(diaryLocalId),
+       tagLocalId = Value(tagLocalId);
   static Insertable<DiaryTagData> custom({
     Expression<int>? diaryLocalId,
     Expression<int>? tagLocalId,
@@ -906,8 +1053,11 @@ class DiaryTagsCompanion extends UpdateCompanion<DiaryTagData> {
     });
   }
 
-  DiaryTagsCompanion copyWith(
-      {Value<int>? diaryLocalId, Value<int>? tagLocalId, Value<int>? rowid}) {
+  DiaryTagsCompanion copyWith({
+    Value<int>? diaryLocalId,
+    Value<int>? tagLocalId,
+    Value<int>? rowid,
+  }) {
     return DiaryTagsCompanion(
       diaryLocalId: diaryLocalId ?? this.diaryLocalId,
       tagLocalId: tagLocalId ?? this.tagLocalId,
@@ -950,83 +1100,124 @@ class $DiaryAnalysesTable extends DiaryAnalyses
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _diaryLocalIdMeta =
-      const VerificationMeta('diaryLocalId');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _diaryLocalIdMeta = const VerificationMeta(
+    'diaryLocalId',
+  );
   @override
   late final GeneratedColumn<int> diaryLocalId = GeneratedColumn<int>(
-      'diary_local_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES diary_entries (id) ON DELETE CASCADE'));
+    'diary_local_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES diary_entries (id) ON DELETE CASCADE',
+    ),
+  );
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<String> status = GeneratedColumn<String>(
-      'status', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: const Constant('PENDING'));
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('PENDING'),
+  );
   static const VerificationMeta _moodMeta = const VerificationMeta('mood');
   @override
   late final GeneratedColumn<String> mood = GeneratedColumn<String>(
-      'mood', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _summaryMeta =
-      const VerificationMeta('summary');
+    'mood',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _summaryMeta = const VerificationMeta(
+    'summary',
+  );
   @override
   late final GeneratedColumn<String> summary = GeneratedColumn<String>(
-      'summary', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _banglaContentJsonMeta =
-      const VerificationMeta('banglaContentJson');
+    'summary',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _banglaContentJsonMeta = const VerificationMeta(
+    'banglaContentJson',
+  );
   @override
   late final GeneratedColumn<String> banglaContentJson =
-      GeneratedColumn<String>('bangla_content_json', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
+      GeneratedColumn<String>(
+        'bangla_content_json',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
   late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+    'task_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _errorMeta = const VerificationMeta('error');
   @override
   late final GeneratedColumn<String> error = GeneratedColumn<String>(
-      'error', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
+    'error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        diaryLocalId,
-        status,
-        mood,
-        summary,
-        banglaContentJson,
-        taskId,
-        error,
-        updatedAt
-      ];
+    id,
+    diaryLocalId,
+    status,
+    mood,
+    summary,
+    banglaContentJson,
+    taskId,
+    error,
+    updatedAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'diary_analyses';
   @override
-  VerificationContext validateIntegrity(Insertable<DiaryAnalysisData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<DiaryAnalysisData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1034,41 +1225,59 @@ class $DiaryAnalysesTable extends DiaryAnalyses
     }
     if (data.containsKey('diary_local_id')) {
       context.handle(
+        _diaryLocalIdMeta,
+        diaryLocalId.isAcceptableOrUnknown(
+          data['diary_local_id']!,
           _diaryLocalIdMeta,
-          diaryLocalId.isAcceptableOrUnknown(
-              data['diary_local_id']!, _diaryLocalIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_diaryLocalIdMeta);
     }
     if (data.containsKey('status')) {
-      context.handle(_statusMeta,
-          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
     }
     if (data.containsKey('mood')) {
       context.handle(
-          _moodMeta, mood.isAcceptableOrUnknown(data['mood']!, _moodMeta));
+        _moodMeta,
+        mood.isAcceptableOrUnknown(data['mood']!, _moodMeta),
+      );
     }
     if (data.containsKey('summary')) {
-      context.handle(_summaryMeta,
-          summary.isAcceptableOrUnknown(data['summary']!, _summaryMeta));
+      context.handle(
+        _summaryMeta,
+        summary.isAcceptableOrUnknown(data['summary']!, _summaryMeta),
+      );
     }
     if (data.containsKey('bangla_content_json')) {
       context.handle(
+        _banglaContentJsonMeta,
+        banglaContentJson.isAcceptableOrUnknown(
+          data['bangla_content_json']!,
           _banglaContentJsonMeta,
-          banglaContentJson.isAcceptableOrUnknown(
-              data['bangla_content_json']!, _banglaContentJsonMeta));
+        ),
+      );
     }
     if (data.containsKey('task_id')) {
-      context.handle(_taskIdMeta,
-          taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
     }
     if (data.containsKey('error')) {
       context.handle(
-          _errorMeta, error.isAcceptableOrUnknown(data['error']!, _errorMeta));
+        _errorMeta,
+        error.isAcceptableOrUnknown(data['error']!, _errorMeta),
+      );
     }
     if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
     }
     return context;
   }
@@ -1077,30 +1286,48 @@ class $DiaryAnalysesTable extends DiaryAnalyses
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   List<Set<GeneratedColumn>> get uniqueKeys => [
-        {diaryLocalId},
-      ];
+    {diaryLocalId},
+  ];
   @override
   DiaryAnalysisData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DiaryAnalysisData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      diaryLocalId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}diary_local_id'])!,
-      status: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
-      mood: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}mood']),
-      summary: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}summary']),
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      diaryLocalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}diary_local_id'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      mood: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}mood'],
+      ),
+      summary: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary'],
+      ),
       banglaContentJson: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}bangla_content_json']),
-      taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id']),
-      error: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}error']),
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+        DriftSqlType.string,
+        data['${effectivePrefix}bangla_content_json'],
+      ),
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      ),
+      error: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}error'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
     );
   }
 
@@ -1121,16 +1348,17 @@ class DiaryAnalysisData extends DataClass
   final String? taskId;
   final String? error;
   final DateTime updatedAt;
-  const DiaryAnalysisData(
-      {required this.id,
-      required this.diaryLocalId,
-      required this.status,
-      this.mood,
-      this.summary,
-      this.banglaContentJson,
-      this.taskId,
-      this.error,
-      required this.updatedAt});
+  const DiaryAnalysisData({
+    required this.id,
+    required this.diaryLocalId,
+    required this.status,
+    this.mood,
+    this.summary,
+    this.banglaContentJson,
+    this.taskId,
+    this.error,
+    required this.updatedAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1168,16 +1396,20 @@ class DiaryAnalysisData extends DataClass
       banglaContentJson: banglaContentJson == null && nullToAbsent
           ? const Value.absent()
           : Value(banglaContentJson),
-      taskId:
-          taskId == null && nullToAbsent ? const Value.absent() : Value(taskId),
-      error:
-          error == null && nullToAbsent ? const Value.absent() : Value(error),
+      taskId: taskId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskId),
+      error: error == null && nullToAbsent
+          ? const Value.absent()
+          : Value(error),
       updatedAt: Value(updatedAt),
     );
   }
 
-  factory DiaryAnalysisData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DiaryAnalysisData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DiaryAnalysisData(
       id: serializer.fromJson<int>(json['id']),
@@ -1185,8 +1417,9 @@ class DiaryAnalysisData extends DataClass
       status: serializer.fromJson<String>(json['status']),
       mood: serializer.fromJson<String?>(json['mood']),
       summary: serializer.fromJson<String?>(json['summary']),
-      banglaContentJson:
-          serializer.fromJson<String?>(json['banglaContentJson']),
+      banglaContentJson: serializer.fromJson<String?>(
+        json['banglaContentJson'],
+      ),
       taskId: serializer.fromJson<String?>(json['taskId']),
       error: serializer.fromJson<String?>(json['error']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
@@ -1208,29 +1441,29 @@ class DiaryAnalysisData extends DataClass
     };
   }
 
-  DiaryAnalysisData copyWith(
-          {int? id,
-          int? diaryLocalId,
-          String? status,
-          Value<String?> mood = const Value.absent(),
-          Value<String?> summary = const Value.absent(),
-          Value<String?> banglaContentJson = const Value.absent(),
-          Value<String?> taskId = const Value.absent(),
-          Value<String?> error = const Value.absent(),
-          DateTime? updatedAt}) =>
-      DiaryAnalysisData(
-        id: id ?? this.id,
-        diaryLocalId: diaryLocalId ?? this.diaryLocalId,
-        status: status ?? this.status,
-        mood: mood.present ? mood.value : this.mood,
-        summary: summary.present ? summary.value : this.summary,
-        banglaContentJson: banglaContentJson.present
-            ? banglaContentJson.value
-            : this.banglaContentJson,
-        taskId: taskId.present ? taskId.value : this.taskId,
-        error: error.present ? error.value : this.error,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
+  DiaryAnalysisData copyWith({
+    int? id,
+    int? diaryLocalId,
+    String? status,
+    Value<String?> mood = const Value.absent(),
+    Value<String?> summary = const Value.absent(),
+    Value<String?> banglaContentJson = const Value.absent(),
+    Value<String?> taskId = const Value.absent(),
+    Value<String?> error = const Value.absent(),
+    DateTime? updatedAt,
+  }) => DiaryAnalysisData(
+    id: id ?? this.id,
+    diaryLocalId: diaryLocalId ?? this.diaryLocalId,
+    status: status ?? this.status,
+    mood: mood.present ? mood.value : this.mood,
+    summary: summary.present ? summary.value : this.summary,
+    banglaContentJson: banglaContentJson.present
+        ? banglaContentJson.value
+        : this.banglaContentJson,
+    taskId: taskId.present ? taskId.value : this.taskId,
+    error: error.present ? error.value : this.error,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
   DiaryAnalysisData copyWithCompanion(DiaryAnalysesCompanion data) {
     return DiaryAnalysisData(
       id: data.id.present ? data.id.value : this.id,
@@ -1266,8 +1499,17 @@ class DiaryAnalysisData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, diaryLocalId, status, mood, summary,
-      banglaContentJson, taskId, error, updatedAt);
+  int get hashCode => Object.hash(
+    id,
+    diaryLocalId,
+    status,
+    mood,
+    summary,
+    banglaContentJson,
+    taskId,
+    error,
+    updatedAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1339,16 +1581,17 @@ class DiaryAnalysesCompanion extends UpdateCompanion<DiaryAnalysisData> {
     });
   }
 
-  DiaryAnalysesCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? diaryLocalId,
-      Value<String>? status,
-      Value<String?>? mood,
-      Value<String?>? summary,
-      Value<String?>? banglaContentJson,
-      Value<String?>? taskId,
-      Value<String?>? error,
-      Value<DateTime>? updatedAt}) {
+  DiaryAnalysesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? diaryLocalId,
+    Value<String>? status,
+    Value<String?>? mood,
+    Value<String?>? summary,
+    Value<String?>? banglaContentJson,
+    Value<String?>? taskId,
+    Value<String?>? error,
+    Value<DateTime>? updatedAt,
+  }) {
     return DiaryAnalysesCompanion(
       id: id ?? this.id,
       diaryLocalId: diaryLocalId ?? this.diaryLocalId,
@@ -1421,70 +1664,104 @@ class $SyncQueueTable extends SyncQueue
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _entityTypeMeta =
-      const VerificationMeta('entityType');
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
   @override
   late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
-      'entity_type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _entityLocalIdMeta =
-      const VerificationMeta('entityLocalId');
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityLocalIdMeta = const VerificationMeta(
+    'entityLocalId',
+  );
   @override
   late final GeneratedColumn<int> entityLocalId = GeneratedColumn<int>(
-      'entity_local_id', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _operationMeta =
-      const VerificationMeta('operation');
+    'entity_local_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _operationMeta = const VerificationMeta(
+    'operation',
+  );
   @override
   late final GeneratedColumn<String> operation = GeneratedColumn<String>(
-      'operation', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _payloadJsonMeta =
-      const VerificationMeta('payloadJson');
+    'operation',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
   @override
   late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
-      'payload_json', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _retryCountMeta =
-      const VerificationMeta('retryCount');
+    'payload_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _retryCountMeta = const VerificationMeta(
+    'retryCount',
+  );
   @override
   late final GeneratedColumn<int> retryCount = GeneratedColumn<int>(
-      'retry_count', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'retry_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [
-        id,
-        entityType,
-        entityLocalId,
-        operation,
-        payloadJson,
-        retryCount,
-        createdAt
-      ];
+    id,
+    entityType,
+    entityLocalId,
+    operation,
+    payloadJson,
+    retryCount,
+    createdAt,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'sync_queue';
   @override
-  VerificationContext validateIntegrity(Insertable<SyncQueueData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<SyncQueueData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1492,41 +1769,51 @@ class $SyncQueueTable extends SyncQueue
     }
     if (data.containsKey('entity_type')) {
       context.handle(
-          _entityTypeMeta,
-          entityType.isAcceptableOrUnknown(
-              data['entity_type']!, _entityTypeMeta));
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
     } else if (isInserting) {
       context.missing(_entityTypeMeta);
     }
     if (data.containsKey('entity_local_id')) {
       context.handle(
+        _entityLocalIdMeta,
+        entityLocalId.isAcceptableOrUnknown(
+          data['entity_local_id']!,
           _entityLocalIdMeta,
-          entityLocalId.isAcceptableOrUnknown(
-              data['entity_local_id']!, _entityLocalIdMeta));
+        ),
+      );
     } else if (isInserting) {
       context.missing(_entityLocalIdMeta);
     }
     if (data.containsKey('operation')) {
-      context.handle(_operationMeta,
-          operation.isAcceptableOrUnknown(data['operation']!, _operationMeta));
+      context.handle(
+        _operationMeta,
+        operation.isAcceptableOrUnknown(data['operation']!, _operationMeta),
+      );
     } else if (isInserting) {
       context.missing(_operationMeta);
     }
     if (data.containsKey('payload_json')) {
       context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
           _payloadJsonMeta,
-          payloadJson.isAcceptableOrUnknown(
-              data['payload_json']!, _payloadJsonMeta));
+        ),
+      );
     }
     if (data.containsKey('retry_count')) {
       context.handle(
-          _retryCountMeta,
-          retryCount.isAcceptableOrUnknown(
-              data['retry_count']!, _retryCountMeta));
+        _retryCountMeta,
+        retryCount.isAcceptableOrUnknown(data['retry_count']!, _retryCountMeta),
+      );
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     return context;
   }
@@ -1537,20 +1824,34 @@ class $SyncQueueTable extends SyncQueue
   SyncQueueData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SyncQueueData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      entityType: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}entity_type'])!,
-      entityLocalId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}entity_local_id'])!,
-      operation: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}operation'])!,
-      payloadJson: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}payload_json']),
-      retryCount: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}retry_count'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      entityLocalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}entity_local_id'],
+      )!,
+      operation: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      ),
+      retryCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}retry_count'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
     );
   }
 
@@ -1568,14 +1869,15 @@ class SyncQueueData extends DataClass implements Insertable<SyncQueueData> {
   final String? payloadJson;
   final int retryCount;
   final DateTime createdAt;
-  const SyncQueueData(
-      {required this.id,
-      required this.entityType,
-      required this.entityLocalId,
-      required this.operation,
-      this.payloadJson,
-      required this.retryCount,
-      required this.createdAt});
+  const SyncQueueData({
+    required this.id,
+    required this.entityType,
+    required this.entityLocalId,
+    required this.operation,
+    this.payloadJson,
+    required this.retryCount,
+    required this.createdAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1605,8 +1907,10 @@ class SyncQueueData extends DataClass implements Insertable<SyncQueueData> {
     );
   }
 
-  factory SyncQueueData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory SyncQueueData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SyncQueueData(
       id: serializer.fromJson<int>(json['id']),
@@ -1632,36 +1936,39 @@ class SyncQueueData extends DataClass implements Insertable<SyncQueueData> {
     };
   }
 
-  SyncQueueData copyWith(
-          {int? id,
-          String? entityType,
-          int? entityLocalId,
-          String? operation,
-          Value<String?> payloadJson = const Value.absent(),
-          int? retryCount,
-          DateTime? createdAt}) =>
-      SyncQueueData(
-        id: id ?? this.id,
-        entityType: entityType ?? this.entityType,
-        entityLocalId: entityLocalId ?? this.entityLocalId,
-        operation: operation ?? this.operation,
-        payloadJson: payloadJson.present ? payloadJson.value : this.payloadJson,
-        retryCount: retryCount ?? this.retryCount,
-        createdAt: createdAt ?? this.createdAt,
-      );
+  SyncQueueData copyWith({
+    int? id,
+    String? entityType,
+    int? entityLocalId,
+    String? operation,
+    Value<String?> payloadJson = const Value.absent(),
+    int? retryCount,
+    DateTime? createdAt,
+  }) => SyncQueueData(
+    id: id ?? this.id,
+    entityType: entityType ?? this.entityType,
+    entityLocalId: entityLocalId ?? this.entityLocalId,
+    operation: operation ?? this.operation,
+    payloadJson: payloadJson.present ? payloadJson.value : this.payloadJson,
+    retryCount: retryCount ?? this.retryCount,
+    createdAt: createdAt ?? this.createdAt,
+  );
   SyncQueueData copyWithCompanion(SyncQueueCompanion data) {
     return SyncQueueData(
       id: data.id.present ? data.id.value : this.id,
-      entityType:
-          data.entityType.present ? data.entityType.value : this.entityType,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
       entityLocalId: data.entityLocalId.present
           ? data.entityLocalId.value
           : this.entityLocalId,
       operation: data.operation.present ? data.operation.value : this.operation,
-      payloadJson:
-          data.payloadJson.present ? data.payloadJson.value : this.payloadJson,
-      retryCount:
-          data.retryCount.present ? data.retryCount.value : this.retryCount,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+      retryCount: data.retryCount.present
+          ? data.retryCount.value
+          : this.retryCount,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -1681,8 +1988,15 @@ class SyncQueueData extends DataClass implements Insertable<SyncQueueData> {
   }
 
   @override
-  int get hashCode => Object.hash(id, entityType, entityLocalId, operation,
-      payloadJson, retryCount, createdAt);
+  int get hashCode => Object.hash(
+    id,
+    entityType,
+    entityLocalId,
+    operation,
+    payloadJson,
+    retryCount,
+    createdAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1721,9 +2035,9 @@ class SyncQueueCompanion extends UpdateCompanion<SyncQueueData> {
     this.payloadJson = const Value.absent(),
     this.retryCount = const Value.absent(),
     this.createdAt = const Value.absent(),
-  })  : entityType = Value(entityType),
-        entityLocalId = Value(entityLocalId),
-        operation = Value(operation);
+  }) : entityType = Value(entityType),
+       entityLocalId = Value(entityLocalId),
+       operation = Value(operation);
   static Insertable<SyncQueueData> custom({
     Expression<int>? id,
     Expression<String>? entityType,
@@ -1744,14 +2058,15 @@ class SyncQueueCompanion extends UpdateCompanion<SyncQueueData> {
     });
   }
 
-  SyncQueueCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? entityType,
-      Value<int>? entityLocalId,
-      Value<String>? operation,
-      Value<String?>? payloadJson,
-      Value<int>? retryCount,
-      Value<DateTime>? createdAt}) {
+  SyncQueueCompanion copyWith({
+    Value<int>? id,
+    Value<String>? entityType,
+    Value<int>? entityLocalId,
+    Value<String>? operation,
+    Value<String?>? payloadJson,
+    Value<int>? retryCount,
+    Value<DateTime>? createdAt,
+  }) {
     return SyncQueueCompanion(
       id: id ?? this.id,
       entityType: entityType ?? this.entityType,
@@ -1817,93 +2132,108 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [diaryEntries, tags, diaryTags, diaryAnalyses, syncQueue];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    diaryEntries,
+    tags,
+    diaryTags,
+    diaryAnalyses,
+    syncQueue,
+  ];
   @override
-  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
-        [
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('diary_entries',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('diary_tags', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('tags',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('diary_tags', kind: UpdateKind.delete),
-            ],
-          ),
-          WritePropagation(
-            on: TableUpdateQuery.onTableName('diary_entries',
-                limitUpdateKind: UpdateKind.delete),
-            result: [
-              TableUpdate('diary_analyses', kind: UpdateKind.delete),
-            ],
-          ),
-        ],
-      );
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'diary_entries',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('diary_tags', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'tags',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('diary_tags', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'diary_entries',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('diary_analyses', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
-typedef $$DiaryEntriesTableCreateCompanionBuilder = DiaryEntriesCompanion
-    Function({
-  Value<int> id,
-  Value<int?> remoteId,
-  required String title,
-  required String date,
-  Value<String> postType,
-  required String contentJson,
-  Value<String> syncStatus,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-});
-typedef $$DiaryEntriesTableUpdateCompanionBuilder = DiaryEntriesCompanion
-    Function({
-  Value<int> id,
-  Value<int?> remoteId,
-  Value<String> title,
-  Value<String> date,
-  Value<String> postType,
-  Value<String> contentJson,
-  Value<String> syncStatus,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-});
+typedef $$DiaryEntriesTableCreateCompanionBuilder =
+    DiaryEntriesCompanion Function({
+      Value<int> id,
+      Value<int?> remoteId,
+      required String title,
+      required String date,
+      Value<String> postType,
+      required String contentJson,
+      Value<String> syncStatus,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+typedef $$DiaryEntriesTableUpdateCompanionBuilder =
+    DiaryEntriesCompanion Function({
+      Value<int> id,
+      Value<int?> remoteId,
+      Value<String> title,
+      Value<String> date,
+      Value<String> postType,
+      Value<String> contentJson,
+      Value<String> syncStatus,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
 
 final class $$DiaryEntriesTableReferences
     extends BaseReferences<_$AppDatabase, $DiaryEntriesTable, DiaryEntryData> {
   $$DiaryEntriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$DiaryTagsTable, List<DiaryTagData>>
-      _diaryTagsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.diaryTags,
-              aliasName: $_aliasNameGenerator(
-                  db.diaryEntries.id, db.diaryTags.diaryLocalId));
+  _diaryTagsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.diaryTags,
+    aliasName: $_aliasNameGenerator(
+      db.diaryEntries.id,
+      db.diaryTags.diaryLocalId,
+    ),
+  );
 
   $$DiaryTagsTableProcessedTableManager get diaryTagsRefs {
-    final manager = $$DiaryTagsTableTableManager($_db, $_db.diaryTags)
-        .filter((f) => f.diaryLocalId.id.sqlEquals($_itemColumn<int>('id')!));
+    final manager = $$DiaryTagsTableTableManager(
+      $_db,
+      $_db.diaryTags,
+    ).filter((f) => f.diaryLocalId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_diaryTagsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 
   static MultiTypedResultKey<$DiaryAnalysesTable, List<DiaryAnalysisData>>
-      _diaryAnalysesRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.diaryAnalyses,
-              aliasName: $_aliasNameGenerator(
-                  db.diaryEntries.id, db.diaryAnalyses.diaryLocalId));
+  _diaryAnalysesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.diaryAnalyses,
+    aliasName: $_aliasNameGenerator(
+      db.diaryEntries.id,
+      db.diaryAnalyses.diaryLocalId,
+    ),
+  );
 
   $$DiaryAnalysesTableProcessedTableManager get diaryAnalysesRefs {
-    final manager = $$DiaryAnalysesTableTableManager($_db, $_db.diaryAnalyses)
-        .filter((f) => f.diaryLocalId.id.sqlEquals($_itemColumn<int>('id')!));
+    final manager = $$DiaryAnalysesTableTableManager(
+      $_db,
+      $_db.diaryAnalyses,
+    ).filter((f) => f.diaryLocalId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_diaryAnalysesRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -1917,71 +2247,97 @@ class $$DiaryEntriesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get remoteId => $composableBuilder(
-      column: $table.remoteId, builder: (column) => ColumnFilters(column));
+    column: $table.remoteId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get date => $composableBuilder(
-      column: $table.date, builder: (column) => ColumnFilters(column));
+    column: $table.date,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get postType => $composableBuilder(
-      column: $table.postType, builder: (column) => ColumnFilters(column));
+    column: $table.postType,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get contentJson => $composableBuilder(
-      column: $table.contentJson, builder: (column) => ColumnFilters(column));
+    column: $table.contentJson,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => ColumnFilters(column));
+    column: $table.syncStatus,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> diaryTagsRefs(
-      Expression<bool> Function($$DiaryTagsTableFilterComposer f) f) {
+    Expression<bool> Function($$DiaryTagsTableFilterComposer f) f,
+  ) {
     final $$DiaryTagsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryTags,
-        getReferencedColumn: (t) => t.diaryLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryTagsTableFilterComposer(
-              $db: $db,
-              $table: $db.diaryTags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryTags,
+      getReferencedColumn: (t) => t.diaryLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryTagsTableFilterComposer(
+            $db: $db,
+            $table: $db.diaryTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<bool> diaryAnalysesRefs(
-      Expression<bool> Function($$DiaryAnalysesTableFilterComposer f) f) {
+    Expression<bool> Function($$DiaryAnalysesTableFilterComposer f) f,
+  ) {
     final $$DiaryAnalysesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryAnalyses,
-        getReferencedColumn: (t) => t.diaryLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryAnalysesTableFilterComposer(
-              $db: $db,
-              $table: $db.diaryAnalyses,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryAnalyses,
+      getReferencedColumn: (t) => t.diaryLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryAnalysesTableFilterComposer(
+            $db: $db,
+            $table: $db.diaryAnalyses,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -1996,31 +2352,49 @@ class $$DiaryEntriesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get remoteId => $composableBuilder(
-      column: $table.remoteId, builder: (column) => ColumnOrderings(column));
+    column: $table.remoteId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get date => $composableBuilder(
-      column: $table.date, builder: (column) => ColumnOrderings(column));
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get postType => $composableBuilder(
-      column: $table.postType, builder: (column) => ColumnOrderings(column));
+    column: $table.postType,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get contentJson => $composableBuilder(
-      column: $table.contentJson, builder: (column) => ColumnOrderings(column));
+    column: $table.contentJson,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => ColumnOrderings(column));
+    column: $table.syncStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DiaryEntriesTableAnnotationComposer
@@ -2048,10 +2422,14 @@ class $$DiaryEntriesTableAnnotationComposer
       $composableBuilder(column: $table.postType, builder: (column) => column);
 
   GeneratedColumn<String> get contentJson => $composableBuilder(
-      column: $table.contentJson, builder: (column) => column);
+    column: $table.contentJson,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => column);
+    column: $table.syncStatus,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2060,62 +2438,74 @@ class $$DiaryEntriesTableAnnotationComposer
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
   Expression<T> diaryTagsRefs<T extends Object>(
-      Expression<T> Function($$DiaryTagsTableAnnotationComposer a) f) {
+    Expression<T> Function($$DiaryTagsTableAnnotationComposer a) f,
+  ) {
     final $$DiaryTagsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryTags,
-        getReferencedColumn: (t) => t.diaryLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryTagsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.diaryTags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryTags,
+      getReferencedColumn: (t) => t.diaryLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryTagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.diaryTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 
   Expression<T> diaryAnalysesRefs<T extends Object>(
-      Expression<T> Function($$DiaryAnalysesTableAnnotationComposer a) f) {
+    Expression<T> Function($$DiaryAnalysesTableAnnotationComposer a) f,
+  ) {
     final $$DiaryAnalysesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryAnalyses,
-        getReferencedColumn: (t) => t.diaryLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryAnalysesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.diaryAnalyses,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryAnalyses,
+      getReferencedColumn: (t) => t.diaryLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryAnalysesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.diaryAnalyses,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$DiaryEntriesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $DiaryEntriesTable,
-    DiaryEntryData,
-    $$DiaryEntriesTableFilterComposer,
-    $$DiaryEntriesTableOrderingComposer,
-    $$DiaryEntriesTableAnnotationComposer,
-    $$DiaryEntriesTableCreateCompanionBuilder,
-    $$DiaryEntriesTableUpdateCompanionBuilder,
-    (DiaryEntryData, $$DiaryEntriesTableReferences),
-    DiaryEntryData,
-    PrefetchHooks Function({bool diaryTagsRefs, bool diaryAnalysesRefs})> {
+class $$DiaryEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiaryEntriesTable,
+          DiaryEntryData,
+          $$DiaryEntriesTableFilterComposer,
+          $$DiaryEntriesTableOrderingComposer,
+          $$DiaryEntriesTableAnnotationComposer,
+          $$DiaryEntriesTableCreateCompanionBuilder,
+          $$DiaryEntriesTableUpdateCompanionBuilder,
+          (DiaryEntryData, $$DiaryEntriesTableReferences),
+          DiaryEntryData,
+          PrefetchHooks Function({bool diaryTagsRefs, bool diaryAnalysesRefs})
+        > {
   $$DiaryEntriesTableTableManager(_$AppDatabase db, $DiaryEntriesTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2124,141 +2514,168 @@ class $$DiaryEntriesTableTableManager extends RootTableManager<
               $$DiaryEntriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$DiaryEntriesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int?> remoteId = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String> date = const Value.absent(),
-            Value<String> postType = const Value.absent(),
-            Value<String> contentJson = const Value.absent(),
-            Value<String> syncStatus = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-          }) =>
-              DiaryEntriesCompanion(
-            id: id,
-            remoteId: remoteId,
-            title: title,
-            date: date,
-            postType: postType,
-            contentJson: contentJson,
-            syncStatus: syncStatus,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int?> remoteId = const Value.absent(),
-            required String title,
-            required String date,
-            Value<String> postType = const Value.absent(),
-            required String contentJson,
-            Value<String> syncStatus = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-          }) =>
-              DiaryEntriesCompanion.insert(
-            id: id,
-            remoteId: remoteId,
-            title: title,
-            date: date,
-            postType: postType,
-            contentJson: contentJson,
-            syncStatus: syncStatus,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> remoteId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> date = const Value.absent(),
+                Value<String> postType = const Value.absent(),
+                Value<String> contentJson = const Value.absent(),
+                Value<String> syncStatus = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => DiaryEntriesCompanion(
+                id: id,
+                remoteId: remoteId,
+                title: title,
+                date: date,
+                postType: postType,
+                contentJson: contentJson,
+                syncStatus: syncStatus,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> remoteId = const Value.absent(),
+                required String title,
+                required String date,
+                Value<String> postType = const Value.absent(),
+                required String contentJson,
+                Value<String> syncStatus = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => DiaryEntriesCompanion.insert(
+                id: id,
+                remoteId: remoteId,
+                title: title,
+                date: date,
+                postType: postType,
+                contentJson: contentJson,
+                syncStatus: syncStatus,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$DiaryEntriesTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DiaryEntriesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: (
-              {diaryTagsRefs = false, diaryAnalysesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (diaryTagsRefs) db.diaryTags,
-                if (diaryAnalysesRefs) db.diaryAnalyses
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (diaryTagsRefs)
-                    await $_getPrefetchedData<DiaryEntryData,
-                            $DiaryEntriesTable, DiaryTagData>(
-                        currentTable: table,
-                        referencedTable: $$DiaryEntriesTableReferences
-                            ._diaryTagsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$DiaryEntriesTableReferences(db, table, p0)
-                                .diaryTagsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.diaryLocalId == item.id),
-                        typedResults: items),
-                  if (diaryAnalysesRefs)
-                    await $_getPrefetchedData<DiaryEntryData,
-                            $DiaryEntriesTable, DiaryAnalysisData>(
-                        currentTable: table,
-                        referencedTable: $$DiaryEntriesTableReferences
-                            ._diaryAnalysesRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$DiaryEntriesTableReferences(db, table, p0)
-                                .diaryAnalysesRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.diaryLocalId == item.id),
-                        typedResults: items)
-                ];
+          prefetchHooksCallback:
+              ({diaryTagsRefs = false, diaryAnalysesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (diaryTagsRefs) db.diaryTags,
+                    if (diaryAnalysesRefs) db.diaryAnalyses,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (diaryTagsRefs)
+                        await $_getPrefetchedData<
+                          DiaryEntryData,
+                          $DiaryEntriesTable,
+                          DiaryTagData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DiaryEntriesTableReferences
+                              ._diaryTagsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DiaryEntriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).diaryTagsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.diaryLocalId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (diaryAnalysesRefs)
+                        await $_getPrefetchedData<
+                          DiaryEntryData,
+                          $DiaryEntriesTable,
+                          DiaryAnalysisData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DiaryEntriesTableReferences
+                              ._diaryAnalysesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DiaryEntriesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).diaryAnalysesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.diaryLocalId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
-        ));
+        ),
+      );
 }
 
-typedef $$DiaryEntriesTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $DiaryEntriesTable,
-    DiaryEntryData,
-    $$DiaryEntriesTableFilterComposer,
-    $$DiaryEntriesTableOrderingComposer,
-    $$DiaryEntriesTableAnnotationComposer,
-    $$DiaryEntriesTableCreateCompanionBuilder,
-    $$DiaryEntriesTableUpdateCompanionBuilder,
-    (DiaryEntryData, $$DiaryEntriesTableReferences),
-    DiaryEntryData,
-    PrefetchHooks Function({bool diaryTagsRefs, bool diaryAnalysesRefs})>;
-typedef $$TagsTableCreateCompanionBuilder = TagsCompanion Function({
-  Value<int> id,
-  Value<int?> remoteId,
-  required String name,
-  Value<String> syncStatus,
-});
-typedef $$TagsTableUpdateCompanionBuilder = TagsCompanion Function({
-  Value<int> id,
-  Value<int?> remoteId,
-  Value<String> name,
-  Value<String> syncStatus,
-});
+typedef $$DiaryEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiaryEntriesTable,
+      DiaryEntryData,
+      $$DiaryEntriesTableFilterComposer,
+      $$DiaryEntriesTableOrderingComposer,
+      $$DiaryEntriesTableAnnotationComposer,
+      $$DiaryEntriesTableCreateCompanionBuilder,
+      $$DiaryEntriesTableUpdateCompanionBuilder,
+      (DiaryEntryData, $$DiaryEntriesTableReferences),
+      DiaryEntryData,
+      PrefetchHooks Function({bool diaryTagsRefs, bool diaryAnalysesRefs})
+    >;
+typedef $$TagsTableCreateCompanionBuilder =
+    TagsCompanion Function({
+      Value<int> id,
+      Value<int?> remoteId,
+      required String name,
+      Value<String> syncStatus,
+    });
+typedef $$TagsTableUpdateCompanionBuilder =
+    TagsCompanion Function({
+      Value<int> id,
+      Value<int?> remoteId,
+      Value<String> name,
+      Value<String> syncStatus,
+    });
 
 final class $$TagsTableReferences
     extends BaseReferences<_$AppDatabase, $TagsTable, TagData> {
   $$TagsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$DiaryTagsTable, List<DiaryTagData>>
-      _diaryTagsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.diaryTags,
-          aliasName: $_aliasNameGenerator(db.tags.id, db.diaryTags.tagLocalId));
+  _diaryTagsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.diaryTags,
+    aliasName: $_aliasNameGenerator(db.tags.id, db.diaryTags.tagLocalId),
+  );
 
   $$DiaryTagsTableProcessedTableManager get diaryTagsRefs {
-    final manager = $$DiaryTagsTableTableManager($_db, $_db.diaryTags)
-        .filter((f) => f.tagLocalId.id.sqlEquals($_itemColumn<int>('id')!));
+    final manager = $$DiaryTagsTableTableManager(
+      $_db,
+      $_db.diaryTags,
+    ).filter((f) => f.tagLocalId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_diaryTagsRefsTable($_db));
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
+      manager.$state.copyWith(prefetchedData: cache),
+    );
   }
 }
 
@@ -2271,35 +2688,47 @@ class $$TagsTableFilterComposer extends Composer<_$AppDatabase, $TagsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get remoteId => $composableBuilder(
-      column: $table.remoteId, builder: (column) => ColumnFilters(column));
+    column: $table.remoteId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => ColumnFilters(column));
+    column: $table.syncStatus,
+    builder: (column) => ColumnFilters(column),
+  );
 
   Expression<bool> diaryTagsRefs(
-      Expression<bool> Function($$DiaryTagsTableFilterComposer f) f) {
+    Expression<bool> Function($$DiaryTagsTableFilterComposer f) f,
+  ) {
     final $$DiaryTagsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryTags,
-        getReferencedColumn: (t) => t.tagLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryTagsTableFilterComposer(
-              $db: $db,
-              $table: $db.diaryTags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryTags,
+      getReferencedColumn: (t) => t.tagLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryTagsTableFilterComposer(
+            $db: $db,
+            $table: $db.diaryTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -2313,16 +2742,24 @@ class $$TagsTableOrderingComposer extends Composer<_$AppDatabase, $TagsTable> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get remoteId => $composableBuilder(
-      column: $table.remoteId, builder: (column) => ColumnOrderings(column));
+    column: $table.remoteId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => ColumnOrderings(column));
+    column: $table.syncStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TagsTableAnnotationComposer
@@ -2344,44 +2781,54 @@ class $$TagsTableAnnotationComposer
       $composableBuilder(column: $table.name, builder: (column) => column);
 
   GeneratedColumn<String> get syncStatus => $composableBuilder(
-      column: $table.syncStatus, builder: (column) => column);
+    column: $table.syncStatus,
+    builder: (column) => column,
+  );
 
   Expression<T> diaryTagsRefs<T extends Object>(
-      Expression<T> Function($$DiaryTagsTableAnnotationComposer a) f) {
+    Expression<T> Function($$DiaryTagsTableAnnotationComposer a) f,
+  ) {
     final $$DiaryTagsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.diaryTags,
-        getReferencedColumn: (t) => t.tagLocalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryTagsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.diaryTags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.diaryTags,
+      getReferencedColumn: (t) => t.tagLocalId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryTagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.diaryTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
 
-class $$TagsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $TagsTable,
-    TagData,
-    $$TagsTableFilterComposer,
-    $$TagsTableOrderingComposer,
-    $$TagsTableAnnotationComposer,
-    $$TagsTableCreateCompanionBuilder,
-    $$TagsTableUpdateCompanionBuilder,
-    (TagData, $$TagsTableReferences),
-    TagData,
-    PrefetchHooks Function({bool diaryTagsRefs})> {
+class $$TagsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TagsTable,
+          TagData,
+          $$TagsTableFilterComposer,
+          $$TagsTableOrderingComposer,
+          $$TagsTableAnnotationComposer,
+          $$TagsTableCreateCompanionBuilder,
+          $$TagsTableUpdateCompanionBuilder,
+          (TagData, $$TagsTableReferences),
+          TagData,
+          PrefetchHooks Function({bool diaryTagsRefs})
+        > {
   $$TagsTableTableManager(_$AppDatabase db, $TagsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2390,33 +2837,35 @@ class $$TagsTableTableManager extends RootTableManager<
               $$TagsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$TagsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int?> remoteId = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<String> syncStatus = const Value.absent(),
-          }) =>
-              TagsCompanion(
-            id: id,
-            remoteId: remoteId,
-            name: name,
-            syncStatus: syncStatus,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int?> remoteId = const Value.absent(),
-            required String name,
-            Value<String> syncStatus = const Value.absent(),
-          }) =>
-              TagsCompanion.insert(
-            id: id,
-            remoteId: remoteId,
-            name: name,
-            syncStatus: syncStatus,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> remoteId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> syncStatus = const Value.absent(),
+              }) => TagsCompanion(
+                id: id,
+                remoteId: remoteId,
+                name: name,
+                syncStatus: syncStatus,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> remoteId = const Value.absent(),
+                required String name,
+                Value<String> syncStatus = const Value.absent(),
+              }) => TagsCompanion.insert(
+                id: id,
+                remoteId: remoteId,
+                name: name,
+                syncStatus: syncStatus,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$TagsTableReferences(db, table, e)))
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TagsTableReferences(db, table, e)),
+              )
               .toList(),
           prefetchHooksCallback: ({diaryTagsRefs = false}) {
             return PrefetchHooks(
@@ -2426,46 +2875,54 @@ class $$TagsTableTableManager extends RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (diaryTagsRefs)
-                    await $_getPrefetchedData<TagData, $TagsTable,
-                            DiaryTagData>(
-                        currentTable: table,
-                        referencedTable:
-                            $$TagsTableReferences._diaryTagsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$TagsTableReferences(db, table, p0).diaryTagsRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems
-                                .where((e) => e.tagLocalId == item.id),
-                        typedResults: items)
+                    await $_getPrefetchedData<
+                      TagData,
+                      $TagsTable,
+                      DiaryTagData
+                    >(
+                      currentTable: table,
+                      referencedTable: $$TagsTableReferences
+                          ._diaryTagsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$TagsTableReferences(db, table, p0).diaryTagsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.tagLocalId == item.id),
+                      typedResults: items,
+                    ),
                 ];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$TagsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $TagsTable,
-    TagData,
-    $$TagsTableFilterComposer,
-    $$TagsTableOrderingComposer,
-    $$TagsTableAnnotationComposer,
-    $$TagsTableCreateCompanionBuilder,
-    $$TagsTableUpdateCompanionBuilder,
-    (TagData, $$TagsTableReferences),
-    TagData,
-    PrefetchHooks Function({bool diaryTagsRefs})>;
-typedef $$DiaryTagsTableCreateCompanionBuilder = DiaryTagsCompanion Function({
-  required int diaryLocalId,
-  required int tagLocalId,
-  Value<int> rowid,
-});
-typedef $$DiaryTagsTableUpdateCompanionBuilder = DiaryTagsCompanion Function({
-  Value<int> diaryLocalId,
-  Value<int> tagLocalId,
-  Value<int> rowid,
-});
+typedef $$TagsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TagsTable,
+      TagData,
+      $$TagsTableFilterComposer,
+      $$TagsTableOrderingComposer,
+      $$TagsTableAnnotationComposer,
+      $$TagsTableCreateCompanionBuilder,
+      $$TagsTableUpdateCompanionBuilder,
+      (TagData, $$TagsTableReferences),
+      TagData,
+      PrefetchHooks Function({bool diaryTagsRefs})
+    >;
+typedef $$DiaryTagsTableCreateCompanionBuilder =
+    DiaryTagsCompanion Function({
+      required int diaryLocalId,
+      required int tagLocalId,
+      Value<int> rowid,
+    });
+typedef $$DiaryTagsTableUpdateCompanionBuilder =
+    DiaryTagsCompanion Function({
+      Value<int> diaryLocalId,
+      Value<int> tagLocalId,
+      Value<int> rowid,
+    });
 
 final class $$DiaryTagsTableReferences
     extends BaseReferences<_$AppDatabase, $DiaryTagsTable, DiaryTagData> {
@@ -2473,31 +2930,39 @@ final class $$DiaryTagsTableReferences
 
   static $DiaryEntriesTable _diaryLocalIdTable(_$AppDatabase db) =>
       db.diaryEntries.createAlias(
-          $_aliasNameGenerator(db.diaryTags.diaryLocalId, db.diaryEntries.id));
+        $_aliasNameGenerator(db.diaryTags.diaryLocalId, db.diaryEntries.id),
+      );
 
   $$DiaryEntriesTableProcessedTableManager get diaryLocalId {
     final $_column = $_itemColumn<int>('diary_local_id')!;
 
-    final manager = $$DiaryEntriesTableTableManager($_db, $_db.diaryEntries)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$DiaryEntriesTableTableManager(
+      $_db,
+      $_db.diaryEntries,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_diaryLocalIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 
-  static $TagsTable _tagLocalIdTable(_$AppDatabase db) => db.tags
-      .createAlias($_aliasNameGenerator(db.diaryTags.tagLocalId, db.tags.id));
+  static $TagsTable _tagLocalIdTable(_$AppDatabase db) => db.tags.createAlias(
+    $_aliasNameGenerator(db.diaryTags.tagLocalId, db.tags.id),
+  );
 
   $$TagsTableProcessedTableManager get tagLocalId {
     final $_column = $_itemColumn<int>('tag_local_id')!;
 
-    final manager = $$TagsTableTableManager($_db, $_db.tags)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$TagsTableTableManager(
+      $_db,
+      $_db.tags,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_tagLocalIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -2512,41 +2977,47 @@ class $$DiaryTagsTableFilterComposer
   });
   $$DiaryEntriesTableFilterComposer get diaryLocalId {
     final $$DiaryEntriesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableFilterComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableFilterComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$TagsTableFilterComposer get tagLocalId {
     final $$TagsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tagLocalId,
-        referencedTable: $db.tags,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TagsTableFilterComposer(
-              $db: $db,
-              $table: $db.tags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.tagLocalId,
+      referencedTable: $db.tags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TagsTableFilterComposer(
+            $db: $db,
+            $table: $db.tags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2562,41 +3033,47 @@ class $$DiaryTagsTableOrderingComposer
   });
   $$DiaryEntriesTableOrderingComposer get diaryLocalId {
     final $$DiaryEntriesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableOrderingComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$TagsTableOrderingComposer get tagLocalId {
     final $$TagsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tagLocalId,
-        referencedTable: $db.tags,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TagsTableOrderingComposer(
-              $db: $db,
-              $table: $db.tags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.tagLocalId,
+      referencedTable: $db.tags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TagsTableOrderingComposer(
+            $db: $db,
+            $table: $db.tags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2612,59 +3089,69 @@ class $$DiaryTagsTableAnnotationComposer
   });
   $$DiaryEntriesTableAnnotationComposer get diaryLocalId {
     final $$DiaryEntriesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 
   $$TagsTableAnnotationComposer get tagLocalId {
     final $$TagsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tagLocalId,
-        referencedTable: $db.tags,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TagsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.tags,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.tagLocalId,
+      referencedTable: $db.tags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$DiaryTagsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $DiaryTagsTable,
-    DiaryTagData,
-    $$DiaryTagsTableFilterComposer,
-    $$DiaryTagsTableOrderingComposer,
-    $$DiaryTagsTableAnnotationComposer,
-    $$DiaryTagsTableCreateCompanionBuilder,
-    $$DiaryTagsTableUpdateCompanionBuilder,
-    (DiaryTagData, $$DiaryTagsTableReferences),
-    DiaryTagData,
-    PrefetchHooks Function({bool diaryLocalId, bool tagLocalId})> {
+class $$DiaryTagsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiaryTagsTable,
+          DiaryTagData,
+          $$DiaryTagsTableFilterComposer,
+          $$DiaryTagsTableOrderingComposer,
+          $$DiaryTagsTableAnnotationComposer,
+          $$DiaryTagsTableCreateCompanionBuilder,
+          $$DiaryTagsTableUpdateCompanionBuilder,
+          (DiaryTagData, $$DiaryTagsTableReferences),
+          DiaryTagData,
+          PrefetchHooks Function({bool diaryLocalId, bool tagLocalId})
+        > {
   $$DiaryTagsTableTableManager(_$AppDatabase db, $DiaryTagsTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2673,38 +3160,41 @@ class $$DiaryTagsTableTableManager extends RootTableManager<
               $$DiaryTagsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$DiaryTagsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> diaryLocalId = const Value.absent(),
-            Value<int> tagLocalId = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DiaryTagsCompanion(
-            diaryLocalId: diaryLocalId,
-            tagLocalId: tagLocalId,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required int diaryLocalId,
-            required int tagLocalId,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              DiaryTagsCompanion.insert(
-            diaryLocalId: diaryLocalId,
-            tagLocalId: tagLocalId,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> diaryLocalId = const Value.absent(),
+                Value<int> tagLocalId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DiaryTagsCompanion(
+                diaryLocalId: diaryLocalId,
+                tagLocalId: tagLocalId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int diaryLocalId,
+                required int tagLocalId,
+                Value<int> rowid = const Value.absent(),
+              }) => DiaryTagsCompanion.insert(
+                diaryLocalId: diaryLocalId,
+                tagLocalId: tagLocalId,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$DiaryTagsTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DiaryTagsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({diaryLocalId = false, tagLocalId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -2715,93 +3205,112 @@ class $$DiaryTagsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (diaryLocalId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.diaryLocalId,
-                    referencedTable:
-                        $$DiaryTagsTableReferences._diaryLocalIdTable(db),
-                    referencedColumn:
-                        $$DiaryTagsTableReferences._diaryLocalIdTable(db).id,
-                  ) as T;
-                }
-                if (tagLocalId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.tagLocalId,
-                    referencedTable:
-                        $$DiaryTagsTableReferences._tagLocalIdTable(db),
-                    referencedColumn:
-                        $$DiaryTagsTableReferences._tagLocalIdTable(db).id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (diaryLocalId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.diaryLocalId,
+                                referencedTable: $$DiaryTagsTableReferences
+                                    ._diaryLocalIdTable(db),
+                                referencedColumn: $$DiaryTagsTableReferences
+                                    ._diaryLocalIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (tagLocalId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.tagLocalId,
+                                referencedTable: $$DiaryTagsTableReferences
+                                    ._tagLocalIdTable(db),
+                                referencedColumn: $$DiaryTagsTableReferences
+                                    ._tagLocalIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$DiaryTagsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $DiaryTagsTable,
-    DiaryTagData,
-    $$DiaryTagsTableFilterComposer,
-    $$DiaryTagsTableOrderingComposer,
-    $$DiaryTagsTableAnnotationComposer,
-    $$DiaryTagsTableCreateCompanionBuilder,
-    $$DiaryTagsTableUpdateCompanionBuilder,
-    (DiaryTagData, $$DiaryTagsTableReferences),
-    DiaryTagData,
-    PrefetchHooks Function({bool diaryLocalId, bool tagLocalId})>;
-typedef $$DiaryAnalysesTableCreateCompanionBuilder = DiaryAnalysesCompanion
-    Function({
-  Value<int> id,
-  required int diaryLocalId,
-  Value<String> status,
-  Value<String?> mood,
-  Value<String?> summary,
-  Value<String?> banglaContentJson,
-  Value<String?> taskId,
-  Value<String?> error,
-  Value<DateTime> updatedAt,
-});
-typedef $$DiaryAnalysesTableUpdateCompanionBuilder = DiaryAnalysesCompanion
-    Function({
-  Value<int> id,
-  Value<int> diaryLocalId,
-  Value<String> status,
-  Value<String?> mood,
-  Value<String?> summary,
-  Value<String?> banglaContentJson,
-  Value<String?> taskId,
-  Value<String?> error,
-  Value<DateTime> updatedAt,
-});
+typedef $$DiaryTagsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiaryTagsTable,
+      DiaryTagData,
+      $$DiaryTagsTableFilterComposer,
+      $$DiaryTagsTableOrderingComposer,
+      $$DiaryTagsTableAnnotationComposer,
+      $$DiaryTagsTableCreateCompanionBuilder,
+      $$DiaryTagsTableUpdateCompanionBuilder,
+      (DiaryTagData, $$DiaryTagsTableReferences),
+      DiaryTagData,
+      PrefetchHooks Function({bool diaryLocalId, bool tagLocalId})
+    >;
+typedef $$DiaryAnalysesTableCreateCompanionBuilder =
+    DiaryAnalysesCompanion Function({
+      Value<int> id,
+      required int diaryLocalId,
+      Value<String> status,
+      Value<String?> mood,
+      Value<String?> summary,
+      Value<String?> banglaContentJson,
+      Value<String?> taskId,
+      Value<String?> error,
+      Value<DateTime> updatedAt,
+    });
+typedef $$DiaryAnalysesTableUpdateCompanionBuilder =
+    DiaryAnalysesCompanion Function({
+      Value<int> id,
+      Value<int> diaryLocalId,
+      Value<String> status,
+      Value<String?> mood,
+      Value<String?> summary,
+      Value<String?> banglaContentJson,
+      Value<String?> taskId,
+      Value<String?> error,
+      Value<DateTime> updatedAt,
+    });
 
-final class $$DiaryAnalysesTableReferences extends BaseReferences<_$AppDatabase,
-    $DiaryAnalysesTable, DiaryAnalysisData> {
+final class $$DiaryAnalysesTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $DiaryAnalysesTable, DiaryAnalysisData> {
   $$DiaryAnalysesTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
 
   static $DiaryEntriesTable _diaryLocalIdTable(_$AppDatabase db) =>
-      db.diaryEntries.createAlias($_aliasNameGenerator(
-          db.diaryAnalyses.diaryLocalId, db.diaryEntries.id));
+      db.diaryEntries.createAlias(
+        $_aliasNameGenerator(db.diaryAnalyses.diaryLocalId, db.diaryEntries.id),
+      );
 
   $$DiaryEntriesTableProcessedTableManager get diaryLocalId {
     final $_column = $_itemColumn<int>('diary_local_id')!;
 
-    final manager = $$DiaryEntriesTableTableManager($_db, $_db.diaryEntries)
-        .filter((f) => f.id.sqlEquals($_column));
+    final manager = $$DiaryEntriesTableTableManager(
+      $_db,
+      $_db.diaryEntries,
+    ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_diaryLocalIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
   }
 }
 
@@ -2815,47 +3324,65 @@ class $$DiaryAnalysesTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get status => $composableBuilder(
-      column: $table.status, builder: (column) => ColumnFilters(column));
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get mood => $composableBuilder(
-      column: $table.mood, builder: (column) => ColumnFilters(column));
+    column: $table.mood,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get summary => $composableBuilder(
-      column: $table.summary, builder: (column) => ColumnFilters(column));
+    column: $table.summary,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get banglaContentJson => $composableBuilder(
-      column: $table.banglaContentJson,
-      builder: (column) => ColumnFilters(column));
+    column: $table.banglaContentJson,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get taskId => $composableBuilder(
-      column: $table.taskId, builder: (column) => ColumnFilters(column));
+    column: $table.taskId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get error => $composableBuilder(
-      column: $table.error, builder: (column) => ColumnFilters(column));
+    column: $table.error,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
 
   $$DiaryEntriesTableFilterComposer get diaryLocalId {
     final $$DiaryEntriesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableFilterComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableFilterComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2870,47 +3397,65 @@ class $$DiaryAnalysesTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get status => $composableBuilder(
-      column: $table.status, builder: (column) => ColumnOrderings(column));
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get mood => $composableBuilder(
-      column: $table.mood, builder: (column) => ColumnOrderings(column));
+    column: $table.mood,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get summary => $composableBuilder(
-      column: $table.summary, builder: (column) => ColumnOrderings(column));
+    column: $table.summary,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get banglaContentJson => $composableBuilder(
-      column: $table.banglaContentJson,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.banglaContentJson,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get taskId => $composableBuilder(
-      column: $table.taskId, builder: (column) => ColumnOrderings(column));
+    column: $table.taskId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get error => $composableBuilder(
-      column: $table.error, builder: (column) => ColumnOrderings(column));
+    column: $table.error,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   $$DiaryEntriesTableOrderingComposer get diaryLocalId {
     final $$DiaryEntriesTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableOrderingComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableOrderingComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
@@ -2937,7 +3482,9 @@ class $$DiaryAnalysesTableAnnotationComposer
       $composableBuilder(column: $table.summary, builder: (column) => column);
 
   GeneratedColumn<String> get banglaContentJson => $composableBuilder(
-      column: $table.banglaContentJson, builder: (column) => column);
+    column: $table.banglaContentJson,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get taskId =>
       $composableBuilder(column: $table.taskId, builder: (column) => column);
@@ -2950,39 +3497,46 @@ class $$DiaryAnalysesTableAnnotationComposer
 
   $$DiaryEntriesTableAnnotationComposer get diaryLocalId {
     final $$DiaryEntriesTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.diaryLocalId,
-        referencedTable: $db.diaryEntries,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DiaryEntriesTableAnnotationComposer(
-              $db: $db,
-              $table: $db.diaryEntries,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+      composer: this,
+      getCurrentColumn: (t) => t.diaryLocalId,
+      referencedTable: $db.diaryEntries,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DiaryEntriesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.diaryEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return composer;
   }
 }
 
-class $$DiaryAnalysesTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $DiaryAnalysesTable,
-    DiaryAnalysisData,
-    $$DiaryAnalysesTableFilterComposer,
-    $$DiaryAnalysesTableOrderingComposer,
-    $$DiaryAnalysesTableAnnotationComposer,
-    $$DiaryAnalysesTableCreateCompanionBuilder,
-    $$DiaryAnalysesTableUpdateCompanionBuilder,
-    (DiaryAnalysisData, $$DiaryAnalysesTableReferences),
-    DiaryAnalysisData,
-    PrefetchHooks Function({bool diaryLocalId})> {
+class $$DiaryAnalysesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DiaryAnalysesTable,
+          DiaryAnalysisData,
+          $$DiaryAnalysesTableFilterComposer,
+          $$DiaryAnalysesTableOrderingComposer,
+          $$DiaryAnalysesTableAnnotationComposer,
+          $$DiaryAnalysesTableCreateCompanionBuilder,
+          $$DiaryAnalysesTableUpdateCompanionBuilder,
+          (DiaryAnalysisData, $$DiaryAnalysesTableReferences),
+          DiaryAnalysisData,
+          PrefetchHooks Function({bool diaryLocalId})
+        > {
   $$DiaryAnalysesTableTableManager(_$AppDatabase db, $DiaryAnalysesTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -2991,62 +3545,65 @@ class $$DiaryAnalysesTableTableManager extends RootTableManager<
               $$DiaryAnalysesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$DiaryAnalysesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int> diaryLocalId = const Value.absent(),
-            Value<String> status = const Value.absent(),
-            Value<String?> mood = const Value.absent(),
-            Value<String?> summary = const Value.absent(),
-            Value<String?> banglaContentJson = const Value.absent(),
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> error = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-          }) =>
-              DiaryAnalysesCompanion(
-            id: id,
-            diaryLocalId: diaryLocalId,
-            status: status,
-            mood: mood,
-            summary: summary,
-            banglaContentJson: banglaContentJson,
-            taskId: taskId,
-            error: error,
-            updatedAt: updatedAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required int diaryLocalId,
-            Value<String> status = const Value.absent(),
-            Value<String?> mood = const Value.absent(),
-            Value<String?> summary = const Value.absent(),
-            Value<String?> banglaContentJson = const Value.absent(),
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> error = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-          }) =>
-              DiaryAnalysesCompanion.insert(
-            id: id,
-            diaryLocalId: diaryLocalId,
-            status: status,
-            mood: mood,
-            summary: summary,
-            banglaContentJson: banglaContentJson,
-            taskId: taskId,
-            error: error,
-            updatedAt: updatedAt,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> diaryLocalId = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> mood = const Value.absent(),
+                Value<String?> summary = const Value.absent(),
+                Value<String?> banglaContentJson = const Value.absent(),
+                Value<String?> taskId = const Value.absent(),
+                Value<String?> error = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => DiaryAnalysesCompanion(
+                id: id,
+                diaryLocalId: diaryLocalId,
+                status: status,
+                mood: mood,
+                summary: summary,
+                banglaContentJson: banglaContentJson,
+                taskId: taskId,
+                error: error,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int diaryLocalId,
+                Value<String> status = const Value.absent(),
+                Value<String?> mood = const Value.absent(),
+                Value<String?> summary = const Value.absent(),
+                Value<String?> banglaContentJson = const Value.absent(),
+                Value<String?> taskId = const Value.absent(),
+                Value<String?> error = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => DiaryAnalysesCompanion.insert(
+                id: id,
+                diaryLocalId: diaryLocalId,
+                status: status,
+                mood: mood,
+                summary: summary,
+                banglaContentJson: banglaContentJson,
+                taskId: taskId,
+                error: error,
+                updatedAt: updatedAt,
+              ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$DiaryAnalysesTableReferences(db, table, e)
-                  ))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DiaryAnalysesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: ({diaryLocalId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
+              addJoins:
+                  <
+                    T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -3057,59 +3614,68 @@ class $$DiaryAnalysesTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic>>(state) {
-                if (diaryLocalId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.diaryLocalId,
-                    referencedTable:
-                        $$DiaryAnalysesTableReferences._diaryLocalIdTable(db),
-                    referencedColumn: $$DiaryAnalysesTableReferences
-                        ._diaryLocalIdTable(db)
-                        .id,
-                  ) as T;
-                }
+                      dynamic
+                    >
+                  >(state) {
+                    if (diaryLocalId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.diaryLocalId,
+                                referencedTable: $$DiaryAnalysesTableReferences
+                                    ._diaryLocalIdTable(db),
+                                referencedColumn: $$DiaryAnalysesTableReferences
+                                    ._diaryLocalIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ));
+        ),
+      );
 }
 
-typedef $$DiaryAnalysesTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $DiaryAnalysesTable,
-    DiaryAnalysisData,
-    $$DiaryAnalysesTableFilterComposer,
-    $$DiaryAnalysesTableOrderingComposer,
-    $$DiaryAnalysesTableAnnotationComposer,
-    $$DiaryAnalysesTableCreateCompanionBuilder,
-    $$DiaryAnalysesTableUpdateCompanionBuilder,
-    (DiaryAnalysisData, $$DiaryAnalysesTableReferences),
-    DiaryAnalysisData,
-    PrefetchHooks Function({bool diaryLocalId})>;
-typedef $$SyncQueueTableCreateCompanionBuilder = SyncQueueCompanion Function({
-  Value<int> id,
-  required String entityType,
-  required int entityLocalId,
-  required String operation,
-  Value<String?> payloadJson,
-  Value<int> retryCount,
-  Value<DateTime> createdAt,
-});
-typedef $$SyncQueueTableUpdateCompanionBuilder = SyncQueueCompanion Function({
-  Value<int> id,
-  Value<String> entityType,
-  Value<int> entityLocalId,
-  Value<String> operation,
-  Value<String?> payloadJson,
-  Value<int> retryCount,
-  Value<DateTime> createdAt,
-});
+typedef $$DiaryAnalysesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DiaryAnalysesTable,
+      DiaryAnalysisData,
+      $$DiaryAnalysesTableFilterComposer,
+      $$DiaryAnalysesTableOrderingComposer,
+      $$DiaryAnalysesTableAnnotationComposer,
+      $$DiaryAnalysesTableCreateCompanionBuilder,
+      $$DiaryAnalysesTableUpdateCompanionBuilder,
+      (DiaryAnalysisData, $$DiaryAnalysesTableReferences),
+      DiaryAnalysisData,
+      PrefetchHooks Function({bool diaryLocalId})
+    >;
+typedef $$SyncQueueTableCreateCompanionBuilder =
+    SyncQueueCompanion Function({
+      Value<int> id,
+      required String entityType,
+      required int entityLocalId,
+      required String operation,
+      Value<String?> payloadJson,
+      Value<int> retryCount,
+      Value<DateTime> createdAt,
+    });
+typedef $$SyncQueueTableUpdateCompanionBuilder =
+    SyncQueueCompanion Function({
+      Value<int> id,
+      Value<String> entityType,
+      Value<int> entityLocalId,
+      Value<String> operation,
+      Value<String?> payloadJson,
+      Value<int> retryCount,
+      Value<DateTime> createdAt,
+    });
 
 class $$SyncQueueTableFilterComposer
     extends Composer<_$AppDatabase, $SyncQueueTable> {
@@ -3121,25 +3687,39 @@ class $$SyncQueueTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => ColumnFilters(column));
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get entityLocalId => $composableBuilder(
-      column: $table.entityLocalId, builder: (column) => ColumnFilters(column));
+    column: $table.entityLocalId,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get operation => $composableBuilder(
-      column: $table.operation, builder: (column) => ColumnFilters(column));
+    column: $table.operation,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get payloadJson => $composableBuilder(
-      column: $table.payloadJson, builder: (column) => ColumnFilters(column));
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<int> get retryCount => $composableBuilder(
-      column: $table.retryCount, builder: (column) => ColumnFilters(column));
+    column: $table.retryCount,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$SyncQueueTableOrderingComposer
@@ -3152,26 +3732,39 @@ class $$SyncQueueTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => ColumnOrderings(column));
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get entityLocalId => $composableBuilder(
-      column: $table.entityLocalId,
-      builder: (column) => ColumnOrderings(column));
+    column: $table.entityLocalId,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get operation => $composableBuilder(
-      column: $table.operation, builder: (column) => ColumnOrderings(column));
+    column: $table.operation,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get payloadJson => $composableBuilder(
-      column: $table.payloadJson, builder: (column) => ColumnOrderings(column));
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<int> get retryCount => $composableBuilder(
-      column: $table.retryCount, builder: (column) => ColumnOrderings(column));
+    column: $table.retryCount,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$SyncQueueTableAnnotationComposer
@@ -3187,41 +3780,53 @@ class $$SyncQueueTableAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get entityType => $composableBuilder(
-      column: $table.entityType, builder: (column) => column);
+    column: $table.entityType,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get entityLocalId => $composableBuilder(
-      column: $table.entityLocalId, builder: (column) => column);
+    column: $table.entityLocalId,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<String> get operation =>
       $composableBuilder(column: $table.operation, builder: (column) => column);
 
   GeneratedColumn<String> get payloadJson => $composableBuilder(
-      column: $table.payloadJson, builder: (column) => column);
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<int> get retryCount => $composableBuilder(
-      column: $table.retryCount, builder: (column) => column);
+    column: $table.retryCount,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
-class $$SyncQueueTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $SyncQueueTable,
-    SyncQueueData,
-    $$SyncQueueTableFilterComposer,
-    $$SyncQueueTableOrderingComposer,
-    $$SyncQueueTableAnnotationComposer,
-    $$SyncQueueTableCreateCompanionBuilder,
-    $$SyncQueueTableUpdateCompanionBuilder,
-    (
-      SyncQueueData,
-      BaseReferences<_$AppDatabase, $SyncQueueTable, SyncQueueData>
-    ),
-    SyncQueueData,
-    PrefetchHooks Function()> {
+class $$SyncQueueTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SyncQueueTable,
+          SyncQueueData,
+          $$SyncQueueTableFilterComposer,
+          $$SyncQueueTableOrderingComposer,
+          $$SyncQueueTableAnnotationComposer,
+          $$SyncQueueTableCreateCompanionBuilder,
+          $$SyncQueueTableUpdateCompanionBuilder,
+          (
+            SyncQueueData,
+            BaseReferences<_$AppDatabase, $SyncQueueTable, SyncQueueData>,
+          ),
+          SyncQueueData,
+          PrefetchHooks Function()
+        > {
   $$SyncQueueTableTableManager(_$AppDatabase db, $SyncQueueTable table)
-      : super(TableManagerState(
+    : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -3230,64 +3835,67 @@ class $$SyncQueueTableTableManager extends RootTableManager<
               $$SyncQueueTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$SyncQueueTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> entityType = const Value.absent(),
-            Value<int> entityLocalId = const Value.absent(),
-            Value<String> operation = const Value.absent(),
-            Value<String?> payloadJson = const Value.absent(),
-            Value<int> retryCount = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              SyncQueueCompanion(
-            id: id,
-            entityType: entityType,
-            entityLocalId: entityLocalId,
-            operation: operation,
-            payloadJson: payloadJson,
-            retryCount: retryCount,
-            createdAt: createdAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String entityType,
-            required int entityLocalId,
-            required String operation,
-            Value<String?> payloadJson = const Value.absent(),
-            Value<int> retryCount = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-          }) =>
-              SyncQueueCompanion.insert(
-            id: id,
-            entityType: entityType,
-            entityLocalId: entityLocalId,
-            operation: operation,
-            payloadJson: payloadJson,
-            retryCount: retryCount,
-            createdAt: createdAt,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> entityType = const Value.absent(),
+                Value<int> entityLocalId = const Value.absent(),
+                Value<String> operation = const Value.absent(),
+                Value<String?> payloadJson = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => SyncQueueCompanion(
+                id: id,
+                entityType: entityType,
+                entityLocalId: entityLocalId,
+                operation: operation,
+                payloadJson: payloadJson,
+                retryCount: retryCount,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String entityType,
+                required int entityLocalId,
+                required String operation,
+                Value<String?> payloadJson = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => SyncQueueCompanion.insert(
+                id: id,
+                entityType: entityType,
+                entityLocalId: entityLocalId,
+                operation: operation,
+                payloadJson: payloadJson,
+                retryCount: retryCount,
+                createdAt: createdAt,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$SyncQueueTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $SyncQueueTable,
-    SyncQueueData,
-    $$SyncQueueTableFilterComposer,
-    $$SyncQueueTableOrderingComposer,
-    $$SyncQueueTableAnnotationComposer,
-    $$SyncQueueTableCreateCompanionBuilder,
-    $$SyncQueueTableUpdateCompanionBuilder,
-    (
+typedef $$SyncQueueTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SyncQueueTable,
       SyncQueueData,
-      BaseReferences<_$AppDatabase, $SyncQueueTable, SyncQueueData>
-    ),
-    SyncQueueData,
-    PrefetchHooks Function()>;
+      $$SyncQueueTableFilterComposer,
+      $$SyncQueueTableOrderingComposer,
+      $$SyncQueueTableAnnotationComposer,
+      $$SyncQueueTableCreateCompanionBuilder,
+      $$SyncQueueTableUpdateCompanionBuilder,
+      (
+        SyncQueueData,
+        BaseReferences<_$AppDatabase, $SyncQueueTable, SyncQueueData>,
+      ),
+      SyncQueueData,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

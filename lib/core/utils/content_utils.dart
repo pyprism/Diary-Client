@@ -66,15 +66,16 @@ class DiaryContent {
   }
 
   Map<String, dynamic> toJson() => {
-        'version': version,
-        'blocks': blocks.map((b) => b.toJson()).toList(),
-      };
+    'version': version,
+    'blocks': blocks.map((b) => b.toJson()).toList(),
+  };
 
   String toJsonString() => jsonEncode(toJson());
 
   bool get isEmpty => blocks.isEmpty;
 
-  String get plainText => blocks.map((b) {
+  String get plainText => blocks
+      .map((b) {
         switch (b.type) {
           case 'heading':
           case 'paragraph':
@@ -89,7 +90,8 @@ class DiaryContent {
           default:
             return '';
         }
-      }).join(' ');
+      })
+      .join(' ');
 
   String? validateForApi({bool allowLocalImages = false}) {
     if (blocks.length > 500) return 'Content cannot exceed 500 blocks.';

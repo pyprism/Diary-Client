@@ -48,8 +48,11 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
     super.initState();
     _quillCtrl = quill.QuillController.basic();
     _quillCtrl.addListener(_syncPostTypeFromContent);
-    _initialDate =
-        DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+    _initialDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+    );
     _initialPostType = _postType;
     _syncPostTypeFromContent(notify: false);
     _captureInitialState();
@@ -74,8 +77,9 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
   }
 
   Future<void> _loadEntry() async {
-    final entry =
-        await ref.read(diaryRepositoryProvider).getById(widget.localId!);
+    final entry = await ref
+        .read(diaryRepositoryProvider)
+        .getById(widget.localId!);
     if (entry == null || !mounted) return;
 
     final nextController = quill.QuillController(
@@ -126,15 +130,21 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
   void _captureInitialState() {
     _initialTitle = _titleCtrl.text.trim();
     _initialDelta = jsonEncode(_quillCtrl.document.toDelta().toJson());
-    _initialDate =
-        DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+    _initialDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+    );
     _initialPostType = _postType;
     _initialTags = {..._selectedTags};
   }
 
   bool _hasUnsavedChanges() {
-    final currentDate =
-        DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+    final currentDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+    );
     final currentDelta = jsonEncode(_quillCtrl.document.toDelta().toJson());
 
     return _initialTitle != _titleCtrl.text.trim() ||
@@ -231,9 +241,9 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
   Future<void> _save() async {
     final title = _titleCtrl.text.trim();
     if (title.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Title cannot be empty')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Title cannot be empty')));
       return;
     }
 
@@ -251,16 +261,18 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
     }
     final validationError = content.validateForApi(allowLocalImages: true);
     if (validationError != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(validationError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(validationError)));
       return;
     }
 
     setState(() => _loading = true);
     try {
       if (widget.localId == null) {
-        final entry = await ref.read(diaryRepositoryProvider).createDiary(
+        final entry = await ref
+            .read(diaryRepositoryProvider)
+            .createDiary(
               title: title,
               date: du.DateUtils.toApiFormat(_selectedDate),
               postType: postType,
@@ -272,7 +284,9 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
           context.pushReplacement('/diary/${entry.localId}');
         }
       } else {
-        await ref.read(diaryRepositoryProvider).updateDiary(
+        await ref
+            .read(diaryRepositoryProvider)
+            .updateDiary(
               localId: widget.localId!,
               title: title,
               date: du.DateUtils.toApiFormat(_selectedDate),
@@ -350,8 +364,9 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
           builder: (context, constraints) {
             final isCompact = constraints.maxWidth < 700;
             final isDesktop = constraints.maxWidth >= 920;
-            final maxWidth =
-                constraints.maxWidth > 1180 ? 1180.0 : double.infinity;
+            final maxWidth = constraints.maxWidth > 1180
+                ? 1180.0
+                : double.infinity;
 
             return Center(
               child: ConstrainedBox(
@@ -482,9 +497,9 @@ class _WritingPanel extends StatelessWidget {
       children: [
         TextFormField(
           controller: titleCtrl,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
           decoration: const InputDecoration(
             labelText: 'Title',
             hintText: 'Entry title...',
@@ -668,8 +683,10 @@ class _MetadataPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Entry Details',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Entry Details',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 14),
             OutlinedButton.icon(
               onPressed: onPickDate,
@@ -696,8 +713,8 @@ class _MetadataPanel extends StatelessWidget {
             Text(
               '$wordCount words',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: cs.onSurface.withValues(alpha: 0.62),
-                  ),
+                color: cs.onSurface.withValues(alpha: 0.62),
+              ),
             ),
             const SizedBox(height: 18),
             Text('Tags', style: Theme.of(context).textTheme.titleSmall),

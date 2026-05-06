@@ -24,17 +24,17 @@ class ShareLink {
   });
 
   factory ShareLink.fromJson(Map<String, dynamic> json) => ShareLink(
-        id: json['id'] as int,
-        diaryId: _optionalInt(json['diary_id']),
-        token: json['token'] as String,
-        shareType: json['share_type'] as String,
-        excerpt: json['excerpt'] as String? ?? '',
-        diaryTitle: json['diary_title'] as String,
-        expiresAt: json['expires_at'] as String,
-        isExpired: json['is_expired'] as bool? ?? false,
-        publicUrl: json['public_url'] as String,
-        createdAt: json['created_at'] as String,
-      );
+    id: json['id'] as int,
+    diaryId: _optionalInt(json['diary_id']),
+    token: json['token'] as String,
+    shareType: json['share_type'] as String,
+    excerpt: json['excerpt'] as String? ?? '',
+    diaryTitle: json['diary_title'] as String,
+    expiresAt: json['expires_at'] as String,
+    isExpired: json['is_expired'] as bool? ?? false,
+    publicUrl: json['public_url'] as String,
+    createdAt: json['created_at'] as String,
+  );
 
   DateTime? get expiresAtDate => DateTime.tryParse(expiresAt);
 

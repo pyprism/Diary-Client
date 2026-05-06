@@ -54,10 +54,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     await _saveServerConfig();
 
-    await ref.read(authNotifierProvider.notifier).register(
-          _emailCtrl.text.trim(),
-          _passwordCtrl.text,
-        );
+    await ref
+        .read(authNotifierProvider.notifier)
+        .register(_emailCtrl.text.trim(), _passwordCtrl.text);
     if (mounted) {
       final state = ref.read(authNotifierProvider);
       if (state.hasError) {
@@ -101,20 +100,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     const SizedBox(height: 24),
                     Text(
                       'Diary',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge
+                      style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Create your account.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                     const SizedBox(height: 40),
                     TextFormField(
@@ -131,8 +127,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       validator: (v) =>
                           ServerConfig.parseServerInput(v ?? '') == null
-                              ? 'Enter a valid domain or URL'
-                              : null,
+                          ? 'Enter a valid domain or URL'
+                          : null,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -160,9 +156,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         labelText: 'Password',
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(_obscure
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined),
+                          icon: Icon(
+                            _obscure
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),
                       ),
@@ -194,8 +192,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Create Account'),
                       ),

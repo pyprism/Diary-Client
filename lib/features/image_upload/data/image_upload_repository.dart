@@ -17,15 +17,13 @@ class ImageUploadRepository {
 
   Future<String> uploadImage(XFile file) async {
     final bytes = await file.readAsBytes();
-    return uploadImageBytes(
-      filename: file.name,
-      bytes: bytes,
-    );
+    return uploadImageBytes(filename: file.name, bytes: bytes);
   }
 
   Future<String> uploadDataUrl(String dataUrl) async {
-    final match =
-        RegExp(r'^data:(image/[^;]+);base64,(.+)$').firstMatch(dataUrl);
+    final match = RegExp(
+      r'^data:(image/[^;]+);base64,(.+)$',
+    ).firstMatch(dataUrl);
     if (match == null) {
       throw const AppException('Invalid local image data.');
     }
@@ -96,17 +94,17 @@ class ImageUploadRepository {
         data: FormData.fromMap({
           'image': MultipartFile.fromBytes(bytes, filename: filename),
         }),
-        options: Options(
-          contentType: 'multipart/form-data',
-        ),
+        options: Options(contentType: 'multipart/form-data'),
       );
 
       return _normalizeReturnedUrl(res.data['file_url'] as String);
     } on DioException catch (e) {
       final detail = e.response?.data;
       if (detail is Map && detail['detail'] != null) {
-        throw AppException(detail['detail'].toString(),
-            statusCode: e.response?.statusCode);
+        throw AppException(
+          detail['detail'].toString(),
+          statusCode: e.response?.statusCode,
+        );
       }
       if (e.message != null && e.message!.isNotEmpty) {
         throw AppException(e.message!, statusCode: e.response?.statusCode);
@@ -129,8 +127,9 @@ class ImageUploadRepository {
     final trimmed = url.trim();
     final uri = Uri.tryParse(trimmed);
     if (uri != null && uri.hasScheme) {
-      final firstSegment =
-          uri.pathSegments.isNotEmpty ? uri.pathSegments.first : '';
+      final firstSegment = uri.pathSegments.isNotEmpty
+          ? uri.pathSegments.first
+          : '';
       final isLocalHost = uri.host == 'localhost' || uri.host == '127.0.0.1';
       if (isLocalHost && firstSegment.endsWith('.r2.cloudflarestorage.com')) {
         final path = uri.pathSegments.skip(1).join('/');
@@ -151,7 +150,9 @@ final imageUploadRepositoryProvider = Provider<ImageUploadRepository>((ref) {
   );
 });
 
-final signedImageUrlProvider =
-    FutureProvider.family<String, String>((ref, url) {
+final signedImageUrlProvider = FutureProvider.family<String, String>((
+  ref,
+  url,
+) {
   return ref.watch(imageUploadRepositoryProvider).getReadUrl(url);
 });

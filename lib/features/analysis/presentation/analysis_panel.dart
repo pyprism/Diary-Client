@@ -17,15 +17,19 @@ final analysisRepositoryProvider = Provider<AnalysisRepository>((ref) {
 });
 
 final analysisProvider =
-    FutureProvider.family<DiaryAnalysis?, ({int localId, int remoteId})>(
-        (ref, ids) async {
-  return ref
-      .watch(analysisRepositoryProvider)
-      .getAnalysis(ids.localId, ids.remoteId);
-});
+    FutureProvider.family<DiaryAnalysis?, ({int localId, int remoteId})>((
+      ref,
+      ids,
+    ) async {
+      return ref
+          .watch(analysisRepositoryProvider)
+          .getAnalysis(ids.localId, ids.remoteId);
+    });
 
-final analysisStreamProvider =
-    StreamProvider.family<DiaryAnalysis?, int>((ref, localId) {
+final analysisStreamProvider = StreamProvider.family<DiaryAnalysis?, int>((
+  ref,
+  localId,
+) {
   return ref.watch(analysisRepositoryProvider).watchAnalysis(localId);
 });
 
@@ -79,8 +83,10 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
     setState(() => _polling = true);
     final repo = ref.read(analysisRepositoryProvider);
     try {
-      final analysis =
-          await repo.triggerAnalysis(widget.diaryLocalId, widget.diaryRemoteId);
+      final analysis = await repo.triggerAnalysis(
+        widget.diaryLocalId,
+        widget.diaryRemoteId,
+      );
       if (analysis.isPending) {
         await repo.pollUntilDone(
           widget.diaryLocalId,
@@ -105,8 +111,9 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final analysisStream =
-        ref.watch(analysisStreamProvider(widget.diaryLocalId));
+    final analysisStream = ref.watch(
+      analysisStreamProvider(widget.diaryLocalId),
+    );
     final cs = Theme.of(context).colorScheme;
 
     return Card(
@@ -220,7 +227,8 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                         child: Text(
                           'No analysis yet. Tap "Analyze" to generate AI insights.',
                           style: TextStyle(
-                              color: cs.onSurface.withValues(alpha: 0.6)),
+                            color: cs.onSurface.withValues(alpha: 0.6),
+                          ),
                         ),
                       );
                     }
@@ -257,9 +265,7 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                           if (analysis.summary != null) ...[
                             Text(
                               'Summary',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
+                              style: Theme.of(context).textTheme.titleSmall
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 4),
@@ -269,15 +275,14 @@ class _AnalysisPanelState extends ConsumerState<AnalysisPanel> {
                           if (analysis.banglaContent != null) ...[
                             Text(
                               'Bengali Translation',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
+                              style: Theme.of(context).textTheme.titleSmall
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
                             BlockRenderer(
                               content: DiaryContent.fromJson(
-                                  analysis.banglaContent!),
+                                analysis.banglaContent!,
+                              ),
                             ),
                           ],
                         ],
@@ -306,21 +311,19 @@ class _AnalysisTitle extends StatelessWidget {
       children: [
         Text(
           'AI Analysis',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         if (status != null) ...[
           const SizedBox(height: 2),
           Text(
             status,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withValues(alpha: 0.6),
-                ),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ],
@@ -363,8 +366,8 @@ class _AnalysisAction extends StatelessWidget {
         tooltip: retry
             ? 'Retry analysis'
             : rerun
-                ? 'Analyze again'
-                : 'Analyze',
+            ? 'Analyze again'
+            : 'Analyze',
         onPressed: onPressed,
         icon: Icon(retry || rerun ? Icons.refresh : Icons.play_arrow),
       );
@@ -382,8 +385,8 @@ class _AnalysisAction extends StatelessWidget {
         retry
             ? 'Retry'
             : rerun
-                ? 'Analyze again'
-                : 'Analyze',
+            ? 'Analyze again'
+            : 'Analyze',
       ),
     );
   }

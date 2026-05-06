@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import '../../../core/di/providers.dart';
 import '../../image_upload/data/image_upload_repository.dart';
 import '../data/diary_local_ds.dart';
@@ -35,18 +36,24 @@ final diaryListProvider = StreamProvider<List<DiaryEntry>>((ref) {
 
 final diarySearchQueryProvider = StateProvider<String>((ref) => '');
 
-final diarySearchProvider =
-    FutureProvider.family<List<DiaryEntry>, String>((ref, query) {
+final diarySearchProvider = FutureProvider.family<List<DiaryEntry>, String>((
+  ref,
+  query,
+) {
   return ref.watch(diaryRepositoryProvider).searchDiaries(query);
 });
 
-final diaryDetailProvider =
-    FutureProvider.family<DiaryEntry?, int>((ref, localId) async {
+final diaryDetailProvider = FutureProvider.family<DiaryEntry?, int>((
+  ref,
+  localId,
+) async {
   return ref.watch(diaryRepositoryProvider).getFullEntry(localId);
 });
 
-final diaryDetailStreamProvider =
-    StreamProvider.family<DiaryEntry?, int>((ref, localId) {
+final diaryDetailStreamProvider = StreamProvider.family<DiaryEntry?, int>((
+  ref,
+  localId,
+) {
   ref.watch(diaryRepositoryProvider).getFullEntry(localId);
   return ref.watch(diaryRepositoryProvider).watchById(localId);
 });

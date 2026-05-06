@@ -22,6 +22,9 @@ class NotFoundException extends AppException {
 
 class ValidationException extends AppException {
   final Map<String, dynamic>? errors;
-  const ValidationException(super.message,
-      {this.errors, super.statusCode = 400});
+  const ValidationException(
+    super.message, {
+    this.errors,
+    super.statusCode = 400,
+  });
 }

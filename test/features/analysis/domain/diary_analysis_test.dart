@@ -14,23 +14,25 @@ void main() {
       expect(analysis.isPending, isFalse);
     });
 
-    test('keeps explicit PENDING even when partial result fields are present',
-        () {
-      final analysis = DiaryAnalysis.fromJson({
-        'status': 'PENDING',
-        'summary': 'Finished summary',
-        'bangla_content': {
-          'version': 1,
-          'blocks': [
-            {'type': 'paragraph', 'text': 'শেষ'},
-          ],
-        },
-      });
+    test(
+      'keeps explicit PENDING even when partial result fields are present',
+      () {
+        final analysis = DiaryAnalysis.fromJson({
+          'status': 'PENDING',
+          'summary': 'Finished summary',
+          'bangla_content': {
+            'version': 1,
+            'blocks': [
+              {'type': 'paragraph', 'text': 'শেষ'},
+            ],
+          },
+        });
 
-      expect(analysis.status, DiaryAnalysis.pending);
-      expect(analysis.isPending, isTrue);
-      expect(analysis.isDone, isFalse);
-    });
+        expect(analysis.status, DiaryAnalysis.pending);
+        expect(analysis.isPending, isTrue);
+        expect(analysis.isDone, isFalse);
+      },
+    );
 
     test('infers DONE when analysis fields are present without status', () {
       final analysis = DiaryAnalysis.fromJson({

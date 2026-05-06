@@ -18,9 +18,11 @@ class TagRepository {
 
   String get _base => _config.endpoint('tags');
 
-  Stream<List<Tag>> watchAll() => _db.watchAllTags().map((list) => list
-      .map((t) => Tag(localId: t.id, remoteId: t.remoteId, name: t.name))
-      .toList());
+  Stream<List<Tag>> watchAll() => _db.watchAllTags().map(
+    (list) => list
+        .map((t) => Tag(localId: t.id, remoteId: t.remoteId, name: t.name))
+        .toList(),
+  );
 
   Future<Tag?> getByLocalId(int localId) async {
     final row = await _db.getTagById(localId);
@@ -34,17 +36,20 @@ class TagRepository {
 
     if (await _connectivity.isOnline && tag.remoteId != null) {
       try {
-        final res = await _client.dio
-            .get(_config.endpoint('tags/${tag.remoteId}/entries'));
+        final res = await _client.dio.get(
+          _config.endpoint('tags/${tag.remoteId}/entries'),
+        );
         final entries = (res.data['entries'] as List? ?? [])
             .map((e) => TagEntrySummary.fromJson(e as Map<String, dynamic>))
             .toList();
 
-        return Future.wait(entries.map((entry) async {
-          if (entry.remoteId == null) return entry;
-          final local = await _db.getDiaryByRemoteId(entry.remoteId!);
-          return entry.copyWith(localId: local?.id);
-        }));
+        return Future.wait(
+          entries.map((entry) async {
+            if (entry.remoteId == null) return entry;
+            final local = await _db.getDiaryByRemoteId(entry.remoteId!);
+            return entry.copyWith(localId: local?.id);
+          }),
+        );
       } catch (_) {}
     }
 
@@ -69,8 +74,10 @@ class TagRepository {
     try {
       var page = 1;
       while (true) {
-        final res =
-            await _client.dio.get(_base, queryParameters: {'page': page});
+        final res = await _client.dio.get(
+          _base,
+          queryParameters: {'page': page},
+        );
         final results = res.data['results'] as List? ?? [];
         if (results.isEmpty) break;
 
@@ -118,30 +125,36 @@ class TagRepository {
         if (tag.remoteId == null) {
           final res = await _client.dio.post(_base, data: {'name': tag.name});
           final remoteId = res.data['id'] as int;
-          await _db.updateTag(TagsCompanion(
-            id: drift.Value(tag.id),
-            remoteId: drift.Value(remoteId),
-            syncStatus: const drift.Value('synced'),
-          ));
+          await _db.updateTag(
+            TagsCompanion(
+              id: drift.Value(tag.id),
+              remoteId: drift.Value(remoteId),
+              syncStatus: const drift.Value('synced'),
+            ),
+          );
         } else {
           await _client.dio.patch(
             _config.endpoint('tags/${tag.remoteId}'),
             data: {'name': tag.name},
           );
-          await _db.updateTag(TagsCompanion(
-            id: drift.Value(tag.id),
-            syncStatus: const drift.Value('synced'),
-          ));
+          await _db.updateTag(
+            TagsCompanion(
+              id: drift.Value(tag.id),
+              syncStatus: const drift.Value('synced'),
+            ),
+          );
         }
       } catch (_) {
         await syncFromRemote();
         final remoteDuplicate = await _db.getTagByName(tag.name);
         if (remoteDuplicate != null && remoteDuplicate.remoteId != null) {
-          await _db.updateTag(TagsCompanion(
-            id: drift.Value(tag.id),
-            remoteId: drift.Value(remoteDuplicate.remoteId),
-            syncStatus: const drift.Value('synced'),
-          ));
+          await _db.updateTag(
+            TagsCompanion(
+              id: drift.Value(tag.id),
+              remoteId: drift.Value(remoteDuplicate.remoteId),
+              syncStatus: const drift.Value('synced'),
+            ),
+          );
         }
       }
     }
@@ -159,17 +172,21 @@ class TagRepository {
 
     final localId = await _db.insertTag(
       TagsCompanion.insert(
-          name: name, syncStatus: const drift.Value('pending')),
+        name: name,
+        syncStatus: const drift.Value('pending'),
+      ),
     );
     if (await _connectivity.isOnline) {
       try {
         final res = await _client.dio.post(_base, data: {'name': name});
         final remoteId = res.data['id'] as int;
-        await _db.updateTag(TagsCompanion(
-          id: drift.Value(localId),
-          remoteId: drift.Value(remoteId),
-          syncStatus: const drift.Value('synced'),
-        ));
+        await _db.updateTag(
+          TagsCompanion(
+            id: drift.Value(localId),
+            remoteId: drift.Value(remoteId),
+            syncStatus: const drift.Value('synced'),
+          ),
+        );
       } catch (_) {}
     }
     final local = await _db.getTagById(localId);
@@ -183,19 +200,25 @@ class TagRepository {
     if (duplicate != null && duplicate.id != localId) {
       return;
     }
-    await _db.updateTag(TagsCompanion(
-      id: drift.Value(localId),
-      name: drift.Value(name),
-      syncStatus: const drift.Value('pending'),
-    ));
+    await _db.updateTag(
+      TagsCompanion(
+        id: drift.Value(localId),
+        name: drift.Value(name),
+        syncStatus: const drift.Value('pending'),
+      ),
+    );
     if (await _connectivity.isOnline && local.remoteId != null) {
       try {
-        await _client.dio.patch(_config.endpoint('tags/${local.remoteId}'),
-            data: {'name': name});
-        await _db.updateTag(TagsCompanion(
-          id: drift.Value(localId),
-          syncStatus: const drift.Value('synced'),
-        ));
+        await _client.dio.patch(
+          _config.endpoint('tags/${local.remoteId}'),
+          data: {'name': name},
+        );
+        await _db.updateTag(
+          TagsCompanion(
+            id: drift.Value(localId),
+            syncStatus: const drift.Value('synced'),
+          ),
+        );
       } catch (_) {}
     }
   }
@@ -224,8 +247,10 @@ class TagRepository {
   }
 
   Future<void> _syncQueuedDeletes() async {
-    final queued =
-        await _db.getQueuedSync(entityType: 'tag', operation: 'delete');
+    final queued = await _db.getQueuedSync(
+      entityType: 'tag',
+      operation: 'delete',
+    );
     for (final item in queued) {
       final payload = _decodeQueuePayload(item.payloadJson);
       final remoteId = payload['remoteId'] as int? ?? item.entityLocalId;

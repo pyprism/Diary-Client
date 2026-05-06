@@ -58,10 +58,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (savedServerConfig && mounted && _showServerConfig) {
       setState(() => _showServerConfig = false);
     }
-    await ref.read(authNotifierProvider.notifier).login(
-          _emailCtrl.text.trim(),
-          _passwordCtrl.text,
-        );
+    await ref
+        .read(authNotifierProvider.notifier)
+        .login(_emailCtrl.text.trim(), _passwordCtrl.text);
     if (mounted) {
       final state = ref.read(authNotifierProvider);
       if (state.hasValue && state.value == true) {
@@ -73,9 +72,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: Colors.red),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
   }
 
   @override
@@ -98,32 +97,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 24),
                     Text(
                       'Diary',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge
+                      style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Welcome back. Sign in to continue.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                     const SizedBox(height: 40),
 
                     // Server config toggle
                     InkWell(
                       onTap: () => setState(
-                          () => _showServerConfig = !_showServerConfig),
+                        () => _showServerConfig = !_showServerConfig,
+                      ),
                       child: Row(
                         children: [
-                          Icon(Icons.dns_outlined,
-                              size: 18,
-                              color: Theme.of(context).colorScheme.primary),
+                          Icon(
+                            Icons.dns_outlined,
+                            size: 18,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             'Server Configuration',
@@ -133,9 +132,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           ),
                           const Spacer(),
-                          Icon(_showServerConfig
-                              ? Icons.expand_less
-                              : Icons.expand_more),
+                          Icon(
+                            _showServerConfig
+                                ? Icons.expand_less
+                                : Icons.expand_more,
+                          ),
                         ],
                       ),
                     ),
@@ -175,11 +176,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: 'Password',
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
-                          icon: Icon(_obscurePassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined),
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
                           onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                         ),
                       ),
                       validator: (v) => v == null || v.isEmpty
@@ -196,8 +200,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Sign In'),
                       ),

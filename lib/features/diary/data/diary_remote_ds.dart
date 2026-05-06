@@ -46,9 +46,13 @@ class DiaryRemoteDataSource {
   }
 
   Future<DiaryEntry> updateDiary(
-      int remoteId, Map<String, dynamic> data) async {
-    final res = await _client.dio
-        .patch(_config.endpoint('diaries/$remoteId'), data: data);
+    int remoteId,
+    Map<String, dynamic> data,
+  ) async {
+    final res = await _client.dio.patch(
+      _config.endpoint('diaries/$remoteId'),
+      data: data,
+    );
     return DiaryEntry.fromJson(res.data as Map<String, dynamic>);
   }
 

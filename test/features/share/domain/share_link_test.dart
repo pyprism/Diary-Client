@@ -35,9 +35,7 @@ void main() {
       });
 
       expect(
-        link.expiryStatusLabel(
-          now: DateTime.parse('2026-05-04T08:00:00Z'),
-        ),
+        link.expiryStatusLabel(now: DateTime.parse('2026-05-04T08:00:00Z')),
         'Expires in 2h 30m',
       );
     });
@@ -57,9 +55,7 @@ void main() {
       });
 
       expect(
-        link.expiryStatusLabel(
-          now: DateTime.parse('2026-05-04T10:31:00Z'),
-        ),
+        link.expiryStatusLabel(now: DateTime.parse('2026-05-04T10:31:00Z')),
         'Expired',
       );
     });

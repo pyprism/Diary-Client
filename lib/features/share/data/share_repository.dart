@@ -40,8 +40,9 @@ class ShareRepository {
   }
 
   Future<void> deleteLink(int diaryRemoteId, String token) async {
-    await _client.dio
-        .delete(_config.endpoint('diaries/$diaryRemoteId/shares/$token'));
+    await _client.dio.delete(
+      _config.endpoint('diaries/$diaryRemoteId/shares/$token'),
+    );
   }
 
   Future<void> deleteGlobalLink(ShareLink link) async {

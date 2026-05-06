@@ -10,10 +10,12 @@ void main() {
       ContentBlock.paragraph(text: 'Went to the beach.'),
       ContentBlock.quote(text: 'Memories matter'),
       ContentBlock.bulletList(items: ['Sunrise', 'Seafood']),
-      ContentBlock.checklist(items: [
-        {'text': 'Book hotel', 'checked': true},
-        {'text': 'Pack bag', 'checked': false},
-      ]),
+      ContentBlock.checklist(
+        items: [
+          {'text': 'Book hotel', 'checked': true},
+          {'text': 'Pack bag', 'checked': false},
+        ],
+      ),
       ContentBlock.image(url: 'https://example.com/a.jpg'),
       ContentBlock.divider(),
     ];

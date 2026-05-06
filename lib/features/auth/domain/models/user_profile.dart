@@ -12,9 +12,9 @@ class UserProfile {
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
-        id: json['id'] as int,
-        email: json['email'] as String,
-        isActive: json['is_active'] as bool? ?? true,
-        createdAt: json['created_at'] as String? ?? '',
-      );
+    id: json['id'] as int,
+    email: json['email'] as String,
+    isActive: json['is_active'] as bool? ?? true,
+    createdAt: json['created_at'] as String? ?? '',
+  );
 }

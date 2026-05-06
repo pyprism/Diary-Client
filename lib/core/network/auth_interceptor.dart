@@ -34,16 +34,18 @@ class AuthInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    final isRefreshRequest =
-        err.requestOptions.path.contains('/auth/token/refresh/');
+    final isRefreshRequest = err.requestOptions.path.contains(
+      '/auth/token/refresh/',
+    );
     final alreadyRetried =
         err.requestOptions.extra['tokenRefreshRetried'] == true;
 
     if (err.response?.statusCode == 401 &&
         !isRefreshRequest &&
         !alreadyRetried) {
-      final refreshToken =
-          await _storage.read(key: AppConstants.keyRefreshToken);
+      final refreshToken = await _storage.read(
+        key: AppConstants.keyRefreshToken,
+      );
       if (refreshToken != null && _dio != null) {
         try {
           final res = await _dio!.post(
@@ -54,10 +56,14 @@ class AuthInterceptor extends Interceptor {
           final newAccess = res.data['access'] as String;
           final newRefresh = res.data['refresh'] as String?;
           await _storage.write(
-              key: AppConstants.keyAccessToken, value: newAccess);
+            key: AppConstants.keyAccessToken,
+            value: newAccess,
+          );
           if (newRefresh != null && newRefresh.isNotEmpty) {
             await _storage.write(
-                key: AppConstants.keyRefreshToken, value: newRefresh);
+              key: AppConstants.keyRefreshToken,
+              value: newRefresh,
+            );
           }
 
           // Retry original request
@@ -74,8 +80,9 @@ class AuthInterceptor extends Interceptor {
           return handler.reject(
             DioException(
               requestOptions: err.requestOptions,
-              error:
-                  const AuthException('Session expired. Please log in again.'),
+              error: const AuthException(
+                'Session expired. Please log in again.',
+              ),
             ),
           );
         }
@@ -109,10 +116,10 @@ class AuthInterceptor extends Interceptor {
       error: status == 401
           ? AuthException(message, statusCode: status)
           : status == 404
-              ? NotFoundException(message)
-              : status != null && status >= 400 && status < 500
-                  ? ValidationException(message, statusCode: status)
-                  : NetworkException(message, statusCode: status),
+          ? NotFoundException(message)
+          : status != null && status >= 400 && status < 500
+          ? ValidationException(message, statusCode: status)
+          : NetworkException(message, statusCode: status),
     );
   }
 }

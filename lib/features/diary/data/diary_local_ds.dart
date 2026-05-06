@@ -32,30 +32,34 @@ class DiaryLocalDataSource {
       _db.watchDiaryById(id).asyncMap((e) => e != null ? _mapEntry(e) : null);
 
   Future<int> insert(DiaryEntry entry, List<int> tagLocalIds) async {
-    final id = await _db.insertDiary(DiaryEntriesCompanion.insert(
-      remoteId: drift.Value(entry.remoteId),
-      title: entry.title,
-      date: entry.date,
-      postType: drift.Value(entry.postType.value),
-      contentJson: entry.content.toJsonString(),
-      syncStatus: drift.Value(entry.syncStatus),
-    ));
+    final id = await _db.insertDiary(
+      DiaryEntriesCompanion.insert(
+        remoteId: drift.Value(entry.remoteId),
+        title: entry.title,
+        date: entry.date,
+        postType: drift.Value(entry.postType.value),
+        contentJson: entry.content.toJsonString(),
+        syncStatus: drift.Value(entry.syncStatus),
+      ),
+    );
     await _db.setTagsForDiary(id, tagLocalIds);
     return id;
   }
 
   Future<void> update(DiaryEntry entry, List<int> tagLocalIds) async {
     if (entry.localId == null) return;
-    await _db.updateDiary(DiaryEntriesCompanion(
-      id: drift.Value(entry.localId!),
-      remoteId: drift.Value(entry.remoteId),
-      title: drift.Value(entry.title),
-      date: drift.Value(entry.date),
-      postType: drift.Value(entry.postType.value),
-      contentJson: drift.Value(entry.content.toJsonString()),
-      syncStatus: drift.Value(entry.syncStatus),
-      updatedAt: drift.Value(DateTime.now()),
-    ));
+    await _db.updateDiary(
+      DiaryEntriesCompanion(
+        id: drift.Value(entry.localId!),
+        remoteId: drift.Value(entry.remoteId),
+        title: drift.Value(entry.title),
+        date: drift.Value(entry.date),
+        postType: drift.Value(entry.postType.value),
+        contentJson: drift.Value(entry.content.toJsonString()),
+        syncStatus: drift.Value(entry.syncStatus),
+        updatedAt: drift.Value(DateTime.now()),
+      ),
+    );
     await _db.setTagsForDiary(entry.localId!, tagLocalIds);
   }
 
