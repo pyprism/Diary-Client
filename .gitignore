@@ -1,3 +1,6 @@
+deploy/deploy_config.yaml
+# Ignore locally installed Ansible collection artifacts so only requirements are tracked.
+deploy/ansible/collections/ansible_collections/
 .idea/
 API_DOCUMENTATION.md
 # Miscellaneous
@@ -45,3 +48,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/deploy/ansible/deploy_config.yaml
