@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'core/constants/app_theme.dart';
+import 'core/di/providers.dart';
 import 'features/diary/presentation/diary_providers.dart';
 import 'features/tags/presentation/tags_providers.dart';
 import 'routing/app_router.dart';
@@ -15,18 +16,40 @@ class DiaryApp extends ConsumerStatefulWidget {
   ConsumerState<DiaryApp> createState() => _DiaryAppState();
 }
 
-class _DiaryAppState extends ConsumerState<DiaryApp> {
-  Timer? _pendingSyncTimer;
+class _DiaryAppState extends ConsumerState<DiaryApp>
+    with WidgetsBindingObserver {
   bool _isSyncingPending = false;
 
   @override
   void initState() {
     super.initState();
-    unawaited(_runPendingSync());
-    _pendingSyncTimer = Timer.periodic(
-      const Duration(minutes: 1),
-      (_) => unawaited(_runPendingSync()),
-    );
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_runPendingSyncIfOnline());
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      unawaited(_runPendingSyncIfOnline());
+    }
+  }
+
+  Future<void> _runPendingSyncIfOnline() async {
+    if (!mounted) return;
+    final isOnline = await ref.read(connectivityServiceProvider).isOnline;
+    if (!isOnline) return;
+    await _runPendingSync();
+  }
+
+  void _onOnlineStatusChanged(
+    AsyncValue<bool>? previous,
+    AsyncValue<bool> next,
+  ) {
+    final wasOnline = previous?.asData?.value ?? false;
+    final isOnline = next.asData?.value ?? false;
+    if (!wasOnline && isOnline) {
+      unawaited(_runPendingSync());
+    }
   }
 
   Future<void> _runPendingSync() async {
@@ -42,12 +65,13 @@ class _DiaryAppState extends ConsumerState<DiaryApp> {
 
   @override
   void dispose() {
-    _pendingSyncTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<bool>>(isOnlineProvider, _onOnlineStatusChanged);
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
@@ -61,9 +85,7 @@ class _DiaryAppState extends ConsumerState<DiaryApp> {
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-      ],
+      supportedLocales: const [Locale('en')],
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
