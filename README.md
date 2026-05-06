@@ -1,3 +1,5 @@
-# diary_client
+# Diary Client
 
-A new Flutter project.
+
+#### Icon credit
+[Journal icons created by Freepik - Flaticon](https://www.flaticon.com/free-icon/notebook_8005831)

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Exit on error
+set -e
+
+DEPLOY_CONFIG_FILE="deploy/ansible/deploy_config.yaml"
+ANSIBLE_CONFIG_FILE="deploy/ansible/ansible.cfg"
+COLLECTION_REQUIREMENTS_FILE="deploy/ansible/collections/requirements.yml"
+COLLECTIONS_PATH="deploy/ansible/collections"
+
+# Configuration
+# The DOMAIN_NAME environment variable is passed to Flutter during build time
+# via --dart-define, which sets the default API domain for the application.
+# For local development, remove the --dart-define flag and the app will use
+# the default local domain (localhost:8000).
+
+
+if [ ! -f "$DEPLOY_CONFIG_FILE" ]; then
+  echo "Error: deployment config file '$DEPLOY_CONFIG_FILE' was not found."
+  exit 1
+fi
+
+if [ ! -f "$ANSIBLE_CONFIG_FILE" ]; then
+  echo "Error: Ansible config file '$ANSIBLE_CONFIG_FILE' was not found."
+  exit 1
+fi
+
+if [ ! -f "$COLLECTION_REQUIREMENTS_FILE" ]; then
+  echo "Error: collection requirements file '$COLLECTION_REQUIREMENTS_FILE' was not found."
+  exit 1
+fi
+
+echo "Building Flutter web app for production..."
+flutter build web  --release
+
+echo "Installing Ansible collections from '$COLLECTION_REQUIREMENTS_FILE'..."
+ANSIBLE_CONFIG="$ANSIBLE_CONFIG_FILE" ansible-galaxy collection install \
+  -r "$COLLECTION_REQUIREMENTS_FILE" \
+  -p "$COLLECTIONS_PATH" \
+  --force-with-deps
+
+echo "Running Ansible deployment playbook..."
+ANSIBLE_CONFIG="$ANSIBLE_CONFIG_FILE" ansible-playbook deploy/ansible/update.yaml -K
+
+
+echo "Deployment complete!"
