@@ -64,7 +64,15 @@ class AnalysisRepository {
         await _saveLocallyBestEffort(diaryLocalId, analysis);
         if (terminal) return;
         delay = _pollDelayFor(analysis);
-      } catch (_) {}
+      } catch (e) {
+        if (e is DioException && e.response?.statusCode != null) {
+          final status = e.response!.statusCode!;
+          // Stop polling on unrecoverable client errors.
+          if (status >= 400 && status < 500 && status != 429) {
+            return;
+          }
+        }
+      }
       retries++;
     }
   }
