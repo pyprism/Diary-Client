@@ -19,6 +19,8 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
 
+  AppDatabase.forTesting(super.executor);
+
   @override
   int get schemaVersion => 2;
 
@@ -53,12 +55,11 @@ class AppDatabase extends _$AppDatabase {
 
   // ─── Diary ───────────────────────────────────────────────────
 
-  Stream<List<DiaryEntryData>> watchAllDiaries() => (select(
-    diaryEntries,
-  )..orderBy([(t) => OrderingTerm.desc(t.date)])).watch();
+  Stream<List<DiaryEntryData>> watchAllDiaries() =>
+      select(diaryEntries).watch().map(_sortDiaryRowsByDateDesc);
 
-  Future<List<DiaryEntryData>> getAllDiaries() =>
-      (select(diaryEntries)..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
+  Future<List<DiaryEntryData>> getAllDiaries() async =>
+      _sortDiaryRowsByDateDesc(await select(diaryEntries).get());
 
   Future<DiaryEntryData?> getDiaryById(int localId) => (select(
     diaryEntries,
@@ -111,17 +112,16 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<DiaryEntryData>> getDiariesForTag(int tagLocalId) async {
-    final query =
-        select(diaryTags).join([
-            innerJoin(
-              diaryEntries,
-              diaryEntries.id.equalsExp(diaryTags.diaryLocalId),
-            ),
-          ])
-          ..where(diaryTags.tagLocalId.equals(tagLocalId))
-          ..orderBy([OrderingTerm.desc(diaryEntries.date)]);
+    final query = select(diaryTags).join([
+      innerJoin(
+        diaryEntries,
+        diaryEntries.id.equalsExp(diaryTags.diaryLocalId),
+      ),
+    ])..where(diaryTags.tagLocalId.equals(tagLocalId));
     final rows = await query.get();
-    return rows.map((r) => r.readTable(diaryEntries)).toList();
+    return _sortDiaryRowsByDateDesc(
+      rows.map((r) => r.readTable(diaryEntries)).toList(),
+    );
   }
 
   // ─── Tags ────────────────────────────────────────────────────
@@ -213,4 +213,37 @@ class AppDatabase extends _$AppDatabase {
     'UPDATE sync_queue SET retry_count = retry_count + 1 WHERE id = ?',
     [id],
   );
+
+  List<DiaryEntryData> _sortDiaryRowsByDateDesc(List<DiaryEntryData> rows) {
+    final sorted = [...rows];
+    sorted.sort((a, b) {
+      final aDate = _parseStoredDate(a.date);
+      final bDate = _parseStoredDate(b.date);
+      if (aDate != null && bDate != null) {
+        return bDate.compareTo(aDate);
+      }
+      if (aDate != null) return -1;
+      if (bDate != null) return 1;
+      return b.date.compareTo(a.date);
+    });
+    return sorted;
+  }
+
+  DateTime? _parseStoredDate(String value) {
+    final parts = value.split('-');
+    if (parts.length != 3) return null;
+
+    final day = int.tryParse(parts[0]);
+    final month = int.tryParse(parts[1]);
+    final year = int.tryParse(parts[2]);
+    if (day == null || month == null || year == null) {
+      return null;
+    }
+
+    final parsed = DateTime(year, month, day);
+    if (parsed.year != year || parsed.month != month || parsed.day != day) {
+      return null;
+    }
+    return parsed;
+  }
 }
