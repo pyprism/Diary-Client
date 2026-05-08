@@ -31,10 +31,11 @@ class ServerConfig {
   static ({String domain, bool useHttps})? parseServerInput(String input) {
     final trimmed = input.trim();
     if (trimmed.isEmpty) return null;
+    if (RegExp(r'\s').hasMatch(trimmed)) return null;
 
     final withScheme = trimmed.contains('://') ? trimmed : 'https://$trimmed';
     final uri = Uri.tryParse(withScheme);
-    if (uri == null || uri.host.isEmpty) return null;
+    if (uri == null || uri.host.isEmpty || uri.host.contains('%')) return null;
 
     final domain = uri.hasPort ? '${uri.host}:${uri.port}' : uri.host;
     final useHttps = uri.scheme.toLowerCase() != 'http';
