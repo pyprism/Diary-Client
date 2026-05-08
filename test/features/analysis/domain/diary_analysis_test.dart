@@ -73,5 +73,58 @@ void main() {
       expect(analysis.retryAfterSeconds, 10);
       expect(analysis.isPending, isTrue);
     });
+
+    test('error text forces FAILED regardless of status candidate', () {
+      final analysis = DiaryAnalysis.fromJson({
+        'status': 'DONE',
+        'error': 'Task crashed',
+      });
+
+      expect(analysis.status, DiaryAnalysis.failed);
+      expect(analysis.isFailed, isTrue);
+    });
+
+    test('normalizes dashed and lowercase statuses', () {
+      final analysis = DiaryAnalysis.fromJson({'status': 'in-progress'});
+
+      expect(analysis.status, DiaryAnalysis.processing);
+      expect(analysis.isPending, isTrue);
+    });
+
+    test('unknown statuses infer done only when result fields exist', () {
+      final done = DiaryAnalysis.fromJson({
+        'status': 'mystery',
+        'summary': 'All set',
+      });
+      final pending = DiaryAnalysis.fromJson({'status': 'mystery'});
+
+      expect(done.status, DiaryAnalysis.done);
+      expect(pending.status, DiaryAnalysis.pending);
+    });
+
+    test('parses retry_after_seconds from strings', () {
+      final analysis = DiaryAnalysis.fromJson({
+        'status': 'PROCESSING',
+        'retry_after_seconds': '12',
+      });
+
+      expect(analysis.retryAfterSeconds, 12);
+    });
+
+    test('ignores non-map bangla_content and handles updated_at parsing', () {
+      final valid = DiaryAnalysis.fromJson({
+        'status': 'DONE',
+        'bangla_content': ['not', 'a', 'map'],
+        'updated_at': '2026-05-08T10:00:00Z',
+      });
+      final invalid = DiaryAnalysis.fromJson({
+        'status': 'DONE',
+        'updated_at': 'bad-date',
+      });
+
+      expect(valid.banglaContent, isNull);
+      expect(valid.updatedAt, DateTime.parse('2026-05-08T10:00:00Z'));
+      expect(invalid.updatedAt, isNull);
+    });
   });
 }
