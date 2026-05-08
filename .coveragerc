@@ -1,0 +1,22 @@
+# Test coverage configuration
+# This file configures which files should be excluded from test coverage reports
+
+# Exclude generated files
+*.g.dart
+*.freezed.dart
+
+# Exclude main entry points
+lib/main.dart
+lib/bootstrap*.dart
+
+# Exclude Firebase configuration
+lib/firebase_options.dart
+
+# Exclude generated routes
+lib/**/*.gr.dart
+
+# Exclude platform-specific code
+lib/platform/
+
+# Test files themselves
+test/**
