@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/network/server_config.dart';
 import 'auth_providers.dart';
+import 'widgets/login_credentials_fields.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +24,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordFocus = FocusNode();
   bool _obscurePassword = true;
   bool _showServerConfig = false;
+  String? _emailErrorText;
+  String? _passwordErrorText;
 
   @override
   void initState() {
@@ -30,10 +33,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final config = ref.read(serverConfigProvider);
     _domainCtrl.text = config.serverInput;
     _showServerConfig = !config.isConfigured;
+    _emailCtrl.addListener(_clearCredentialErrors);
+    _passwordCtrl.addListener(_clearCredentialErrors);
   }
 
   @override
   void dispose() {
+    _emailCtrl.removeListener(_clearCredentialErrors);
+    _passwordCtrl.removeListener(_clearCredentialErrors);
     _domainFocus.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
@@ -41,6 +48,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _passwordCtrl.dispose();
     _domainCtrl.dispose();
     super.dispose();
+  }
+
+  void _clearCredentialErrors() {
+    if (_emailErrorText == null && _passwordErrorText == null) return;
+    final nextEmailError = _emailCtrl.text.trim().isEmpty
+        ? _emailErrorText
+        : null;
+    final nextPasswordError = _passwordCtrl.text.isEmpty
+        ? _passwordErrorText
+        : null;
+    if (nextEmailError == _emailErrorText &&
+        nextPasswordError == _passwordErrorText) {
+      return;
+    }
+    setState(() {
+      _emailErrorText = nextEmailError;
+      _passwordErrorText = nextPasswordError;
+    });
+  }
+
+  bool _validateCredentials() {
+    final emailError = _emailCtrl.text.trim().isEmpty
+        ? 'Email is required'
+        : null;
+    final passwordError = _passwordCtrl.text.isEmpty
+        ? 'Password is required'
+        : null;
+    setState(() {
+      _emailErrorText = emailError;
+      _passwordErrorText = passwordError;
+    });
+    return emailError == null && passwordError == null;
   }
 
   Future<bool> _saveServerConfig() async {
@@ -53,8 +92,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _submit() async {
+    LoginCredentialsFields.syncAutofillValues();
     FocusManager.instance.primaryFocus?.unfocus();
-    if (!_formKey.currentState!.validate()) return;
+    final isFormValid = _formKey.currentState!.validate();
+    final areCredentialsValid = _validateCredentials();
+    if (!isFormValid || !areCredentialsValid) return;
     final savedServerConfig = await _saveServerConfig();
     if (savedServerConfig && mounted && _showServerConfig) {
       setState(() => _showServerConfig = false);
@@ -154,60 +196,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     const SizedBox(height: 24),
 
-                    AutofillGroup(
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: _emailCtrl,
-                            focusNode: _emailFocus,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            autofillHints: const [
-                              AutofillHints.username,
-                              AutofillHints.email,
-                            ],
-                            autocorrect: false,
-                            enableSuggestions: false,
-                            onFieldSubmitted: (_) =>
-                                _passwordFocus.requestFocus(),
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.email_outlined),
-                            ),
-                            validator: (v) => v == null || v.isEmpty
-                                ? 'Email is required'
-                                : null,
-                          ),
-                          const SizedBox(height: 16),
-                          TextFormField(
-                            controller: _passwordCtrl,
-                            focusNode: _passwordFocus,
-                            obscureText: _obscurePassword,
-                            textInputAction: TextInputAction.done,
-                            autofillHints: const [AutofillHints.password],
-                            autocorrect: false,
-                            enableSuggestions: false,
-                            onFieldSubmitted: (_) => _submit(),
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_outline),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                ),
-                                onPressed: () => setState(
-                                  () => _obscurePassword = !_obscurePassword,
-                                ),
-                              ),
-                            ),
-                            validator: (v) => v == null || v.isEmpty
-                                ? 'Password is required'
-                                : null,
-                          ),
-                        ],
-                      ),
+                    LoginCredentialsFields(
+                      emailController: _emailCtrl,
+                      passwordController: _passwordCtrl,
+                      emailFocusNode: _emailFocus,
+                      passwordFocusNode: _passwordFocus,
+                      obscurePassword: _obscurePassword,
+                      emailErrorText: _emailErrorText,
+                      passwordErrorText: _passwordErrorText,
+                      onPasswordSubmitted: _submit,
+                      onTogglePasswordVisibility: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                     const SizedBox(height: 32),
 
