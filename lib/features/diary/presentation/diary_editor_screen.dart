@@ -7,6 +7,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../core/utils/content_utils.dart';
 import '../../../core/utils/date_utils.dart' as du;
 import '../../../features/image_upload/data/image_upload_repository.dart';
@@ -120,7 +121,9 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
   }
 
   PostType _postTypeForWordCount(int wordCount) {
-    return wordCount > 80 ? PostType.long : PostType.short;
+    return wordCount > AppConstants.shortPostWordLimit
+        ? PostType.long
+        : PostType.short;
   }
 
   int _countWords(String text) {
@@ -198,7 +201,10 @@ class _DiaryEditorScreenState extends ConsumerState<DiaryEditorScreen> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (picked != null) {
-      setState(() => _selectedDate = picked);
+      setState(() {
+        _selectedDate = picked;
+        _titleCtrl.text = du.DateUtils.toTitleFormat(picked);
+      });
     }
   }
 
