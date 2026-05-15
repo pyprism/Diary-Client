@@ -4,6 +4,7 @@ class DateUtils {
   static final DateFormat _apiFormat = DateFormat('dd-MM-yyyy');
   static final DateFormat _displayFormat = DateFormat('MMMM d, yyyy');
   static final DateFormat _shortFormat = DateFormat('MMM d, yyyy');
+  static final DateFormat _titleFormat = DateFormat('dd-MMMM-yyyy');
 
   static String toApiFormat(DateTime date) => _apiFormat.format(date);
 
@@ -26,6 +27,8 @@ class DateUtils {
     if (date == null) return apiDate;
     return _shortFormat.format(date);
   }
+
+  static String toTitleFormat(DateTime date) => _titleFormat.format(date);
 
   static String todayApiFormat() => toApiFormat(DateTime.now());
 }
