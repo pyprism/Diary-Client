@@ -10,6 +10,7 @@ void main() {
       expect(DateUtils.fromApiFormat('08-05-2026'), date);
       expect(DateUtils.toDisplayFormat('08-05-2026'), 'May 8, 2026');
       expect(DateUtils.toShortFormat('08-05-2026'), 'May 8, 2026');
+      expect(DateUtils.toTitleFormat(date), '08-May-2026');
     });
 
     test('returns safe fallbacks for invalid date strings', () {
