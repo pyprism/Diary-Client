@@ -55,8 +55,24 @@ class AppDatabase extends _$AppDatabase {
 
   // ─── Diary ───────────────────────────────────────────────────
 
-  Stream<List<DiaryEntryData>> watchAllDiaries() =>
-      select(diaryEntries).watch().map(_sortDiaryRowsByDateDesc);
+  Stream<List<DiaryEntryData>> watchAllDiaries() {
+    final query = select(diaryEntries).join([
+      leftOuterJoin(
+        diaryTags,
+        diaryTags.diaryLocalId.equalsExp(diaryEntries.id),
+      ),
+      leftOuterJoin(tags, tags.id.equalsExp(diaryTags.tagLocalId)),
+    ]);
+
+    return query.watch().map((rows) {
+      final uniqueById = <int, DiaryEntryData>{};
+      for (final row in rows) {
+        final diary = row.readTable(diaryEntries);
+        uniqueById[diary.id] = diary;
+      }
+      return _sortDiaryRowsByDateDesc(uniqueById.values.toList());
+    });
+  }
 
   Future<List<DiaryEntryData>> getAllDiaries() async =>
       _sortDiaryRowsByDateDesc(await select(diaryEntries).get());
