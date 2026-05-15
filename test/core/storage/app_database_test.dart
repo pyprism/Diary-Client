@@ -70,6 +70,30 @@ void main() {
       await expectation;
     });
 
+    test('watchAllDiaries re-emits when diary tags change', () async {
+      final diaryId = await _insertDiary(
+        db,
+        title: 'Tagged',
+        date: '08-05-2026',
+      );
+      final tagId = await db.insertTag(TagsCompanion.insert(name: 'Travel'));
+
+      final expectation = expectLater(
+        db
+            .watchAllDiaries()
+            .map((rows) => rows.map((row) => row.id).toList())
+            .take(2),
+        emitsInOrder([
+          [diaryId],
+          [diaryId],
+        ]),
+      );
+
+      await db.setTagsForDiary(diaryId, [tagId]);
+
+      await expectation;
+    });
+
     test('deleteDiary cascades diary tag links', () async {
       final diaryId = await _insertDiary(
         db,
