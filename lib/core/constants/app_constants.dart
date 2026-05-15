@@ -13,6 +13,9 @@ class AppConstants {
   // Pagination
   static const int defaultPageSize = 20;
 
+  // Diary classification
+  static const int shortPostWordLimit = 150;
+
   // Analysis polling
   static const int analysisMaxRetries = 20;
   static const Duration analysisPollInterval = Duration(seconds: 10);
