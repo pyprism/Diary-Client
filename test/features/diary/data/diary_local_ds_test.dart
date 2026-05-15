@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:diary_client/core/storage/app_database.dart';
 import 'package:diary_client/core/utils/content_utils.dart';
 import 'package:diary_client/features/diary/data/diary_local_ds.dart';
@@ -90,6 +92,27 @@ void main() {
     await dataSource.delete(localId);
 
     await expectation;
+  });
+
+  test('watchAll re-emits hydrated tags when diary tags change', () async {
+    final localId = await dataSource.insert(_entry(), const []);
+    final tagId = await db.insertTag(TagsCompanion.insert(name: 'Travel'));
+
+    final stream = StreamIterator(
+      dataSource.watchAll().map(
+        (entries) => entries.single.tags.map((tag) => tag.name).toList(),
+      ),
+    );
+
+    expect(await stream.moveNext(), isTrue);
+    expect(stream.current, isEmpty);
+
+    await db.setTagsForDiary(localId, [tagId]);
+
+    expect(await stream.moveNext(), isTrue);
+    expect(stream.current, ['Travel']);
+
+    await stream.cancel();
   });
 
   test(
