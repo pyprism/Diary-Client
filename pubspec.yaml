@@ -24,7 +24,7 @@ dependencies:
   path: ^1.9.1
 
   # Network
-  dio: ^5.7.0
+  dio: ^5.10.0
   connectivity_plus: ^7.1.1
 
   # Storage
