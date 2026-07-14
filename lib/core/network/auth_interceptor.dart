@@ -8,6 +8,7 @@ class AuthInterceptor extends Interceptor {
   final TokenStorage _storage;
   final ServerConfig _config;
   Dio? _dio;
+  Future<String?>? _refreshInFlight;
 
   AuthInterceptor(this._storage, this._config);
 
@@ -42,53 +43,62 @@ class AuthInterceptor extends Interceptor {
 
     if (err.response?.statusCode == 401 &&
         !isRefreshRequest &&
-        !alreadyRetried) {
-      final refreshToken = await _storage.read(
-        key: AppConstants.keyRefreshToken,
-      );
-      if (refreshToken != null && _dio != null) {
-        try {
-          final res = await _dio!.post(
-            _config.endpoint('auth/token/refresh'),
-            data: {'refresh': refreshToken},
-            options: Options(headers: {}, extra: {'skipAuth': true}),
-          );
-          final newAccess = res.data['access'] as String;
-          final newRefresh = res.data['refresh'] as String?;
-          await _storage.write(
-            key: AppConstants.keyAccessToken,
-            value: newAccess,
-          );
-          if (newRefresh != null && newRefresh.isNotEmpty) {
-            await _storage.write(
-              key: AppConstants.keyRefreshToken,
-              value: newRefresh,
-            );
-          }
-
-          // Retry original request
-          final opts = err.requestOptions;
-          opts.headers['Authorization'] = 'Bearer $newAccess';
-          opts.extra['tokenRefreshRetried'] = true;
-          final retryRes = await _dio!.fetch(opts);
-          return handler.resolve(retryRes);
-        } catch (_) {
-          await _storage.deleteAll([
-            AppConstants.keyAccessToken,
-            AppConstants.keyRefreshToken,
-          ]);
-          return handler.reject(
-            DioException(
-              requestOptions: err.requestOptions,
-              error: const AuthException(
-                'Session expired. Please log in again.',
-              ),
-            ),
-          );
+        !alreadyRetried &&
+        _dio != null) {
+      try {
+        final newAccess = await _refreshAccessToken();
+        if (newAccess == null) {
+          throw const AuthException('Session expired. Please log in again.');
         }
+
+        // Retry original request
+        final opts = err.requestOptions;
+        opts.headers['Authorization'] = 'Bearer $newAccess';
+        opts.extra['tokenRefreshRetried'] = true;
+        final retryRes = await _dio!.fetch(opts);
+        return handler.resolve(retryRes);
+      } catch (_) {
+        await _storage.deleteAll([
+          AppConstants.keyAccessToken,
+          AppConstants.keyRefreshToken,
+        ]);
+        return handler.reject(
+          DioException(
+            requestOptions: err.requestOptions,
+            error: const AuthException('Session expired. Please log in again.'),
+          ),
+        );
       }
     }
     handler.next(_mapError(err));
+  }
+
+  /// Collapses concurrent callers onto one in-flight refresh (rotation blacklists prior tokens, so racing calls would self-lock out).
+  Future<String?> _refreshAccessToken() {
+    return _refreshInFlight ??= _doRefresh().whenComplete(() {
+      _refreshInFlight = null;
+    });
+  }
+
+  Future<String?> _doRefresh() async {
+    final refreshToken = await _storage.read(key: AppConstants.keyRefreshToken);
+    if (refreshToken == null) return null;
+
+    final res = await _dio!.post(
+      _config.endpoint('auth/token/refresh'),
+      data: {'refresh': refreshToken},
+      options: Options(headers: {}, extra: {'skipAuth': true}),
+    );
+    final newAccess = res.data['access'] as String;
+    final newRefresh = res.data['refresh'] as String?;
+    await _storage.write(key: AppConstants.keyAccessToken, value: newAccess);
+    if (newRefresh != null && newRefresh.isNotEmpty) {
+      await _storage.write(
+        key: AppConstants.keyRefreshToken,
+        value: newRefresh,
+      );
+    }
+    return newAccess;
   }
 
   DioException _mapError(DioException err) {
