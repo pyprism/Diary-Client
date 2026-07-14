@@ -82,6 +82,18 @@ class AuthRepository {
     }
   }
 
+  Future<UserProfile> updateWebBaseUrl(String webBaseUrl) async {
+    try {
+      final res = await _client.dio.patch(
+        _config.endpoint('auth/me'),
+        data: {'web_base_url': webBaseUrl},
+      );
+      return UserProfile.fromJson(res.data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _asAppException(e, const AppException('Failed to update settings'));
+    }
+  }
+
   Future<bool> get isLoggedIn async {
     final accessToken = await _storage.read(key: AppConstants.keyAccessToken);
     if (accessToken != null &&
@@ -97,6 +109,20 @@ class AuthRepository {
   }
 
   Future<void> logout() async {
+    final refreshToken = await _storage.read(key: AppConstants.keyRefreshToken);
+    if (refreshToken != null &&
+        refreshToken.isNotEmpty &&
+        _config.isConfigured) {
+      try {
+        await _client.dio.post(
+          _config.endpoint('auth/logout'),
+          data: {'refresh': refreshToken},
+        );
+      } catch (_) {
+        // Best-effort: local tokens are cleared below regardless of server outcome.
+      }
+    }
+
     await _storage.deleteAll([
       AppConstants.keyAccessToken,
       AppConstants.keyRefreshToken,
