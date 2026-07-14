@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/auth_providers.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/register_screen.dart';
+import '../features/auth/presentation/settings_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/diary/presentation/diary_list_screen.dart';
 import '../features/diary/presentation/diary_detail_screen.dart';
@@ -52,6 +53,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/share/:token',
         builder: (_, state) =>
             PublicShareScreen(token: state.pathParameters['token']!),
+      ),
+
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
 
       // Shell with navigation
