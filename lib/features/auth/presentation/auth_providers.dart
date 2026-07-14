@@ -48,6 +48,23 @@ class AuthNotifier extends AsyncNotifier<bool> {
   }
 }
 
+class ProfileNotifier extends AsyncNotifier<UserProfile?> {
+  @override
+  Future<UserProfile?> build() {
+    return ref.watch(authRepositoryProvider).getProfile();
+  }
+
+  Future<void> updateWebBaseUrl(String webBaseUrl) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(authRepositoryProvider).updateWebBaseUrl(webBaseUrl),
+    );
+  }
+}
+
+final profileNotifierProvider =
+    AsyncNotifierProvider<ProfileNotifier, UserProfile?>(ProfileNotifier.new);
+
 final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, bool>(
   AuthNotifier.new,
 );
