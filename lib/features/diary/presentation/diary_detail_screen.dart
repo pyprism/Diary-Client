@@ -222,7 +222,9 @@ class _DiaryDetailContent extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Content
-        BlockRenderer(content: entry.content),
+        entry.content.isEmpty && entry.remoteId != null
+            ? _buildNotDownloadedYet(context)
+            : BlockRenderer(content: entry.content),
 
         const SizedBox(height: 32),
         const Divider(),
@@ -237,6 +239,32 @@ class _DiaryDetailContent extends StatelessWidget {
 
         const SizedBox(height: 80),
       ],
+    );
+  }
+
+  Widget _buildNotDownloadedYet(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.cloud_off_outlined,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              "This entry's content hasn't been downloaded yet. Connect to the "
+              'internet to view it.',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
