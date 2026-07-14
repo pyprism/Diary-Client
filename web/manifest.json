@@ -1,11 +1,11 @@
 {
-    "name": "diary_client",
-    "short_name": "diary_client",
+    "name": "Diary",
+    "short_name": "Diary",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#hexcode",
-    "theme_color": "#hexcode",
-    "description": "A new Flutter project.",
+    "background_color": "#FAF8FF",
+    "theme_color": "#4A6FA5",
+    "description": "A minimalist, offline-first journaling app with rich text entries, mood analysis, and tagging.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
