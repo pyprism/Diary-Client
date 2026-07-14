@@ -11,6 +11,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/utils/content_utils.dart';
 import '../../../core/utils/date_utils.dart' as du;
 import '../../../features/image_upload/data/image_upload_repository.dart';
+import '../../../features/image_upload/presentation/signed_network_image.dart';
 import '../../../features/tags/presentation/tags_providers.dart';
 import 'diary_content_quill_codec.dart';
 import 'diary_providers.dart';
@@ -590,25 +591,12 @@ class _DiaryImageEmbedBuilder extends quill.EmbedBuilder {
     }
 
     if (source.startsWith('http://') || source.startsWith('https://')) {
-      return Consumer(
-        builder: (context, ref, _) {
-          final signedUrl = ref.watch(signedImageUrlProvider(source));
-          return signedUrl.when(
-            data: (displayUrl) => Image.network(
-              displayUrl,
-              fit: BoxFit.contain,
-              width: double.infinity,
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return _imagePlaceholder(context);
-              },
-              errorBuilder: (context, error, stackTrace) =>
-                  _brokenImage(context),
-            ),
-            loading: () => _imagePlaceholder(context),
-            error: (error, stackTrace) => _brokenImage(context),
-          );
-        },
+      return SignedNetworkImage(
+        url: source,
+        fit: BoxFit.contain,
+        width: double.infinity,
+        placeholderBuilder: _imagePlaceholder,
+        errorBuilder: _brokenImage,
       );
     }
 
