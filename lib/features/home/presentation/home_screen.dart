@@ -21,6 +21,10 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.refresh_outlined),
             onPressed: () => ref.invalidate(homepageProvider),
           ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push('/settings'),
+          ),
         ],
       ),
       body: LayoutBuilder(
