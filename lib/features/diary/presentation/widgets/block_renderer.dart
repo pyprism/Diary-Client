@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/content_utils.dart';
-import '../../../image_upload/data/image_upload_repository.dart';
+import '../../../image_upload/presentation/signed_network_image.dart';
 
 class BlockRenderer extends StatelessWidget {
   final DiaryContent content;
@@ -255,21 +254,13 @@ class _ImageBlock extends StatelessWidget {
         height: double.infinity,
       );
     }
-    return Consumer(
-      builder: (context, ref, _) {
-        final signedUrl = ref.watch(signedImageUrlProvider(url));
-        return signedUrl.when(
-          data: (displayUrl) => Image.network(
-            displayUrl,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (context, error, stackTrace) => _brokenImage(context),
-          ),
-          loading: () => _loadingImage(context),
-          error: (error, stackTrace) => _brokenImage(context),
-        );
-      },
+    return SignedNetworkImage(
+      url: url,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+      placeholderBuilder: _loadingImage,
+      errorBuilder: _brokenImage,
     );
   }
 
