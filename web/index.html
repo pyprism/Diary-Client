@@ -18,12 +18,12 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="A minimalist, offline-first journaling app with rich text entries, mood analysis, and tagging.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="diary_client">
+  <meta name="apple-mobile-web-app-title" content="Diary">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -31,8 +31,55 @@
 
   <title>Diary</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-family: Roboto, system-ui, sans-serif;
+      background: #FAF8FF;
+      color: #1A1B22;
+    }
+    #app-loader .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #E3E1F0;
+      border-top-color: #4A6FA5;
+      border-radius: 50%;
+      animation: app-loader-spin 1s linear infinite;
+    }
+    @media (prefers-color-scheme: dark) {
+      #app-loader {
+        background: #272822;
+        color: #F8F8F2;
+      }
+      #app-loader .spinner {
+        border-color: #49483E;
+        border-top-color: #A6E22E;
+      }
+    }
+    @keyframes app-loader-spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
+  <div id="app-loader">
+    <div class="spinner"></div>
+    <div>Loading Diary&hellip;</div>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('app-loader');
+      if (el) el.remove();
+    });
+  </script>
+
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
