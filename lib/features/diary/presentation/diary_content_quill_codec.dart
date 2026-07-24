@@ -134,11 +134,6 @@ class DiaryContentQuillCodec {
       }
 
       final text = line.text.trimRight();
-      if (text.trim().isEmpty) {
-        flushParagraph();
-        continue;
-      }
-
       final attrs = line.attrs;
       final listType = attrs['list'];
 

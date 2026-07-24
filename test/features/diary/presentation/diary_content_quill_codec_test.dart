@@ -50,6 +50,19 @@ void main() {
     expect(output[6].type, 'divider');
   });
 
+  test('paragraph preserves blank lines used for spacing', () {
+    final input = <ContentBlock>[
+      ContentBlock.paragraph(text: 'Line one.\n\nLine two.\n\n\nLine three.'),
+    ];
+
+    final doc = DiaryContentQuillCodec.blocksToDocument(input);
+    final output = DiaryContentQuillCodec.documentToBlocks(doc);
+
+    expect(output.length, 1);
+    expect(output[0].type, 'paragraph');
+    expect(output[0].data['text'], 'Line one.\n\nLine two.\n\n\nLine three.');
+  });
+
   test('empty document yields no blocks', () {
     final empty = DiaryContent.empty();
     final doc = DiaryContentQuillCodec.blocksToDocument(empty.blocks);
